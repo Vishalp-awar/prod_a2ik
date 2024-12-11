@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Website Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+   
+    <Link href="styles.css" rel="stylesheet">
+</head>
+<body>
+ <header>
+        <nav class="container" data-aos="fade-down" data-aos-delay="150" data-aos-easing="ease-in-out">
+            <div class="logo">A2IK Global Solutions</div>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="container" id="text">
+            <h1>Admin Dashboard - Website Analytics</h1>
+        </div>
+   
+        <div class="dashboard-grid">
+            <div class="card metric">
+                <div id="totalVisits" class="metric-value">Loading...</div>
+                <div class="metric-label">Total Visits</div>
+            </div>
+            <div class="card metric">
+                <div id="uniqueVisitors" class="metric-value">Loading...</div>
+                <div class="metric-label">Unique Visitors</div>
+            </div>
+            <div class="card metric">
+                <div id="pageViews" class="metric-value">Loading...</div>
+                <div class="metric-label">Page Views</div>
+            </div>
+            <div class="card metric">
+                <div id="bounceRate" class="metric-value">Loading...</div>
+                <div class="metric-label">Bounce Rate</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>Traffic Over Time</h2>
+                <div class="chart-container">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Traffic Sources</h2>
+                <div class="chart-container">
+                    <canvas id="sourcesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card topPages">
+            <h2>Top Pages</h2>
+            <table id="topPages">
+                <thead>
+                    <tr>
+                        <th>Page</th>
+                        <th>Views</th>
+                        <th>Avg. Time on Page</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Top pages data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script>
+        let trafficChart, sourcesChart;
+
+        async function fetchAnalytics() {
+            try {
+                const response = await fetch('http://localhost:3000/analytics');
+                const data = await response.json();
+                updateDashboard(data);
+            } catch (error) {
+                console.error('Error fetching analytics:', error);
+            }
+        }
+
+        function updateDashboard(data) {
+            document.getElementById('totalVisits').textContent = data.totalVisits.toLocaleString();
+            document.getElementById('uniqueVisitors').textContent = data.uniqueVisitors.toLocaleString();
+            document.getElementById('pageViews').textContent = data.pageViews.toLocaleString();
+            document.getElementById('bounceRate').textContent = data.bounceRate + '%';
+
+            updateTrafficChart(data.trafficOverTime);
+            updateSourcesChart(data.trafficSources);
+            updateTopPagesTable(data.topPages);
+        }
+
+        function updateTrafficChart(trafficData) {
+            const ctx = document.getElementById('trafficChart').getContext('2d');
+            if (trafficChart) {
+                trafficChart.destroy();
+            }
+            trafficChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: trafficData.map(item => item.month),
+                    datasets: [{
+                        label: 'Visits',
+                        data: trafficData.map(item => item.count),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateSourcesChart(sourcesData) {
+            const ctx = document.getElementById('sourcesChart').getContext('2d');
+            if (sourcesChart) {
+                sourcesChart.destroy();
+            }
+            sourcesChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: sourcesData.map(item => item._id),
+                    datasets: [{
+                        data: sourcesData.map(item => item.count),
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTopPagesTable(topPages) {
+            const tbody = document.querySelector('#topPages tbody');
+            tbody.innerHTML = '';
+            topPages.forEach(page => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = page._id;
+                row.insertCell(1).textContent = page.views.toLocaleString();
+                row.insertCell(2).textContent = page.avgTime + 's';
+            });
+        }
+
+        fetchAnalytics();
+        setInterval(fetchAnalytics, 60000); // Refresh every minute
+    </script>
+</body>
+</html>
