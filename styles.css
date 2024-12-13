@@ -146,7 +146,7 @@ nav {
     font-size: 1.2rem;
   }
 }
-    
+/*     
 #services {
   padding: 100px 0;
 
@@ -185,6 +185,71 @@ nav {
 .service-item p {
   font-size: 1rem;
   font-weight: 500;
+} */
+#services {
+  padding: 100px 0;
+  background-color: #d7ecf8;
+}
+
+#services h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.service-item {
+  background-color: #f0f8ff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex; /* Use Flexbox for alignment */
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: space-between; /* Ensures button stays at the bottom */
+  transition: transform 0.3s;
+  min-height: 300px; /* Ensures consistent height for all items */
+}
+
+.service-item:hover {
+  transform: translateY(-10px);
+}
+
+.service-item h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #0066cc;
+}
+
+.service-item p {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 20px; /* Adds spacing before the button */
+  flex-grow: 1; /* Pushes the button to the bottom */
+}
+
+.service-item button {
+  align-self: center; /* Centers the button horizontally */
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #0066cc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.service-item button:hover {
+  background-color: #004d99;
+  transform: scale(1.05); /* Slightly enlarges the button on hover */
 }
 
 #about {
@@ -488,3 +553,691 @@ tr:last-child td {
 .text-danger { color: #ef4444; }
 
 
+.hidden{
+  display: none;
+}
+
+#myBtn {
+  color: #ffffff; /* White text for contrast */
+  background-color: #0056b3; /* White text */
+  padding: 10px 20px; /* Padding for the button */
+  border: none; /* Remove borders */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+  margin-top: 20px;
+}
+
+#myBtn:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+#myBtn:active {
+  background-color: #3e8e41; /* Even darker green on click */
+  transform: scale(0.98); /* Slightly shrink on click for a pressed effect */
+}
+
+#myBtn:focus {
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Add a glow effect when focused */
+}
+
+.service-item button {
+  align-self: flex-start; /* Align the button to the left */
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.service-item button:hover {
+  background-color: #45a049;
+}
+
+.service-item button:active {
+  background-color: #3e8e41;
+}
+
+.service-item button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.service-item button {
+  align-self: center;
+}
+
+
+.hidden {
+  display: none;
+}
+
+/* salseforce */
+/* Container */
+.what-wedo-cover {
+  padding: 40px;
+  background-color: #f9f9f9; /* Optional background color */
+}
+
+/* Section Header */
+.section-header {
+  margin-bottom: 30px;
+  text-align: center; /* Center-align the header */
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Text and Image Row */
+.text-image-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+  gap: 20px;
+  align-items: center; /* Center content vertically */
+}
+
+/* Text Column */
+.text-column p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Image Column */
+.image-column {
+  text-align: center;
+}
+
+.lead-img {
+  width: 100%;
+  max-width: 540px;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .text-image-row {
+    grid-template-columns: 1fr; /* Stack columns on smaller screens */
+  }
+
+  .image-column {
+    margin-top: 20px;
+  }
+}
+
+/* Java */
+/* Section styling */
+.what-we-do-cover {
+  padding: 40px;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+#Java .section-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+/* Services container */
+#Java .services-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Individual service items */
+#Java .service-item {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: calc(33.333% - 20px); /* 3 columns layout with gap */
+  max-width: 300px; /* Optional max width for smaller screens */
+  flex: 1 1 calc(33.333% - 20px);
+  box-sizing: border-box;
+}
+
+#Java .service-item h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #0056b3; /* Accent color */
+}
+
+#Java .service-item p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  #Java .service-item {
+    width: calc(50% - 20px); /* 2 columns layout */
+  }
+}
+
+@media (max-width: 480px) {
+  #Java .service-item {
+    width: 100%; /* Single column layout */
+  }
+}
+
+/* Azure */
+/* Section styling */
+#Azure .distinct-feature-box {
+  text-align: center;
+  padding: 40px;
+  background-color: #f9f9f9; /* Light background */
+}
+
+#Azure .feature-header h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+#Azure .distinct-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Feature item styling */
+#Azure .feature-item {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1 1 calc(33.333% - 20px); /* Three columns layout */
+  max-width: 300px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#Azure .feature-item .icon {
+  margin-bottom: 10px;
+}
+
+#Azure .feature-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+#Azure .feature-item h5 {
+  font-size: 18px;
+  color: #0056b3;
+  margin: 10px 0;
+}
+
+#Azure .feature-item p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  #Azure .feature-item {
+    flex: 1 1 calc(50% - 20px); /* Two columns layout */
+  }
+}
+
+@media (max-width: 480px) {
+  #Azure .feature-item {
+    flex: 1 1 100%; /* Single column layout */
+  }
+}
+
+/* aws */
+/* General section styling */
+#AWS {
+  width: 100%;
+  padding: 5rem 1rem;
+  background-color: #f4f4f9;  /* Lighter background */
+   /* Accent color at the top */
+}
+
+/* Container for centered content */
+#AWS .container {
+  max-width: 1200px;
+  margin: 0 auto;
+ padding: 0;
+}
+
+/* Header styling */
+#AWS .aws-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+#AWS .aws-services-tag {
+  background-color: #ff9900;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: white;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+#AWS .aws-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+#AWS .aws-description {
+  max-width: 60rem;
+  margin: 0 auto;
+  font-size: 1.125rem;
+  color: #4a5568;
+  line-height: 1.8;
+}
+
+/* Grid for the AWS services list */
+#AWS .aws-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+#AWS .aws-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Individual service items */
+#AWS .aws-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+#AWS .aws-list-item {
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  width: 30%;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+#AWS .aws-list-item:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+#AWS .aws-item-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+#AWS .aws-item-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+#AWS .aws-item-description {
+  font-size: 1.125rem;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+/* Cybersecurity Section */
+#Cybersecurity {
+  background-color: #1a202c; /* Dark background color */
+  color: white;
+  padding: 4rem 2rem; /* Padding for spacing */
+}
+
+.cybersecurity-section .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#Cybersecurity .section-title {
+  font-size: 3rem; /* Title font size */
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+#Cybersecurity .section-description {
+  font-size: 1.25rem; /* Description font size */
+  color: #e2e8f0; /* Light gray color for description */
+  margin-bottom: 2rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Cards Layout */
+#Cybersecurity .card-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* Default: 1 column for mobile */
+  gap: 2rem;
+}
+
+#Cybersecurity .card {
+  background-color: #2d3748; /* Darker card background */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+#Cybersecurity .card:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+#Cybersecurity .card-icon {
+  margin-bottom: 1rem;
+}
+
+#Cybersecurity .card-icon .icon {
+  width: 64px;
+  height: 64px;
+  display: block;
+  margin: 0 auto;
+}
+
+#Cybersecurity .card-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+#Cybersecurity .card-description {
+  font-size: 1rem;
+  color: #e2e8f0; /* Light gray color */
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (min-width: 600px) {
+  #Cybersecurity .card-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (min-width: 900px) {
+  #Cybersecurity .card-container {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on larger screens */
+  }
+}
+
+
+/* .NET Development Section */
+#NET-Development {
+  background-color: #1e3a8a; /* Dark blue background */
+  color: white;
+  padding: 3rem 1.5rem;
+}
+
+#NET-Development .net-development-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#NET-Development.section-title {
+  font-size: 2.5rem; /* Slightly smaller but impactful title size */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #ffffff; /* White title text */
+}
+
+#NET-Development.section-description {
+  font-size: 1.125rem;
+  color: #cbd5e0; /* Soft gray-blue for the description */
+  margin-bottom: 3rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Cards Layout */
+#NET-Development .cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+#NET-Development .card {
+  background-color: #2563eb; /* Brighter blue for cards */
+  width: 30%;
+  min-width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+#NET-Development.card:hover {
+  transform: translateY(-5px); /* Hover effect with slight lift */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+#NET-Development.card-header {
+  background-color: #1e40af; /* Darker blue header */
+  padding: 1rem;
+  text-align: center;
+}
+
+#NET-Development.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+#NET-Development.card-body {
+  padding: 1.5rem;
+  background-color: #3b82f6; /* Lighter blue for card body */
+}
+
+#NET-Development.card-description {
+  font-size: 1rem;
+  color: white;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #NET-Development .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  #NET-Development.card {
+    width: 80%;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Card Container */
+#Cybersecurity .card-container {
+  display: flex;
+  justify-content: center; /* Center the cards horizontally */
+  gap: 2rem;
+  flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+  align-items: stretch;
+}
+
+
+/* Data-Analytics Section Container */
+#Data-Analytics {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #0066cc, #33ccff);
+  color: #ffffff;
+}
+
+/* Section Title */
+#Data-Analytics .section-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+/* Section Description */
+#Data-Analytics .section-description {
+  font-size: 1.3rem;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #e0f7fa;
+}
+
+/* Cards Container */
+#Data-Analytics .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Individual Card */
+#Data-Analytics .card {
+  background: #ffffff;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 25px;
+  max-width: 300px;
+  flex: 1;
+  text-align: center;
+  color: #333333;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#Data-Analytics .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Title */
+#Data-Analytics .card-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #0066cc;
+}
+
+/* Card Description */
+#Data-Analytics .card-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555555;
+}
+
+/* AI and LLM Solutions - Unique Design */
+#AI-LLM-Solutions {
+  padding: 60px 20px;
+  background-color: #e0f7fa; /* Light cyan background */
+  font-family: 'Arial', sans-serif;
+  color: #212121; /* Dark gray text */
+}
+
+/* Section Header */
+#AI-LLM-Solutions .header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+#AI-LLM-Solutions .title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #828585; /* Teal for distinction */
+  margin-bottom: 15px;
+}
+
+#AI-LLM-Solutions .description {
+  font-size: 1.2rem;
+  color: #424242;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Features Layout */
+#AI-LLM-Solutions .features {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#AI-LLM-Solutions .feature {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#AI-LLM-Solutions .feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Feature Content */
+#AI-LLM-Solutions .feature-content {
+  flex: 1;
+  margin-right: 20px;
+}
+
+#AI-LLM-Solutions .feature-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #273937;
+  margin-bottom: 10px;
+}
+
+#AI-LLM-Solutions .feature-description {
+  font-size: 1rem;
+  color: #424242;
+  line-height: 1.5;
+}
+
+/* Feature Image */
+#AI-LLM-Solutions .feature-image {
+  flex-shrink: 0;
+}
+
+#AI-LLM-Solutions .feature-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #00796b;
+}
