@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2IK Global Solutions - Innovative IT Solutions</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <Link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="container" data-aos="fade-down" data-aos-delay="150" data-aos-easing="ease-in-out">
+            <div class="logo">A2IK Global Solutions</div>
+            <ul class="nav-links">
+                <li><a href="/a2ik/index.html">Home</a></li>
+                <li><a href="/a2ik/dashboard.html">dashboard</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <!-- <canvas id="canvas"></canvas> -->
+        <div class="container hero-content" data-aos="fade-right" data-aos-offset="400" data-aos-easing="ease-in-sine">
+            <span>A2IK Global Solutions</span>
+            <h1>Innovative IT Solutions for Your Business</h1>
+            <p class="hero-description">We provide cutting-edge technology consulting to help your business thrive in
+                the digital age.</p>
+            <a href="#contact" class="cta-button">Lets Connect</a>
+        </div>
+    </section>
+
+
+    <section id="services">
+        <div class="container">
+            <h2 data-aos="fade-right" data-aos-offset="100" data-aos-easing="ease-in-sine">
+
+                Services
+
+            </h2>
+            <div class="services-grid">
+                <div class="service-item" data-aos="fade-right" data-aos-delay="250" data-aos-easing="ease-in-out">
+
+                    <h3>SalesForce</h3>
+                    <p>Transforming customer experiences with tailored Salesforce solutions. Our expertise in
+                        customization and integration enhances productivity and revenue growth.</p>
+                
+                        <button onclick="setCondition('SalesForce')" id="myBtn">Read more</button>
+                </div>
+                    
+                <div class="service-item" data-aos="fade-right" data-aos-delay="250" data-aos-easing="ease-in-out">
+                    <h3>Java Development</h3>
+                    <p>Innovative Java development for robust web and mobile applications. We focus on creating
+                        seamless, user-friendly solutions for your business needs.</p>
+                        <button onclick="setCondition('Java')" id="myBtn">Read more</button>
+               
+                    </div>
+                <div class="service-item" data-aos="fade-left" data-aos-delay="250" data-aos-easing="ease-in-out">
+                    <h3>AI and LLM Solutions</h3>
+                    <p>Our advanced analytics and automation services integrate AI
+                        and Large Language Models seamlessly across your operations for transformative results</p>
+                        <button onclick="setCondition('AI-LLM-Solutions')" id="myBtn">Read more</button>
+               
+                    </div>
+                <div class="service-item" data-aos="fade-left" data-aos-delay="250" data-aos-easing="ease-in-out">
+                    <h3>Azure Solutions</h3>
+                    <p>Expert Azure services tailored for diverse needs. Our offerings include Azure Virtual Machines,
+                        App Service, and SQL Database for scalable cloud solutions.</p>
+                        <button onclick="setCondition('Azure')" id="myBtn">Read more</button>
+               
+                    </div>
+                <div class="service-item" data-aos="fade-right" data-aos-delay="250" data-aos-easing="ease-in-out">
+                    <h3>AWS Solutions</h3>
+                    <p>Leveraging AWS for digital innovation. Gain agility, security, and a competitive edge with our
+                        comprehensive Amazon Web Services solutions.</p>
+                        <button onclick="setCondition('AWS')" id="myBtn">Read more</button>
+               
+                </div>
+                <div class="service-item" data-aos="fade-right" data-aos-delay="250" data-aos-easing="ease-in-out">
+                    <h3>Cybersecurity</h3>
+                    <p>Enhancing security with robust cybersecurity strategies. Protect your digital assets and ensure
+                        business continuity with our comprehensive security solutions.</p>
+                        <button onclick="setCondition('Cybersecurity')" id="myBtn">Read more</button>
+               
+                </div>
+                <div class="service-item" data-aos="fade-left" data-aos-delay="250" data-aos-easing="ease-in-out">
+                    <h3>.NET Development</h3>
+                    <p>Harness the power of artificial intelligence to optimize your business processes.</p>
+                    <button onclick="setCondition('NET-Development')" id="myBtn">Read more</button>
+               
+                </div>
+
+                <div class="service-item" data-aos="fade-left" data-aos-delay="250" data-aos-easing="ease-in-out">
+                    <h3>Data Analytics</h3>
+                    <p>Data analytics tools are designed to easily analyze any data and get actionable insights
+                        effortlessly for informed decision-making.</p>
+                        <button onclick="setCondition('Data-Analytics')" id="myBtn">Read more</button>
+               
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+  <!-- SalesForce Section -->
+<section id="SalesForce" class="section hidden">
+    <div class="what-wedo-cover">
+      <div class="section-header">
+        <h2>Salesforce Service</h2>
+      </div>
+  
+      <div class="texclass">
+        <div class="text-image-row">
+          <div class="text-column">
+            <p>Salesforce helps businesses innovate and bring a digital future to their customers. A2IK has experience in Salesforce development and maintaining IT solutions and services. We are a strong team of Developers, Administrators, Product Consultants, and Architects who are well-versed in Salesforce products, platforms, and the related ecosystem.</p>
+            <p>Our Salesforce implementation expertise spans Sales Cloud, Marketing Cloud, Service Cloud, Analytics Cloud, Financial Services Cloud, and Nonprofit Cloud. To implement these solutions, we use agile methodologies that focus on iterative and phased development. Our Salesforce deployment experience runs across different industries such as Healthcare, Finance, Professional Services, Engineering &amp; Real Estate, Insurance, Logistics, Manufacturing, Hi-Tech, and Non-Profits.</p>
+          </div>
+  
+          <div class="image-column">
+            <picture>
+              <img src="static/images/salesforce new bnner.svg" alt="Salesforce Image" class="lead-img">
+            </picture>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- java -->
+  <section id="Java" class="section hidden">
+    <div class="what-we-do-cover">
+      <h2 class="section-title">Spring Boot Web App Development Services</h2>
+      <div class="services-container">
+        <div class="service-item">
+          <h4>Spring Web Service Development</h4>
+          <p>
+            Spring Web Service Development includes the core container, AOP, Aspects, data/access integration, 
+            instrumentation, web, and many other modules. To take advantage of our top-of-the-line Spring web 
+            development services, hire a Spring Boot developer from us.
+          </p>
+        </div>
+        <div class="service-item">
+          <h4>MVC Development in Spring</h4>
+          <p>
+            Use our Spring MVC engineer's skills to create collaborative platforms, online payment systems, 
+            Document Management Systems, eCommerce, social networking portals, shopping carts, and other 
+            online applications.
+          </p>
+        </div>
+        <div class="service-item">
+          <h4>Microservices with Spring Boot</h4>
+          <p>
+            Using the proper set of design principles, we've successfully deployed both server-less and server-based 
+            microservices. Microservices competence has been demonstrated in messaging, service discovery, logging, 
+            bug detection, storage, identification, and other areas.
+          </p>
+        </div>
+        <div class="service-item">
+          <h4>Legacy Application Migration</h4>
+          <p>
+            Employee our legacy application transfer services to assist your company meet today's evolving business 
+            demands. To stay competitive, our Spring full stack developer can help you adapt your existing application 
+            to the latest technologies.
+          </p>
+        </div>
+        <div class="service-item">
+          <h4>Support and Maintenance</h4>
+          <p>
+            A2IK will assist you with development, maintenance, and support in addition to development. We can debug, 
+            adapt, maintain, and enhance old systems to provide support for your application systems. We may also assist 
+            you with apps that are in use in a real-world setting.
+          </p>
+        </div>
+        <div class="service-item">
+          <h4>Core Spring Development</h4>
+          <p>
+            Because Spring is an open-source modular framework on the Java platform, we give comprehensive support for 
+            Java utilizing Spring core development. Through the Spring framework, our experts may effortlessly design 
+            J2EE applications ranging from simple Java Objects to enterprise-level services.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- AI and LLM Solutions Section -->
+<section id="AI-LLM-Solutions" class="section hidden ai-llm-unique-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="header">
+      <h2 class="title">AI and LLM Solutions</h2>
+      <p class="description">
+        Revolutionize your business operations with cutting-edge Artificial Intelligence and Large Language Model solutions. Our expertise delivers unmatched precision, efficiency, and scalability.
+      </p>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="features">
+      <div class="feature">
+        <div class="feature-content">
+          <h3 class="feature-title">Custom AI Models</h3>
+          <p class="feature-description">
+            Develop AI models tailored to your specific needs, driving innovation and streamlining workflows.
+          </p>
+        </div>
+        <div class="feature-image">
+          <img src="static/images/ai.png" alt="Custom AI Models">
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-content">
+          <h3 class="feature-title">large language model</h3>
+          <p class="feature-description">
+            Enhance your products with advanced NLP features, including chatbots, language understanding, and data insights.
+          </p>
+        </div>
+        <div class="feature-image">
+          <img src="https://cdn.changelog.com/uploads/icons/topics/R1G/icon_large.png?v=63846884040" alt="Natural Language Processing">
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-content">
+          <h3 class="feature-title">Scalable AI Solutions</h3>
+          <p class="feature-description">
+            Implement robust AI systems that grow with your business, ensuring reliability and efficiency at every stage.
+          </p>
+        </div>
+        <div class="feature-image">
+          <img src="static/images/ai-solutions.png" alt="Scalable AI Solutions">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Azure -->
+      <section id="Azure"  class="section hidden">
+        <div class="distinct-feature-box text-center">
+            <div class="feature-header">
+                <h2>Distinctive Features of Windows Azure</h2>
+              </div>
+          <div class="distinct-box">
+            
+            <div class="feature-item">
+              <div class="icon">
+                <img src="static/images/azur-quick web.png" alt="Windows Azure Management Portal">
+              </div>
+              <h5>Quick Website <br class="hidden-xs">Launch</h5>
+              <p>The Windows Azure Management Portal allows you to make web applications within a few minutes.</p>
+            </div>
+            <div class="feature-item">
+              <div class="icon">
+                <img src="static/images/azur-vm.png" alt="Windows Azure Virtual Machines">
+              </div>
+              <h5>Windows Azure <br class="hidden-xs">Virtual Machines</h5>
+              <p>It allows users to launch a Windows Server or a Linux OS while using the cloud.</p>
+            </div>
+            <div class="feature-item">
+              <div class="icon">
+                <img src="static/images/azur-scalling.png" alt="Windows Azure Scaling on-demand resources">
+              </div>
+              <h5>Scaling on-demand <br class="hidden-xs">resources</h5>
+              <p>Windows Azure allows you to scale on-demand resources in order to grow along with your business.</p>
+            </div>
+            <div class="feature-item">
+              <div class="icon">
+                <img src="static/images/azure-langwage.png" alt="Microsoft Azure PaaS">
+              </div>
+              <h5>Many language <br class="hidden-xs">options in store</h5>
+              <p>Azure allows you to develop applications using a variety of languages like ASP, ASP .NET, PHP, Python, or Node.js.</p>
+            </div>
+            <div class="feature-item">
+              <div class="icon">
+                <img src="static/images/azure-tool.png" alt="Microsoft BI tools">
+              </div>
+              <h5>Use of Familiar <br class="hidden-xs">Microsoft Tools</h5>
+              <p>Azure incorporates within Microsoft BI tools like HDInsight, Power View, and PowerPivot.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--aws  -->
+      <section id="AWS" class="section hidden aws-section">
+        <div class="container">
+          <div class="aws-header">
+            <div class="aws-services-tag">
+              AWS Services
+            </div>
+            <h2 class="aws-title">Comprehensive AWS Solutions</h2>
+            <p class="aws-description">
+              Our team of AWS experts provides a wide range of services to help your business leverage the power of the cloud.
+            </p>
+          </div>
+      
+          <div class="aws-grid">
+            <div class="aws-item">
+              <ul class="aws-list">
+                <li class="aws-list-item">
+                  <div class="aws-item-content">
+                    <h3 class="aws-item-title">AWS Consulting</h3>
+                    <p class="aws-item-description">Our AWS experts provide strategic guidance to help you navigate the cloud.</p>
+                  </div>
+                </li>
+                <li class="aws-list-item">
+                  <div class="aws-item-content">
+                    <h3 class="aws-item-title">AWS Migration</h3>
+                    <p class="aws-item-description">We'll help you seamlessly migrate your workloads to the AWS cloud.</p>
+                  </div>
+                </li>
+                <li class="aws-list-item">
+                  <div class="aws-item-content">
+                    <h3 class="aws-item-title">AWS Managed Services</h3>
+                    <p class="aws-item-description">Let us handle the day-to-day management of your AWS infrastructure.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Cybersecurity -->
+      <section id="Cybersecurity" class="section hidden cybersecurity-section">
+        <div class="container">
+          <!-- Heading and Subheading -->
+          <div class="text-center">
+            <h2 class="section-title">Comprehensive Cybersecurity Solutions</h2>
+            <p class="section-description">
+              Safeguard your business with our innovative and tailored cybersecurity services to prevent data breaches, threats, and cyberattacks.
+            </p>
+          </div>
+      
+          <!-- Cybersecurity Services Cards -->
+          <div class="card-container">
+            <div class="card">
+              <div class="card-icon">
+                <img src="static/images/incident-response.png" alt="Incident Response" class="icon">
+              </div>
+              <h3 class="card-title">Incident Response</h3>
+              <p class="card-description">Our experts provide rapid response services to mitigate security breaches and reduce potential damage.</p>
+            </div>
+            
+            <div class="card">
+              <div class="card-icon">
+                <img src="static/images/penetration-testing.png" alt="Penetration Testing" class="icon">
+              </div>
+              <h3 class="card-title">Penetration Testing</h3>
+              <p class="card-description">Here We perform simulated cyberattacks to identify vulnerabilities and strengthen your security defenses.</p>
+            </div>
+            
+            <div class="card">
+              <div class="card-icon">
+                <img src="static/images/vulnerability-assessment.png" alt="Vulnerability Assessment" class="icon">
+              </div>
+              <h3 class="card-title">Vulnerability Assessment</h3>
+              <p class="card-description">We Identify and fix security gaps in your infrastructure with thorough vulnerability assessments and reports.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- .net -->
+      <section id="NET-Development" class="section hidden net-development-section">
+        <div class="container">
+          <!-- Heading and Subheading -->
+          <div class="text-center">
+            <h2 class="section-title">Our .NET Development Expertise</h2>
+            <p class="section-description">
+              Create scalable, high-performance applications with our professional .NET development services. We specialize in building custom solutions for your business.
+            </p>
+          </div>
+      
+          <!-- .NET Development Services Cards -->
+          <div class="cards">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Custom Software Development</h3>
+              </div>
+              <div class="card-body">
+                <p class="card-description">We build custom .NET applications that are optimized to meet your business needs.</p>
+              </div>
+            </div>
+      
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">API Integration</h3>
+              </div>
+              <div class="card-body">
+                <p class="card-description">Integrate with third-party services and systems to enhance your .NET application’s capabilities.</p>
+              </div>
+            </div>
+      
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Enterprise Solutions</h3>
+              </div>
+              <div class="card-body">
+                <p class="card-description">Build robust, scalable enterprise-level .NET applications that deliver exceptional performance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Data Analytics Section -->
+<section id="Data-Analytics" class="section hidden data-analytics-section">
+  <div class="container">
+    <!-- Section Heading -->
+    <div class="text-center">
+      <h2 class="section-title">Data Analytics</h2>
+      <p class="section-description">
+        Every data point holds a unique story, and we are here to help you uncover it. As leaders in data analytics, we empower businesses to transform data into actionable insights and achieve unparalleled growth.
+      </p>
+    </div>
+
+    <!-- Content Cards -->
+    <div class="card-container">
+      <div class="card">
+        <h3 class="card-title">Unlock Hidden Insights</h3>
+        <p class="card-description">
+          We believe data is more than numbers.it's the foundation for discovering opportunities, improving decisions, and driving innovation.
+        </p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Tailored Solutions</h3>
+        <p class="card-description">
+          Our customized analytics solutions help businesses streamline operations, enhance customer experiences, and uncover new revenue streams.
+        </p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Empowering Decisions</h3>
+        <p class="card-description">
+          With advanced technology and strategic insights, we ensure every decision is backed by accurate, timely, and relevant data.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+      
+    <section id="about" data-aos="fade-up" data-aos-duration="2000">
+        <div class="container">
+            <h2>About A2IK Global Solutions</h2>
+            <p>A2IK Global Solutions has been at the forefront of providing bespoke IT consultancy services. Our mission
+                is to empower businesses with sustainable, innovative solutions that drive growth and efficiency culpa
+                qui officia deserunt mollit anim id est laborum.</p>
+            <p>Our team at A2IK Global Solutions comprises seasoned experts with extensive experience in</p>
+            <ul>
+                <li>Developing innovative software solutions tailored to unique business needs.</li>
+                <li>Implementing advanced cloud technologies, ensuring scalable and secure digital infrastructure.</li>
+                <li>Leveraging data analytics and AI to drive business intelligence and operational efficiency</li>
+            </ul>
+            <p>At A2ik, we are a fresh and dynamic team driven by a passion for revolutionizing how businesses leverage
+            </p>
+            <p>technology. Our mission is to empower companies of all sizes with innovative IT solutions that simplify
+            </p>
+            <p> operations, enhance security, and fuel growth. With a team of experienced IT professionals, we bring
+                fresh </p>
+            <p>perspectives, tailored strategies, and the adaptability to meet your unique needs, ensuring personalized
+            </p>
+            <P>attention and unmatched dedication. United by a shared commitment to solving complex challenges with</P>
+            <p>creative solutions, we strive to help your business thrive in the digital age. Let’s build the future
+                together.</p>
+            <a href="#contact">
+                <button class="cta-button">
+                    Reach out to discover how we can support your journey.
+                </button>
+            </a>
+        </div>
+    </section>
+
+    <section class="resources container">
+      <div>
+          <h2 class="resources__title" data-aos="fade-down" data-aos-offset="100" data-aos-easing="ease-in-sine">
+              RESOURCES
+          </h2>
+          <div class="resources__grid" id="resourcesGrid"></div>
+          <div class="resources__more" data-aos="fade-up">
+              <a href="#" class="resources__more-link">
+                  See More
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+              </a>
+          </div>
+      </div>
+  </section>
+
+  
+    <section id="contact">
+      <div class="container">
+          <h2>Get in Touch</h2>
+          <form id="contact-form" class="contact-form" method="POST">
+              <div class="form-group">
+                  <label for="namejs" style="font: bold; font-weight: 100;">Your Name</label>
+                  <input class="input" type="text" id="namejs" name="namejs" required />
+              </div>
+              <div class="form-group">
+                  <label for="emailjs" style="font: bold;">Your Email</label>
+                  <input class="input" type="email" id="emailjs" name="emailjs" required />
+              </div>
+              <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea name="message" class="textinput" id="message" placeholder="Please enter query..." required></textarea>
+              </div>
+              <div id="status" style="color: green; font-weight: bold; margin: 5px; text-align: center;"></div>
+          
+              <div class="submit-btn-wreappr">
+                  <button class="submit-btn" type="submit">Submit</button>
+              </div>
+          </form>
+      </div>
+  </section>
+  <section id="resourceForm">
+
+  </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 A2IK Global Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script src="analytics.js"></script>
+    <script src="script.js" defer> 
+
+    </script>
+   
+    </body>
+</html>

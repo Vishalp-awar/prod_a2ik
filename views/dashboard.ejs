@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+        <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+       <!-- AOS CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+
+<!-- AOS JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+    <link href="dashboard.css" rel="stylesheet">
+    
+    </head>
+  
+  
+    <body>
+      <header>
+        <nav class="container">
+            <div class="logo">A2IK Global Solutions</div>
+            <div id="hamburger" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-links" class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="dashboard">Dashboard</a></li>
+                <li><a href="careers">Careers</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+        <!-- Dashboard Wrapper -->
+        <div class="dashboard">
+            
+            </header>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h2 class="logo">Dashboard</h2>
+                <ul>
+                    <li><a  onclick="showForm('mainresourceForm')">Add Article</a></li>
+                    <li><a  onclick="showForm('jobPostingForm')">Add Job</a></li>
+                    <li><a  onclick="showForm('jobboardupdateForm')">Update Job Boards</a></li>
+                    <li><a  onclick="showWebsiteAnalytics()">Website Analytics</a></li>
+            
+                </ul>
+            </div>
+    
+               <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Add Article Form -->
+            <div class="form-container" id="mainresourceForm" style="display: none;">
+                <h3>Add a New Article</h3>
+                <form  id="resourceForm" >
+                    <label for="image">Image</label>
+                    <input type="file" id="image" name="image" accept="image/*" required />
+                    
+                    <label for="alt">Alt Text:</label>
+                    <input type="text" id="alt" name="alt" placeholder="Enter alt text" required />
+
+                    <label for="tag">Tag:</label>
+                    <input type="text" id="tag" name="tag" placeholder="Enter tag" required />
+
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" placeholder="Enter title" required />
+
+                    <label for="link">Link:</label>
+                    <input type="url" id="link" name="link" placeholder="Enter link URL" required />
+
+                    <button type="submit">Add Resource</button>
+                </form>
+            </div>
+
+            <!-- Job Posting Form -->
+            <div class="job-posting-form" id="jobPostingForm" style="display: none;">
+                <h3>Post a New Job</h3>
+                <form id="addjob">
+                    <label for="jobTitle">Job Title<span style="color: red;">*</span></label>
+                    <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title" required />
+                
+                    <label for="jobLocation">Job Location<span style="color: red;">*</span></label>
+                    <input type="text" id="jobLocation" name="jobLocation" placeholder="Enter job location" required />
+                
+                    <label for="jobAbout">About the Role<span style="color: red;">*</span></label>
+                    <textarea id="jobAbout" name="jobAbout" placeholder="Write a brief description about the role" rows="4" required></textarea>
+                
+                    <label for="jobResponsibilities">Responsibilities<span style="color: red;">*</span></label>
+                    <textarea id="jobResponsibilities" name="jobResponsibilities" placeholder="List job responsibilities (one per line)" rows="6" required></textarea>
+                
+                    <label for="jobRequirements">Requirements<span style="color: red;">*</span></label>
+                    <textarea id="jobRequirements" name="jobRequirements" placeholder="List job requirements (one per line)" rows="6" required></textarea>
+                    
+                    <label for="jobExperiencelevel">Job Experiencelevel<span style="color: red;">*</span></label>
+                    <input type="text" id="jobExperiencelevel" name="jobExperiencelevel" placeholder="Enter job Experiencelevel" required />
+                
+                    <label for="jobContractType">job ContractType<span style="color: red;">*</span></label>
+                    <input type="text" id="jobContractType" name="jobContractType" placeholder="Enter job ContractType" required />
+                
+                    <button type="submit">Post Job</button>
+                </form>
+                
+            </div>
+
+            <!-- Job Board Update Form -->
+            <div class="update-positions-form" id="jobboardupdateForm" style="display: none;">
+                <h3>Update Open Positions</h3>
+                <form id="updatepositionsform">
+                    <label for="category">Select Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="technology">Technology</option>
+                        <option value="sales-marketing">Sales & Marketing</option>
+                        <option value="operations">Operations</option>
+                        <option value="human-resources">Human Resources</option>
+                    </select>
+
+                    <label for="open-positions">Open Positions:</label>
+                    <input type="number" id="open-positions" name="openPositions" placeholder="Enter number of positions" required />
+
+                    <button type="submit">Update Positions</button>
+                </form>
+            </div>
+
+            <!-- Website Analytics (Iframe) -->
+            <!-- <div id="websiteAnalytics" class="iframe-container" style="display: none;">
+                <iframe src="web.html" width="100%" height="600px"></iframe>
+            </div> -->
+            <div id="websiteAnalytics" class="iframe-container" style="display: none;">
+                <iframe src="<%= iframeSrc %>" width="100%" height="600px"></iframe>
+              </div>
+              
+        </div>
+    </div>
+    <script>
+      const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+
+hamburger.addEventListener('click', () => {
+console.log('Hamburger clicked');
+navLinks.classList.toggle('active');
+});
+
+  </script>
+    <script>
+          // Function to show the websiteAnalytics iframe
+function showWebsiteAnalytics() {
+    hideAllForms(); // Hide other forms
+    document.getElementById('websiteAnalytics').style.display = 'block'; // Show the analytics iframe
+    }
+    
+  
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+
+        const resourcesData = [
+          {
+              image: "https://www.shutterstock.com/image-photo/authentication-by-facial-recognition-concept-260nw-1456783511.jpg",
+              alt: "Data visualization",
+              tag: "Brochure",
+              title: "Transform Experience across Stakeholder Spectrum with Cognitive Prior Authorization",
+              link: "#",
+          },
+          {
+              image: "https://www.shutterstock.com/image-photo/ai-brain-motif-centered-on-600w-2500501245.jpg",
+              alt: "Brain visualization",
+              tag: "Brochure",
+              title: "DeepInsights™ Model the World, Model the Mind",
+              link: "#",
+          },
+          {
+              image: "https://www.shutterstock.com/image-photo/technology-robot-robotic-engineering-connected-600w-1159539946.jpg",
+              alt: "Technology interface",
+              tag: "Brochure",
+              title: "Next-Gen Data Services Discover 360-degree Value in the Data-to-Action Journey",
+              link: "#",
+          },
+          {
+              image: "https://www.shutterstock.com/image-photo/technology-robot-robotic-engineering-connected-600w-1159539946.jpg",
+              alt: "Technology in interface",
+              tag: "Brochure",
+              title: "Next-Gen Data Services Discover 360-degree Value in the Data-to-Action Journey",
+              link: "#",
+          },
+        ];
+        
+        const resourceForm = document.getElementById("resourceForm");
+        const resourcesGrid = document.getElementById("resourcesGrid");
+        
+        // Function to render a single resource card
+ 
+     
+        
+        
+       // Handle form submission
+resourceForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+  
+    // Gather form data
+    const formData = new FormData(resourceForm);
+  
+    try {
+      const response = await fetch("http://localhost:3000/resources", {
+        method: "POST",
+        body: formData, // Send FormData directly
+      });
+  
+      if (response.ok) {
+        console.log("Resource saved successfully");
+        alert("Resource added successfully!");
+        // Optionally, reset the form or update the UI
+        resourceForm.reset();
+      } else {
+        const error = await response.text();
+        alert("Error saving the resource: " + error);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An unexpected error occurred.");
+    }
+  });
+  
+        
+        const addjobForm = document.getElementById("addjob");
+
+addjobForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(addjobForm);
+  const newResource = Object.fromEntries(formData);
+    console.log(newResource);
+  try {
+    const response = await fetch("http://localhost:3000/addjob", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newResource),
+    });
+
+    if (response.ok) {
+      console.log("Job posted successfully");
+      alert("Job posted successfully");
+      addjobForm.reset();
+    } else {
+      const errorText = await response.text();
+      console.error("Error saving the job:", errorText);
+      alert("Error saving the job: " + errorText);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Error saving the job: " + error.message);
+  }
+});
+
+
+
+const updatepositionsform = document.getElementById("updatepositionsform");
+
+updatepositionsform.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(updatepositionsform);
+  const newResource = Object.fromEntries(formData);
+    console.log(newResource);
+  try {
+    const response = await fetch("http://localhost:3000/jobboard", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newResource),
+    });
+
+    if (response.ok) {
+      console.log("Job posted successfully");
+      alert("Job posted successfully");
+      updatepositionsform.reset();
+    } else {
+      const errorText = await response.text();
+      console.error("Error saving the job:", errorText);
+      alert("Error saving the job: " + errorText);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Error saving the job: " + error.message);
+  }
+});
+
+        
+        document.querySelectorAll('.job-link').forEach(link => {
+          link.addEventListener('click', e => {
+              e.preventDefault();
+              const jobId = e.target.dataset.jobId;
+              // Fetch job details based on jobId (mock for now)
+              document.getElementById('job-description').style.display = 'block';
+              document.getElementById('apply-job').style.display = 'none';
+          });
+        });
+        
+       
+        
+ // Function to hide all forms
+ function hideAllForms() {
+    // Hide all forms by selecting them with querySelectorAll
+    document.querySelectorAll('.form-container, .job-posting-form, .update-positions-form').forEach((form) => {
+        form.style.display = 'none';
+    });
+    document.getElementById('websiteAnalytics').style.display='none';
+  }
+  
+  // Function to show a specific form based on its ID
+  function showForm(formId) {
+    // Hide all forms first
+    hideAllForms();
+  
+    // Show the desired form by ID
+    const form = document.getElementById(formId);
+    if (form) {
+        form.style.display = 'block';
+    }
+  }
+  
+
+  
+    </script>
+    <script>
+        AOS.init();
+    </script>
+    </body>
+    
+</html>
+
+
+
+<!-- /* Resource Input Form */
+/*.form-container {*/
+/*    max-width: 600px;*/
+/*    margin: 20px auto;*/
+/*    padding: 20px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 8px;*/
+/*    background: #f9f9f9;*/
+/*    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.form-container:hover {*/
+/*    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);*/
+/*}*/
+
+/*form label {*/
+/*    display: block;*/
+/*    margin: 10px 0 5px;*/
+/*    font-weight: bold;*/
+/*    color: #2C3E50;*/
+/*}*/
+
+/*form input {*/
+/*    width: 100%;*/
+/*    padding: 10px;*/
+/*    margin-bottom: 15px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    transition: border-color 0.3s;*/
+/*}*/
+
+/*form input:focus {*/
+/*    border-color: #007bff;*/
+/*    outline: none;*/
+/*    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);*/
+/*}*/
+
+/*form button {*/
+/*    padding: 10px 15px;*/
+/*    background: #007bff;*/
+/*    color: #fff;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    font-weight: bold;*/
+/*    transition: background-color 0.3s, transform 0.2s;*/
+/*}*/
+
+/*form button:hover {*/
+/*    background: #0056b3;*/
+/*    transform: translateY(-2px);*/
+/*}*/
+
+/*form button:focus {*/
+/*    outline: 2px solid #0056b3;*/
+/*    outline-offset: 2px;*/
+/*}*/
+/* .form-container, #job-posting {*/
+/*            display: none;*/
+/*        }*/
+
+/*        .form-container.active, #job-posting.active {*/
+/*            display: block;*/
+/*        }*/
+
+/* General Form Styling */ -->

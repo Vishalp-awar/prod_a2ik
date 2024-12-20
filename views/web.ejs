@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Website Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+  
+    <main class="container">
+        <div class="container" id="text">
+            <h1>Website Analytics</h1>
+        </div>
+   
+        <div class="dashboard-grid">
+            <div class="card metric">
+                <div id="totalVisits" class="metric-value"><%= data.totalVisits.toLocaleString() %></div>
+                <div class="metric-label">Total Visits</div>
+            </div>
+            <div class="card metric">
+                <div id="uniqueVisitors" class="metric-value"><%= data.uniqueVisitors.toLocaleString() %></div>
+                <div class="metric-label">Unique Visitors</div>
+            </div>
+            <div class="card metric">
+                <div id="pageViews" class="metric-value"><%= data.pageViews.toLocaleString() %></div>
+                <div class="metric-label">Page Views</div>
+            </div>
+            <div class="card metric">
+                <div id="bounceRate" class="metric-value"><%= data.bounceRate %>%</div>
+                <div class="metric-label">Bounce Rate</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>Traffic Over Time</h2>
+                <div class="chart-container">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Traffic Sources</h2>
+                <div class="chart-container">
+                    <canvas id="sourcesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card topPages">
+            <h2>Top Pages</h2>
+            <table id="topPages">
+                <thead>
+                    <tr>
+                        <th>Page</th>
+                        <th>Views</th>
+                        <th>Avg. Time on Page</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.topPages.forEach(page => { %>
+                        <tr>
+                            <td><%= page._id %></td>
+                            <td><%= page.views.toLocaleString() %></td>
+                            <td><%= page.avgTime %>s</td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        let trafficChart, sourcesChart;
+
+        function updateTrafficChart(trafficData) {
+            const ctx = document.getElementById('trafficChart').getContext('2d');
+            if (trafficChart) {
+                trafficChart.destroy();
+            }
+            trafficChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: trafficData.map(item => item.month),
+                    datasets: [{
+                        label: 'Visits',
+                        data: trafficData.map(item => item.count),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateSourcesChart(sourcesData) {
+            const ctx = document.getElementById('sourcesChart').getContext('2d');
+            if (sourcesChart) {
+                sourcesChart.destroy();
+            }
+            sourcesChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: sourcesData.map(item => item._id),
+                    datasets: [{
+                        data: sourcesData.map(item => item.count),
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize charts with server-sent data
+        updateTrafficChart(<%- JSON.stringify(data.trafficOverTime) %>);
+        updateSourcesChart(<%- JSON.stringify(data.trafficSources) %>);
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -11,9 +11,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cloudinary": "^2.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "emailjs": "^4.0.3",
     "express": "^4.21.2",
+    "express-fileupload": "^1.5.1",
     "mongodb": "^6.12.0"
   }
 }

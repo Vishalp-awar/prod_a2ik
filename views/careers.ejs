@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers A2IK Global Solutions - IT Consulting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+
+    <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"
+        integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">A2IK Global Solutions</div>
+            <div id="hamburger" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-links" class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="dashboard">Dashboard</a></li>
+                <li><a href="careers">Careers</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="careers" class="parallax-section" data-scroll-section>
+            <div class="container">
+                <h2 class="section-title">Join Our Team</h2>
+                <div id="job-boards" class="apply-job2">
+                    <h3>Explore Our Job Boards</h3>
+                    <div id="job-board-grid" class="job-board-grid">
+                      <% if (jobs && jobs.length > 0) { %>
+                        <% jobs.forEach(function(job) { %>
+                          <div class="job-card">
+                            <h4><%= job.jobTitle %></h4>
+                            <p><%= job.jobAbout %> | Available Positions: <%= job.count %></p>
+                          </div>
+                        <% }); %>
+                      <% } else { %>
+                        <p>No jobs available at the moment.</p>
+                      <% } %>
+                    </div>
+                  </div>
+                  
+
+                <div class="head">
+                    <h1>Job Search</h1>
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Software">
+                        <button class="search-button">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="job-openings" class="job-openings">
+                    <h3>Current Job Openings</h3>
+                    
+                </div>
+                <div class="main-content">
+                    <div class="filters">
+                        <h3 class="filter-title">Filters</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-button">Location
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                            <button class="filter-button">Experience Level
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                            <button class="filter-button">Contract Type
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                        
+                        
+                        </div>
+                    </div>
+
+                    <table class="jobs-table">
+                        <thead>
+                            <tr>
+                                <th>Job name</th>
+                                <th>Location</th>
+                                <th>Experience level</th>
+                                <th>Contract Type</th>
+                               
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% job.forEach(function(job) { %>
+                                <tr>
+                                    <td><%= job.jobTitle %></td>
+                                    <td><%= job.jobLocation %></td>
+                                    <td><%= job.jobExperiencelevel %></td>
+                                    <td><%= job.jobContractType %></td>
+                                   
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+
+                 
+                </div>
+
+                <div class="benefits-section">
+                    <h3>Why Work With Us?</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">❤️</div>
+                            <h4>Comprehensive Health Coverage</h4>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🏠</div>
+                            <h4>Flexible Work Environment</h4>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">⚖️</div>
+                            <h4>Work-Life Balance</h4>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🎓</div>
+                            <h4>Continuous Learning Opportunities</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div id="job-openings" class="job-openings">
+                    <h3>Current Job Openings</h3>
+                    <div class="job-grid">
+                    </div>
+                </div> -->
+
+                <div class="employee-spotlight">
+                    <h3>Employee Spotlight</h3>
+                    <blockquote>
+                        "Working at A2IK Global Solutions has been an incredible journey. The supportive environment,
+                        challenging projects, and opportunities for growth have helped me develop both personally and
+                        professionally. I'm proud to be part of a team that's making a real difference in the world of
+                        technology."
+                    </blockquote>
+                    <p class="quote-author">- Vishal Pawar, System Engineer</p>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer data-scroll-section>
+        <p>&copy; 2023 A2IK Global Solutions. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+
+hamburger.addEventListener('click', () => {
+  console.log('Hamburger clicked');
+  navLinks.classList.toggle('active');
+});
+
+    </script>
+</body>
+
+</html>

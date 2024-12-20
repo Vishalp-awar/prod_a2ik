@@ -27,6 +27,52 @@ body {
   line-height: 1.6;
 }
 
+/* header {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0066cc;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  margin-left: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #0066cc; 
+} */
+
+/* General Styles */
 header {
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -39,7 +85,9 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 15px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logo {
@@ -51,6 +99,9 @@ nav {
 .nav-links {
   display: flex;
   list-style: none;
+  margin: 0;
+  padding: 0;
+  transition: max-height 0.3s ease-in-out;
 }
 
 .nav-links li {
@@ -67,6 +118,53 @@ nav {
 .nav-links a:hover {
   color: #0066cc;
 }
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  transition: all 0.3s;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+
+  .hamburger {
+      display: flex;
+      
+  }
+
+  .nav-links {
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background-color: #fff;
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-links.active {
+      max-height: 300px; /* Adjust based on the number of links */
+  }
+
+  .nav-links li {
+      margin: 10px 0;
+      text-align: center;
+  }
+}
+
 #hero {
   height: 100vh;
   display: flex;
@@ -98,16 +196,16 @@ nav {
 
 #hero h1 {
   font-family: "Arial Black", "Arial Bold", Arial, sans-serif;
-  font-size: 1.2rem;
+  font-size: 2rem;
   line-height: 1.1;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem; 
   color: #000;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 900;
 }
 
-.hero-description {
+#hero .hero-description {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   max-width: 800px; /* Added max-width */
@@ -116,9 +214,17 @@ nav {
   color: #333;
   line-height: 1.4;
 }
+.submit-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 
 .cta-button {
-  display: inline-block;
+  display: inline-flex; /* Ensures the button is treated as an inline element */
+  justify-content: center;
+  align-items: center;
   background-color: #c2d94c; /* Updated to match the image */
   color: #000; /* Changed to black for better contrast */
   padding: 16px 40px;
@@ -130,8 +236,27 @@ nav {
   letter-spacing: 1px;
   transition: background-color 0.3s, transform 0.2s;
 }
-
 .cta-button:hover {
+  background-color: #b1c73d;
+  transform: translateY(-2px);
+}
+
+.submit-btn {
+  display: inline-flex; /* Ensures the button is treated as an inline element */
+  justify-content: center;
+  align-items: center;
+  background-color: #c2d94c; /* Updated to match the image */
+  color: #000; /* Changed to black for better contrast */
+  padding: 16px 40px;
+  border-radius: 50px; /* Made it rounded */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+.submit-btn:hover {
   background-color: #b1c73d;
   transform: translateY(-2px);
 }
@@ -139,10 +264,24 @@ nav {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   #hero h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 
-  .hero-description {
+  #hero .hero-description {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+}
+@media (max-width: 480px) {
+  #hero span {
+    font-size: 3rem;
+  }
+  #hero h1{
+    font-size: 1.5rem;
+  }
+  #hero .hero-description {
+    font-size: 1rem;
+    font-weight: 400;
     font-size: 1.2rem;
   }
 }
@@ -262,16 +401,17 @@ nav {
   color: #2c3e50;
 }
 
-ul {
-  margin-top: 5px;
-  padding-left: 50px;
-  font-size: 1.5rem;
-  line-height: 1.6;
-}
+
 #about p {
   font-size: 1.5rem;
   margin: 5px;
   color: #333;
+  line-height: 1.6;
+}
+#about ul {
+  margin-top: 5px;
+  padding-left: 50px;
+  font-size: 1.5rem;
   line-height: 1.6;
 }
 
@@ -321,10 +461,7 @@ footer {
   h1 {
     font-size: 2.5rem;
   }
-  #hero span {
-    font-size: 3rem;
-    font-weight: 700;
-  }
+ 
 }
 
 
@@ -680,7 +817,7 @@ tr:last-child td {
 /* Section styling */
 .what-we-do-cover {
   padding: 40px;
-  background-color: #f9f9f9; /* Light background color */
+  background-color: #a7d0f9;; /* Light background color */
 }
 
 #Java .section-title {
@@ -741,7 +878,7 @@ tr:last-child td {
 #Azure .distinct-feature-box {
   text-align: center;
   padding: 40px;
-  background-color: #f9f9f9; /* Light background */
+  background-color: #85bff8; /* Light background */
 }
 
 #Azure .feature-header h2 {
@@ -907,10 +1044,72 @@ tr:last-child td {
   color: #4a5568;
   line-height: 1.6;
 }
+@media screen and (max-width: 768px) {
+  #AWS {
+    padding: 3rem 1rem;
+  }
+
+  #AWS .container {
+    padding: 0 1rem;
+  }
+
+  #AWS .aws-header {
+    margin-bottom: 2rem;
+  }
+
+  #AWS .aws-services-tag {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  #AWS .aws-title {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  #AWS .aws-description {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  #AWS .aws-grid {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  #AWS .aws-item {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  #AWS .aws-list {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  #AWS .aws-list-item {
+    width: 100%;
+  }
+
+  #AWS .aws-item-content {
+    padding: 1.5rem;
+  }
+
+  #AWS .aws-item-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  #AWS .aws-item-description {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
 
 /* Cybersecurity Section */
 #Cybersecurity {
-  background-color: #1a202c; /* Dark background color */
+  background-color: #85bff8;; /* Dark background color */
   color: white;
   padding: 4rem 2rem; /* Padding for spacing */
 }
@@ -942,10 +1141,11 @@ tr:last-child td {
   display: grid;
   grid-template-columns: repeat(1, 1fr); /* Default: 1 column for mobile */
   gap: 2rem;
+  align-items: stretch; 
 }
 
 #Cybersecurity .card {
-  background-color: #2d3748; /* Darker card background */
+  background-color: #6297f4; /* Darker card background */
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -977,19 +1177,71 @@ tr:last-child td {
 
 #Cybersecurity .card-description {
   font-size: 1rem;
-  color: #e2e8f0; /* Light gray color */
+  color: #e2e8f0;
   line-height: 1.6;
+  max-height: 4.8rem; /* Limit description height */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Show only 3 lines */
+  -webkit-box-orient: vertical;
+}
+/* Mobile View CSS */
+@media (max-width: 768px) {
+  /* Section Title and Description */
+  #Cybersecurity .section-title {
+    font-size: 1.75rem; /* Adjust font size for smaller screens */
+    line-height: 1.2; /* Ensure proper spacing */
+  }
+
+  #Cybersecurity .section-description {
+    font-size: 1rem; /* Smaller description text */
+    line-height: 1.5;
+    padding: 0 1rem; /* Add padding for better readability */
+  }
+
+  /* Cards Layout */
+  #Cybersecurity .card-container {
+    grid-template-columns: repeat(1, 1fr); /* Single column layout for mobile */
+    gap: 1.5rem; /* Adjust gap between cards */
+  }
+
+  /* Card Styling */
+  #Cybersecurity .card {
+    padding: 1.5rem; /* Reduce padding inside cards */
+    border-radius: 6px; /* Slightly smaller border radius */
+  }
+
+  #Cybersecurity .card-title {
+    font-size: 1.5rem; /* Smaller card title font size */
+    margin-bottom: 0.5rem; /* Reduce spacing */
+  }
+
+  #Cybersecurity .card-description {
+    font-size: 0.875rem; /* Smaller description text */
+    line-height: 1.4;
+    max-height: 4.2rem; /* Slightly reduced height for descriptions */
+  }
+
+  /* Card Icons */
+  #Cybersecurity .card-icon .icon {
+    width: 48px; /* Smaller icon size */
+    height: 48px;
+  }
 }
 
 /* Responsive Design */
 @media (min-width: 600px) {
-  #Cybersecurity .card-container {
+  #Cybersecurity .section-title{
+    font-size: medium;
+  }
+  .card-container {
     grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
   }
 }
 
 @media (min-width: 900px) {
-  #Cybersecurity .card-container {
+  .card-container {
     grid-template-columns: repeat(3, 1fr); /* 3 columns on larger screens */
   }
 }
@@ -997,27 +1249,27 @@ tr:last-child td {
 
 /* .NET Development Section */
 #NET-Development {
-  background-color: #1e3a8a; /* Dark blue background */
-  color: white;
+  background-color: #f4f4f9;; /* Dark blue background */
+  color: black;
   padding: 3rem 1.5rem;
 }
 
-#NET-Development .net-development-section .container {
+.net-development-section .container {
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
 }
 
-#NET-Development.section-title {
+#NET-Development .section-title {
   font-size: 2.5rem; /* Slightly smaller but impactful title size */
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #ffffff; /* White title text */
+  color: black; /* White title text */
 }
 
-#NET-Development.section-description {
+#NET-Development .section-description {
   font-size: 1.125rem;
-  color: #cbd5e0; /* Soft gray-blue for the description */
+  color: #7a8a9c; /* Soft gray-blue for the description */
   margin-bottom: 3rem;
   max-width: 900px;
   margin-left: auto;
@@ -1033,7 +1285,7 @@ tr:last-child td {
 }
 
 #NET-Development .card {
-  background-color: #2563eb; /* Brighter blue for cards */
+  background-color: #8bacf3; /* Brighter blue for cards */
   width: 30%;
   min-width: 250px;
   border-radius: 8px;
@@ -1042,29 +1294,29 @@ tr:last-child td {
   overflow: hidden;
 }
 
-#NET-Development.card:hover {
+#NET-Development .card:hover {
   transform: translateY(-5px); /* Hover effect with slight lift */
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
-#NET-Development.card-header {
+#NET-Development .card-header {
   background-color: #1e40af; /* Darker blue header */
   padding: 1rem;
   text-align: center;
 }
 
-#NET-Development.card-title {
+#NET-Development .card-title {
   font-size: 1.5rem;
   font-weight: 600;
   color: white;
 }
 
-#NET-Development.card-body {
+#NET-Development .card-body {
   padding: 1.5rem;
   background-color: #3b82f6; /* Lighter blue for card body */
 }
 
-#NET-Development.card-description {
+#NET-Development .card-description {
   font-size: 1rem;
   color: white;
   line-height: 1.6;
@@ -1076,7 +1328,7 @@ tr:last-child td {
     flex-direction: column;
     align-items: center;
   }
-  #NET-Development.card {
+  #NET-Development .card {
     width: 80%;
     margin-bottom: 2rem;
   }
@@ -1095,7 +1347,8 @@ tr:last-child td {
 /* Data-Analytics Section Container */
 #Data-Analytics {
   padding: 60px 20px;
-  background: linear-gradient(135deg, #0066cc, #33ccff);
+  /* background: linear-gradient(135deg, #85bff8, #4e7c8b); */
+  background-color: #85bff8;
   color: #ffffff;
 }
 
@@ -1161,7 +1414,7 @@ tr:last-child td {
 /* AI and LLM Solutions - Unique Design */
 #AI-LLM-Solutions {
   padding: 60px 20px;
-  background-color: #e0f7fa; /* Light cyan background */
+  background-color:#f9f9f9 ;
   font-family: 'Arial', sans-serif;
   color: #212121; /* Dark gray text */
 }
@@ -1240,4 +1493,718 @@ tr:last-child td {
   object-fit: cover;
   border-radius: 50%;
   border: 1px solid #00796b;
+}
+@media screen and (max-width: 768px) {
+  #AI-LLM-Solutions {
+    padding: 40px 15px;
+  }
+
+  #AI-LLM-Solutions .title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  #AI-LLM-Solutions .description {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  #AI-LLM-Solutions .features {
+    gap: 20px;
+  }
+
+  #AI-LLM-Solutions .feature {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
+  }
+
+  #AI-LLM-Solutions .feature-content {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  #AI-LLM-Solutions .feature-title {
+    font-size: 1.5rem;
+  }
+
+  #AI-LLM-Solutions .feature-description {
+    font-size: 0.9rem;
+  }
+
+  #AI-LLM-Solutions .feature-image {
+    margin-top: 10px;
+  }
+
+  #AI-LLM-Solutions .feature-image img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* resource input form */
+.form-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  padding: 10px 15px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #0056b3;
+}
+
+
+
+/* carrier */
+.job-grid {
+  display: grid; /* Display jobs in a grid layout */
+  gap: 16px; /* Spacing between job cards */
+}
+
+.job-card {
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+#careers{
+  padding-top: 38px;
+}
+.careers{
+  background-color: #0097a7;
+}
+.career-section {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  color: #1a237e;
+  margin-bottom: 40px;
+}
+
+.career-intro {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.career-intro p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.career-section  .btn {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #1a237e;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #0e1442;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #00bcd4;
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  background-color: #0097a7;
+  transform: translateY(-2px);
+}
+
+.job-openings {
+  margin-bottom: 80px;
+}
+
+.job-openings h3 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.job-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.job-card h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a237e;
+  margin-bottom: 10px;
+}
+
+.job-card p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.job-link {
+  color: #00bcd4;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.job-link:hover {
+  color: #1a237e;
+}
+
+.benefits-section {
+  margin-bottom: 80px;
+}
+
+.benefits-section h3 {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+}
+
+.benefit-card {
+  text-align: center;
+}
+
+.benefit-icon {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.benefit-card h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.culture-section {
+  background-color: #ffffff;
+  padding: 60px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 80px;
+}
+
+.culture-section h3 {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.culture-section p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.culture-image {
+  width: 100%;
+  height: 500px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.employee-spotlight {
+  background-color: #1a237e;
+  color: #ffffff;
+  padding: 60px;
+  border-radius: 10px;
+  margin-bottom: 80px;
+}
+
+.employee-spotlight h3 {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.employee-spotlight blockquote {
+  font-size: 18px;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.quote-author {
+  text-align: right;
+  font-weight: 600;
+}
+
+.career-cta {
+  text-align: center;
+}
+
+.career-cta h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.career-cta p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .job-grid, .benefits-grid {
+      grid-template-columns: 1fr;
+  }
+
+  .culture-section, .employee-spotlight {
+      padding: 30px;
+  }
+}
+
+/* Job Boards Section */
+#job-boards{
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 40px;
+  margin-bottom: 60px;
+  
+}
+.job-boards {
+margin-bottom: 60px;
+
+}
+
+.job-board-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 20px;
+}
+
+.job-board-card {
+background-color: #f8f9fa;
+border-radius: 10px;
+padding: 20px;
+text-align: center;
+text-decoration: none;
+color: #333;
+transition: all 0.3s ease;
+}
+
+.job-board-card:hover {
+background-color: #e9ecef;
+transform: translateY(-5px);
+}
+
+.job-board-card h4 {
+font-size: 18px;
+margin-bottom: 10px;
+}
+
+.job-board-card p {
+font-size: 14px;
+color: #666;
+}
+
+/* Job Description Section */
+.job-description {
+display: none;
+background-color: #ffffff;
+border-radius: 10px;
+padding: 40px;
+margin-bottom: 60px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.job-description h4 {
+font-size: 24px;
+margin-bottom: 10px;
+}
+
+.job-description h5 {
+font-size: 18px;
+margin-top: 20px;
+margin-bottom: 10px;
+}
+
+.job-description ul {
+padding-left: 20px;
+margin-bottom: 20px;
+}
+
+.job-description li {
+margin-bottom: 5px;
+}
+
+/* Apply Job Section */
+.apply-job {
+
+background-color: #f8f9fa;
+border-radius: 10px;
+padding: 40px;
+margin-bottom: 60px;
+}
+
+.job-application-form {
+display: grid;
+gap: 20px;
+}
+
+.form-group {
+display: flex;
+flex-direction: column;
+}
+
+.form-group label {
+margin-bottom: 5px;
+font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 5px;
+font-size: 16px;
+}
+
+.form-group textarea {
+resize: vertical;
+}
+
+/* Buttons */
+.btn {
+display: inline-block;
+padding: 12px 24px;
+font-size: 16px;
+font-weight: 600;
+text-align: center;
+text-decoration: none;
+border-radius: 5px;
+transition: all 0.3s ease;
+cursor: pointer;
+}
+
+.btn-primary {
+background-color: #1a237e;
+color: #ffffff;
+border: none;
+}
+
+.btn-primary:hover {
+background-color: #0e1442;
+}
+
+.btn-secondary {
+background-color: #00bcd4;
+color: #ffffff;
+border: none;
+}
+
+.btn-secondary:hover {
+background-color: #0097a7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+.job-board-grid {
+    grid-template-columns: 1fr;
+}
+
+.job-description,
+.apply-job {
+    padding: 20px;
+}
+}
+/* job search*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.head {
+  background: linear-gradient(135deg, #006699 0%, #004466 100%);
+  padding: 2rem 0;
+  text-align: center;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.head h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+}
+
+.search-button {
+  background-color: #00ccbb;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 20px;
+}
+
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.filters {
+  margin-bottom: 2rem;
+}
+
+.filter-section {
+  margin-bottom: 1.5rem;
+}
+
+.filter-title {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.jobs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.jobs-table th {
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 2px solid #eee;
+}
+
+.jobs-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.load-more {
+  display: block;
+  margin: 2rem auto;
+  padding: 10px 30px;
+  background: none;
+  border: 1px solid #000;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+
+/* Mobile View Styles */
+@media (max-width: 768px) {
+  /* General layout adjustments */
+ 
+  .career-section {
+    padding: 40px 0; /* Reduce padding for smaller screens */
+  }
+
+  .section-title {
+    font-size: 28px; /* Adjust title size for readability */
+    margin-bottom: 20px;
+  }
+
+  .career-intro p {
+    font-size: 16px; /* Slightly smaller text */
+  }
+
+  /* Job grid */
+  .job-grid {
+    grid-template-columns: 1fr; /* Stack job cards vertically */
+    gap: 20px;
+  }
+
+  .job-card {
+    padding: 20px; /* Adjust padding for smaller screens */
+  }
+
+  /* Buttons */
+  .btn {
+    font-size: 14px;
+    padding: 10px 20px; /* Reduce padding for buttons */
+  }
+
+  /* Culture section */
+  .culture-section {
+    padding: 30px;
+  }
+
+  .culture-section h3 {
+    font-size: 20px; /* Reduce heading size */
+    margin-bottom: 20px;
+  }
+
+  /* Employee spotlight */
+  .employee-spotlight {
+    padding: 30px;
+  }
+
+  /* Job boards */
+  .job-board-grid {
+    grid-template-columns: 1fr; /* Single column layout for job boards */
+  }
+
+  .job-board-card {
+    padding: 15px; /* Reduce padding */
+  }
+
+  /* Job description */
+  .job-description {
+    padding: 20px; /* Adjust padding */
+  }
+
+  /* Apply Job section */
+  .apply-job {
+    padding: 20px;
+  }
+
+  /* Search container */
+  .search-container {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;/* Stack input and button vertically */
+    gap: 10px;
+  }
+
+  .search-input {
+    font-size: 14px;
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+
+  .search-button {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+    width: 40px;
+    height: 40px; /* Smaller search button */
+  }
+
+  /* Job filters */
+  .filter-buttons {
+    gap: 8px; /* Reduce gap between filter buttons */
+  }
+
+  .filter-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  /* Job table */
+  .jobs-table th,
+  .jobs-table td {
+    padding: 10px; /* Adjust padding */
+  }
+
+  /* Load More button */
+  .load-more {
+    padding: 8px 20px; /* Adjust size */
+    font-size: 14px;
+  }
 }

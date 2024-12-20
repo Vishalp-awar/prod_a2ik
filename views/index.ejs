@@ -15,17 +15,37 @@
     <Link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav class="container" data-aos="fade-down" data-aos-delay="150" data-aos-easing="ease-in-out">
+    <!-- <header>
+        <nav class="container">
             <div class="logo">A2IK Global Solutions</div>
             <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#services">Services</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="dashboard">dashboard</a></li>
+                <li><a href="careers">careers</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
-    </header>
+    </header> -->
+    <header>
+      <nav class="container">
+          <div class="logo">A2IK Global Solutions</div>
+          <div id="hamburger" class="hamburger">
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+          <ul id="nav-links" class="nav-links">
+              <li><a href="/">Home</a></li>
+              <li><a href="dashboard">Dashboard</a></li>
+              <li><a href="careers">Careers</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+          </ul>
+      </nav>
+  </header>
+  
+  
 
     <section id="hero">
         <!-- <canvas id="canvas"></canvas> -->
@@ -356,7 +376,7 @@
                 <img src="static/images/penetration-testing.png" alt="Penetration Testing" class="icon">
               </div>
               <h3 class="card-title">Penetration Testing</h3>
-              <p class="card-description">We perform simulated cyberattacks to identify vulnerabilities and strengthen your security defenses.</p>
+              <p class="card-description">Here We perform simulated cyberattacks to identify vulnerabilities and strengthen your security defenses.</p>
             </div>
             
             <div class="card">
@@ -364,7 +384,7 @@
                 <img src="static/images/vulnerability-assessment.png" alt="Vulnerability Assessment" class="icon">
               </div>
               <h3 class="card-title">Vulnerability Assessment</h3>
-              <p class="card-description">Identify and fix security gaps in your infrastructure with thorough vulnerability assessments and reports.</p>
+              <p class="card-description">We Identify and fix security gaps in your infrastructure with thorough vulnerability assessments and reports.</p>
             </div>
           </div>
         </div>
@@ -483,90 +503,103 @@
 
     <section class="resources container">
         <div class="">
-            <h2 class="resources__title" data-aos="fade-down" data-aos-offset="100" data-aos-easing="ease-in-sine">
-                RESOURCES</h2>
-            <div class="resources__grid">
+          <h2 class="resources__title" data-aos="fade-down" data-aos-offset="100" data-aos-easing="ease-in-sine">
+            RESOURCES
+          </h2>
+          <div class="resources__grid">
+            <!-- Loop through resources data -->
+            <% if (resources && resources.length > 0) { %>
+              <% resources.forEach(function(resource) { %>
                 <article class="resource-card" data-aos="fade-up" data-aos-offset="250" data-aos-easing="ease-in-sine">
-                    <div class="resource-card__image">
-                        <img src="https://www.shutterstock.com/image-photo/authentication-by-facial-recognition-concept-260nw-1456783511.jpg"
-                            alt="Data visualization">
-                        <span class="resource-card__tag">Brochure</span>
-                    </div>
-                    <div class="resource-card__content">
-                        <h3 class="resource-card__title">Transform Experience across Stakeholder Spectrum with Cognitive
-                            Prior Authorization</h3>
-                        <a href="#" class="resource-card__link">KNOW MORE</a>
-                    </div>
+                  <div class="resource-card__image">
+                    <img src="<%= resource.image %>" alt="<%= resource.alt %>">
+                    <span class="resource-card__tag"><%= resource.tag %></span>
+                  </div>
+                  <div class="resource-card__content">
+                    <h3 class="resource-card__title"><%= resource.title %></h3>
+                    <a href="<%= resource.link %>" class="resource-card__link">KNOW MORE</a>
+                  </div>
                 </article>
-                <article class="resource-card" data-aos="fade-up" data-aos-offset="250" data-aos-easing="ease-in-sine">
-                    <div class="resource-card__image">
-                        <img src="https://www.shutterstock.com/image-photo/ai-brain-motif-centered-on-600w-2500501245.jpg"
-                            alt="Brain visualization">
-                        <span class="resource-card__tag">Brochure</span>
-                    </div>
-                    <div class="resource-card__content">
-                        <h3 class="resource-card__title">DeepInsights™ Model the World, Model the Mind</h3>
-                        <a href="#" class="resource-card__link">KNOW MORE</a>
-                    </div>
-                </article>
-                <article class="resource-card" data-aos="fade-up" data-aos-offset="250" data-aos-easing="ease-in-sine">
-                    <div class="resource-card__image">
-                        <img src="https://www.shutterstock.com/image-photo/technology-robot-robotic-engineering-connected-600w-1159539946.jpg"
-                            alt="Technology interface">
-                        <span class="resource-card__tag">Brochure</span>
-                    </div>
-                    <div class="resource-card__content">
-                        <h3 class="resource-card__title">Next-Gen Data Services Discover 360-degree Value in the
-                            Data-to-Action Journey</h3>
-                        <a href="#" class="resource-card__link">KNOW MORE</a>
-                    </div>
-                </article>
-            </div>
-            <div class="resources__more" data-aos="fade-up">
-                <a href="#" class="resources__more-link">
-                    See More
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </a>
-            </div>
+              <% }); %>
+            <% } else { %>
+              <p>No resources available at the moment.</p>
+            <% } %>
+          </div>
+          <div class="resources__more" data-aos="fade-up">
+            <a href="#" class="resources__more-link">
+              See More
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
         </div>
-    </section>
+      </section>
+<!--       
+
+    <section class="resources container">
+      <div>
+          <h2 class="resources__title" data-aos="fade-down" data-aos-offset="100" data-aos-easing="ease-in-sine">
+              RESOURCES
+          </h2>
+          <div class="resources__grid" id="resourcesGrid"></div>
+          <div class="resources__more" data-aos="fade-up">
+              <a href="#" class="resources__more-link">
+                  See More
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+              </a>
+          </div>
+      </div>
+  </section> -->
+
+  
     <section id="contact">
-        <div class="container">
-            <h2>Get in Touch</h2>
-            <form class="contact-form">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" required></textarea>
-                </div>
-                <button type="submit" class="cta-button">Send Message</button>
-            </form>
-        </div>
-    </section>
+      <div class="container">
+          <h2>Get in Touch</h2>
+          <form id="contact-form" class="contact-form" method="POST">
+              <div class="form-group">
+                  <label for="namejs" style="font: bold; font-weight: 100;">Your Name</label>
+                  <input class="input" type="text" id="namejs" name="namejs" required />
+              </div>
+              <div class="form-group">
+                  <label for="emailjs" style="font: bold;">Your Email</label>
+                  <input class="input" type="email" id="emailjs" name="emailjs" required />
+              </div>
+              <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea name="message" class="textinput" id="message" placeholder="Please enter query..." required></textarea>
+              </div>
+              <div id="status" style="color: green; font-weight: bold; margin: 5px; text-align: center;"></div>
+          
+              <div class="submit-btn-wreappr">
+                  <button class="submit-btn" type="submit">Submit</button>
+              </div>
+          </form>
+      </div>
+  </section>
+  <section id="resourceForm">
+
+  </section>
 
     <footer>
         <div class="container">
             <p>&copy; 2024 A2IK Global Solutions. All rights reserved.</p>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <script src="script.js">
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
     <script src="analytics.js"></script>
-</body>
+    <script src="script.js" ></script>
+   
+    </body>
 </html>
