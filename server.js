@@ -239,8 +239,16 @@ app.get('/web', async (req, res) =>
     res.status(500).render('error', { message: 'Error fetching analytics data' });
   }
 });
+app.get('/about', async (req, res) => {
 
+  res.render('about');
+ 
+});
+app.get('/contact', async (req, res) => {
 
+  res.render('contact');
+ 
+});
 app.get('/dashboard', async (req, res) => {
   const iframeSrc = '/web';
   res.render('dashboard', { iframeSrc });

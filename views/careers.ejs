@@ -37,8 +37,8 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="dashboard">Dashboard</a></li>
                 <li><a href="careers">Careers</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="about">About</a></li>
+                <li><a href="contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -64,7 +64,7 @@
                   </div>
                   
 
-                <div class="head">
+                <!-- <div class="head">
                     <h1>Job Search</h1>
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Software">
@@ -75,37 +75,77 @@
                             </svg>
                         </button>
                     </div>
-                </div>
+                </div> -->
+                <div class="head">
+                    <h1>Job Search</h1>
+                    <div class="search-container">
+                      <input id="searchInput" type="text" class="search-input" placeholder="Search for jobs...">
+                      <button id="searchButton" class="search-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                          <circle cx="11" cy="11" r="8" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
                 <div id="job-openings" class="job-openings">
                     <h3>Current Job Openings</h3>
                     
                 </div>
                 <div class="main-content">
                     <div class="filters">
-                        <h3 class="filter-title">Filters</h3>
-                        <div class="filter-buttons">
-                            <button class="filter-button">Location
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M6 9l6 6 6-6" />
-                                </svg>
-                            </button>
-                            <button class="filter-button">Experience Level
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M6 9l6 6 6-6" />
-                                </svg>
-                            </button>
-                            <button class="filter-button">Contract Type
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M6 9l6 6 6-6" />
-                                </svg>
-                            </button>
-                        
-                        
+                      <h3 class="filter-title">Filters</h3>
+                      <div class="filter-buttons">
+                        <div class="filter-group">
+                          <button class="filter-button" data-filter="location">Location
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M6 9l6 6 6-6" />
+                            </svg>
+                          </button>
+                          <div class="dropdown hidden" id="locationDropdown">
+                            <button class="dropdown-item" data-value="New York">New York</button>
+                            <button class="dropdown-item" data-value="San Francisco">delhi</button>
+                            <button class="dropdown-item" data-value="Remote">Remote</button>
+                          </div>
                         </div>
+                        <div class="filter-group">
+                          <button class="filter-button" data-filter="experienceLevel">Experience Level
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M6 9l6 6 6-6" />
+                            </svg>
+                          </button>
+                          <div class="dropdown hidden" id="experienceLevelDropdown">
+                            <button class="dropdown-item" data-value="Entry Level">Entry Level</button>
+                            <button class="dropdown-item" data-value="Mid Level">Mid Level</button>
+                            <button class="dropdown-item" data-value="Senior Level">Senior Level</button>
+                          </div>
+                        </div>
+                        <div class="filter-group">
+                          <button class="filter-button" data-filter="contractType">Contract Type
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M6 9l6 6 6-6" />
+                            </svg>
+                          </button>
+                          <div class="dropdown hidden" id="contractTypeDropdown">
+                            <button class="dropdown-item" data-value="Full-Time">Full-Time</button>
+                            <button class="dropdown-item" data-value="Part-Time">Part-Time</button>
+                            <button class="dropdown-item" data-value="Contract">Contract</button>
+                          </div>
+                        </div>
+                       
+                         <!-- Clear Filter button -->
+  
+                      </div>
+                      <button style="text-align: center; margin-top: 5px;  padding-top: 5px; width: auto;" id="clearFiltersButton" class="clear-filters-button">
+                        Clear Filters
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                           
+                        </svg>
+                    </button>
+                      
                     </div>
+                  </div>
+                  
 
                     <table class="jobs-table">
                         <thead>
@@ -118,7 +158,7 @@
                                
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="jobsTableBody">
                             <% job.forEach(function(job) { %>
                                 <tr>
                                     <td><%= job.jobTitle %></td>
@@ -156,11 +196,6 @@
                     </div>
                 </div>
 
-                <!-- <div id="job-openings" class="job-openings">
-                    <h3>Current Job Openings</h3>
-                    <div class="job-grid">
-                    </div>
-                </div> -->
 
                 <div class="employee-spotlight">
                     <h3>Employee Spotlight</h3>
@@ -181,6 +216,112 @@
         <p>&copy; 2023 A2IK Global Solutions. All rights reserved.</p>
     </footer>
 
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const allJobs = <%- JSON.stringify(job) %>; // Pass job data from backend
+          const jobsTableBody = document.getElementById("jobsTableBody");
+          const searchInput = document.getElementById("searchInput");
+          const searchButton = document.getElementById("searchButton");
+          const filterButtons = document.querySelectorAll(".filter-button");
+          const dropdowns = document.querySelectorAll(".dropdown");
+      
+          // Map filter types to job object fields
+          const filterTypeMapping = {
+            location: "jobLocation",
+            experienceLevel: "jobExperiencelevel",
+            contractType: "jobContractType",
+          };
+      
+          // Helper Function: Render Jobs Table
+          function renderJobs(jobs) {
+            jobsTableBody.innerHTML = ""; // Clear table rows
+            if (jobs.length === 0) {
+              jobsTableBody.innerHTML = `
+                <tr>
+                  <td colspan="4" style="text-align: center;">No results found</td>
+                </tr>`;
+              return;
+            }
+            jobs.forEach((job) => {
+              const row = `
+                <tr>
+                  <td>${job.jobTitle}</td>
+                  <td>${job.jobLocation}</td>
+                  <td>${job.jobExperiencelevel}</td>
+                  <td>${job.jobContractType}</td>
+                </tr>`;
+              jobsTableBody.insertAdjacentHTML("beforeend", row);
+            });
+          }
+      
+          // Initial Render
+          renderJobs(allJobs);
+      
+          // Search Functionality
+          searchButton.addEventListener("click", () => {
+            const query = searchInput.value.trim().toLowerCase();
+            const filteredJobs = allJobs.filter(
+              (job) =>
+                job.jobTitle.toLowerCase().includes(query) ||
+                job.jobLocation.toLowerCase().includes(query) ||
+                job.jobExperiencelevel.toLowerCase().includes(query) ||
+                job.jobContractType.toLowerCase().includes(query)
+            );
+            renderJobs(filteredJobs);
+            if (jobsTableBody.children.length > 0) {
+                jobsTableBody.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          });
+      
+          // Dropdown Filter Functionality
+          filterButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+              const dropdownId = button.getAttribute("data-filter") + "Dropdown";
+              const dropdown = document.getElementById(dropdownId);
+              dropdowns.forEach((d) => d.classList.add("hidden")); // Hide all dropdowns
+              dropdown.classList.toggle("hidden"); // Show the clicked dropdown
+            });
+          });
+      
+          // Handle Dropdown Selection
+          document.querySelectorAll(".dropdown-item").forEach((item) => {
+            item.addEventListener("click", (event) => {
+              const filterType = event.target.closest(".dropdown").id.replace("Dropdown", "");
+              const filterField = filterTypeMapping[filterType]; // Map to the correct field name
+              const filterValue = event.target.getAttribute("data-value");
+      
+              console.log("Filtering by:", filterField, filterValue); // Debugging info
+              const filteredJobs = allJobs.filter((job) => {
+                console.log(`Checking job: ${job[filterField]} === ${filterValue}`); // Debug info
+                return job[filterField] === filterValue;
+              });
+      
+              renderJobs(filteredJobs);
+      
+              // Hide dropdown after selection
+              event.target.closest(".dropdown").classList.add("hidden");
+            });
+          });
+           // Clear Filters functionality
+  document.getElementById("clearFiltersButton").addEventListener("click", () => {
+    // Reset filteredJobs to all jobs
+    filteredJobs = [...allJobs];
+    renderJobs(filteredJobs);
+
+    // Reset any dropdowns and input fields
+    searchInput.value = "";
+    dropdowns.forEach((dropdown) => dropdown.classList.add("hidden"));
+  });
+      
+          // Close dropdowns when clicking outside
+          document.addEventListener("click", (event) => {
+            if (!event.target.closest(".filter-group")) {
+              dropdowns.forEach((dropdown) => dropdown.classList.add("hidden"));
+            }
+          });
+        });
+      </script>
+      
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script>

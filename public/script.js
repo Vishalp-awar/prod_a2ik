@@ -1,11 +1,33 @@
+// const hamburger = document.getElementById('hamburger');
+// const navLinks = document.getElementById('nav-links');
+
+// hamburger.addEventListener('click', () => {
+//   console.log('Nav Button clicked');
+//   navLinks.classList.toggle('active');
+// });
+// const hamburger = document.getElementById('hamburger');
+// const navLinks = document.getElementById('nav-links');
+
+// hamburger.addEventListener('click', () => {
+//     console.log('Nav Button clicked');
+//     navLinks.classList.toggle('active');
+//     console.log(navLinks.classList); // Debugging line
+// });
+// const hamburger = document.getElementById('hamburger');
+// const navLinks = document.getElementById('nav-links');
+
+// hamburger.addEventListener('click', () => {
+// console.log('Hamburger clicked');
+// navLinks.classList.toggle('active');
+// });
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
 
 hamburger.addEventListener('click', () => {
-  console.log('Hamburger clicked');
+  hamburger.setAttribute('aria-expanded', !hamburger.getAttribute('aria-expanded') === 'true');
   navLinks.classList.toggle('active');
 });
-
+  
 
 document.addEventListener("DOMContentLoaded", () => {
   AOS.init();
