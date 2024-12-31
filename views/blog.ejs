@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+          <div class="logo">A2IK Global Solutions</div>
+          <div id="hamburger" class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <ul id="nav-links" class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="dashboard">Dashboard</a></li>
+            <li><a href="careers">Careers</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div id="articles">
+        <% resources.forEach(resource => { %>
+          <div id="article">
+            <div class="articlecontainer">
+              <h1 class="article-title">
+                <%= resource.title %>
+              </h1>
+              <p class="article-tag">Category: <%= resource.tag %></p>
+              <div class="article-image">
+                <img src="<%= resource.image %>" alt="<%= resource.alt %>">
+              </div>
+              <div class="article-content">
+                <p class="article-text">
+                  <%= resource.title %>
+                </p>
+                                
+            </div>
+            </div>
+          </div>
+           <!-- Horizontal Line after each article -->
+    <hr class="article-divider">
+        <% }) %>
+      </div>
+      
+</body>
+</html>

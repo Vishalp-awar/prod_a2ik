@@ -11,13 +11,12 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
     rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
         rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"
         integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -48,34 +47,20 @@
             <div class="container">
                 <h2 class="section-title">Join Our Team</h2>
                 <div id="job-boards" class="apply-job2">
-                    <h3>Explore Our Job Boards</h3>
-                    <div id="job-board-grid" class="job-board-grid">
-                      <% if (jobs && jobs.length > 0) { %>
-                        <% jobs.forEach(function(job) { %>
-                          <div class="job-card">
-                            <h4><%= job.jobTitle %></h4>
-                            <p><%= job.jobAbout %> | Available Positions: <%= job.count %></p>
-                          </div>
-                        <% }); %>
-                      <% } else { %>
-                        <p>No jobs available at the moment.</p>
-                      <% } %>
-                    </div>
+                  <h3>Explore Our Job Boards</h3>
+                  <div id="job-board-grid" class="job-board-grid">
+                    <% if (jobBoard && jobBoard.length > 0) { %>
+                      <% jobBoard.forEach(function(job) { %>
+                        <div class="job-card">
+                          <h4><%= job.category %></h4>
+                          <p>Available Positions: <%= job.openposition %></p>
+                        </div>
+                      <% }); %>
+                    <% } else { %>
+                      <p>No jobs available at the moment.</p>
+                    <% } %>
                   </div>
-                  
 
-                <!-- <div class="head">
-                    <h1>Job Search</h1>
-                    <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Software">
-                        <button class="search-button">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                <circle cx="11" cy="11" r="8" />
-                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            </svg>
-                        </button>
-                    </div>
-                </div> -->
                 <div class="head">
                     <h1>Job Search</h1>
                     <div class="search-container">
@@ -134,41 +119,37 @@
                         </div>
                        
                          <!-- Clear Filter button -->
-  
+                         <button style="text-align: center; margin-top: 5px;  padding-top: 5px; width: auto;" id="clearFiltersButton" class="clear-filters-button">
+                          Clear Filters
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                             
+                          </svg>
+                      </button>
+                        
                       </div>
-                      <button style="text-align: center; margin-top: 5px;  padding-top: 5px; width: auto;" id="clearFiltersButton" class="clear-filters-button">
-                        Clear Filters
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                           
-                        </svg>
-                    </button>
-                      
+                     
                     </div>
                   </div>
                   
 
-                    <table class="jobs-table">
-                        <thead>
-                            <tr>
-                                <th>Job name</th>
-                                <th>Location</th>
-                                <th>Experience level</th>
-                                <th>Contract Type</th>
-                               
-                               
-                            </tr>
-                        </thead>
-                        <tbody id="jobsTableBody">
-                            <% job.forEach(function(job) { %>
-                                <tr>
-                                    <td><%= job.jobTitle %></td>
-                                    <td><%= job.jobLocation %></td>
-                                    <td><%= job.jobExperiencelevel %></td>
-                                    <td><%= job.jobContractType %></td>
-                                   
-                                </tr>
-                            <% }); %>
-                        </tbody>
+                  <table>
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Location</th>
+                            <th>Experience Level</th>
+                            <th>Contract Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobsTableBody">
+                        <!-- Job listings will be dynamically inserted here -->
+                    </tbody>
+               
+            
+                  
+                        
+                        
                     </table>
 
                  
@@ -177,10 +158,6 @@
                 <div class="benefits-section">
                     <h3>Why Work With Us?</h3>
                     <div class="benefits-grid">
-                        <div class="benefit-card">
-                            <div class="benefit-icon">❤️</div>
-                            <h4>Comprehensive Health Coverage</h4>
-                        </div>
                         <div class="benefit-card">
                             <div class="benefit-icon">🏠</div>
                             <h4>Flexible Work Environment</h4>
@@ -210,6 +187,48 @@
 
             </div>
         </section>
+       <!-- Modal for job application -->
+       <div id="applyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Applying for <span id="jobTitle"></span> Role</h2>
+            <form id="applyjob" action="/applyjob" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="job-id" name="job-id">
+                <div class="job-details">
+                    <div class="form-group">
+                        <h4>About the Job</h4>
+                        <p id="job-about"></p>
+                    </div>
+                    <div class="form-group">
+                        <h4>Job Responsibilities</h4>
+                        <p id="job-responsibilities"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="full-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="resume">Resume</label>
+                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                </div>
+                <div class="form-group">
+                    <label for="cover-letter">Cover Letter</label>
+                    <textarea id="cover-letter" name="cover-letter" rows="5" required></textarea>
+                </div>
+                <button type="submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+        
     </main>
 
     <footer data-scroll-section>
@@ -218,109 +237,180 @@
 
       <script>
         document.addEventListener("DOMContentLoaded", () => {
+          
           const allJobs = <%- JSON.stringify(job) %>; // Pass job data from backend
           const jobsTableBody = document.getElementById("jobsTableBody");
           const searchInput = document.getElementById("searchInput");
           const searchButton = document.getElementById("searchButton");
           const filterButtons = document.querySelectorAll(".filter-button");
           const dropdowns = document.querySelectorAll(".dropdown");
-      
-          // Map filter types to job object fields
-          const filterTypeMapping = {
-            location: "jobLocation",
-            experienceLevel: "jobExperiencelevel",
-            contractType: "jobContractType",
-          };
-      
-          // Helper Function: Render Jobs Table
-          function renderJobs(jobs) {
-            jobsTableBody.innerHTML = ""; // Clear table rows
-            if (jobs.length === 0) {
-              jobsTableBody.innerHTML = `
-                <tr>
-                  <td colspan="4" style="text-align: center;">No results found</td>
-                </tr>`;
-              return;
-            }
-            jobs.forEach((job) => {
-              const row = `
-                <tr>
-                  <td>${job.jobTitle}</td>
-                  <td>${job.jobLocation}</td>
-                  <td>${job.jobExperiencelevel}</td>
-                  <td>${job.jobContractType}</td>
-                </tr>`;
-              jobsTableBody.insertAdjacentHTML("beforeend", row);
-            });
-          }
-      
-          // Initial Render
-          renderJobs(allJobs);
-      
-          // Search Functionality
-          searchButton.addEventListener("click", () => {
-            const query = searchInput.value.trim().toLowerCase();
-            const filteredJobs = allJobs.filter(
-              (job) =>
-                job.jobTitle.toLowerCase().includes(query) ||
-                job.jobLocation.toLowerCase().includes(query) ||
-                job.jobExperiencelevel.toLowerCase().includes(query) ||
-                job.jobContractType.toLowerCase().includes(query)
-            );
-            renderJobs(filteredJobs);
-            if (jobsTableBody.children.length > 0) {
-                jobsTableBody.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
-          });
-      
-          // Dropdown Filter Functionality
-          filterButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-              const dropdownId = button.getAttribute("data-filter") + "Dropdown";
-              const dropdown = document.getElementById(dropdownId);
-              dropdowns.forEach((d) => d.classList.add("hidden")); // Hide all dropdowns
-              dropdown.classList.toggle("hidden"); // Show the clicked dropdown
-            });
-          });
-      
-          // Handle Dropdown Selection
-          document.querySelectorAll(".dropdown-item").forEach((item) => {
-            item.addEventListener("click", (event) => {
-              const filterType = event.target.closest(".dropdown").id.replace("Dropdown", "");
-              const filterField = filterTypeMapping[filterType]; // Map to the correct field name
-              const filterValue = event.target.getAttribute("data-value");
-      
-              console.log("Filtering by:", filterField, filterValue); // Debugging info
-              const filteredJobs = allJobs.filter((job) => {
-                console.log(`Checking job: ${job[filterField]} === ${filterValue}`); // Debug info
-                return job[filterField] === filterValue;
-              });
-      
-              renderJobs(filteredJobs);
-      
-              // Hide dropdown after selection
-              event.target.closest(".dropdown").classList.add("hidden");
-            });
-          });
-           // Clear Filters functionality
-  document.getElementById("clearFiltersButton").addEventListener("click", () => {
-    // Reset filteredJobs to all jobs
-    filteredJobs = [...allJobs];
-    renderJobs(filteredJobs);
+          const modal = document.getElementById('applyModal');
+          const jobTitleSpan = document.getElementById('jobTitle');
+         // const jobTitleInput = document.getElementById('job-title');
+          const jobAboutInput = document.getElementById('job-about');
+          const jobResponsibilitiesInput = document.getElementById('job-responsibilities');
+          const jobIdInput = document.getElementById('job-id');
+          const closeBtn = modal.querySelector('.close');
+          const applicationForm = document.getElementById('applyjob');
+          const applyjobForm = document.getElementById("applyjob");
+          let title ='';
+            // Map filter types to job object fields
+            const filterTypeMapping = {
+                location: "jobLocation",
+                experienceLevel: "jobExperiencelevel",
+                contractType: "jobContractType",
+            };
 
-    // Reset any dropdowns and input fields
-    searchInput.value = "";
-    dropdowns.forEach((dropdown) => dropdown.classList.add("hidden"));
-  });
-      
-          // Close dropdowns when clicking outside
-          document.addEventListener("click", (event) => {
-            if (!event.target.closest(".filter-group")) {
-              dropdowns.forEach((dropdown) => dropdown.classList.add("hidden"));
+            function renderJobs(jobs) {
+                jobsTableBody.innerHTML = ""; // Clear table rows
+                if (jobs.length === 0) {
+                    jobsTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No results found</td>
+                        </tr>`;
+                    return;
+                }
+                jobs.forEach((job) => {
+                    const row = `
+                        <tr>
+                            <td>${job.jobTitle}</td>
+                            <td>${job.jobLocation}</td>
+                            <td>${job.jobExperiencelevel}</td>
+                            <td>${job.jobContractType}</td>
+                            <td><button class="apply-now-btn" data-job-id="${job._id}">Apply Now</button></td>
+                        </tr>`;
+                    jobsTableBody.insertAdjacentHTML("beforeend", row);
+                });
             }
+
+            // Initial Render
+            renderJobs(allJobs);
+
+            // Search Functionality
+            searchButton.addEventListener("click", () => {
+                const query = searchInput.value.trim().toLowerCase();
+                const filteredJobs = allJobs.filter(
+                    (job) =>
+                        job.jobTitle.toLowerCase().includes(query) ||
+                        job.jobLocation.toLowerCase().includes(query) ||
+                        job.jobExperiencelevel.toLowerCase().includes(query) ||
+                        job.jobContractType.toLowerCase().includes(query)
+                );
+                renderJobs(filteredJobs);
+                if (jobsTableBody.children.length > 0) {
+                    jobsTableBody.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            });
+
+            // Dropdown Filter Functionality
+            filterButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const dropdownId = button.getAttribute("data-filter") + "Dropdown";
+                    const dropdown = document.getElementById(dropdownId);
+                    dropdowns.forEach((d) => d.classList.add("hidden")); // Hide all dropdowns
+                    dropdown.classList.toggle("hidden"); // Show the clicked dropdown
+                });
+            });
+
+            // Handle Dropdown Selection
+            document.querySelectorAll(".dropdown-item").forEach((item) => {
+                item.addEventListener("click", (event) => {
+                    const filterType = event.target.closest(".dropdown").id.replace("Dropdown", "");
+                    const filterField = filterTypeMapping[filterType]; // Map to the correct field name
+                    const filterValue = event.target.getAttribute("data-value");
+
+                    console.log("Filtering by:", filterField, filterValue); // Debugging info
+                    const filteredJobs = allJobs.filter((job) => {
+                        console.log(`Checking job: ${job[filterField]} === ${filterValue}`); // Debug info
+                        return job[filterField] === filterValue;
+                    });
+
+                    renderJobs(filteredJobs);
+
+                    // Hide dropdown after selection
+                    event.target.closest(".dropdown").classList.add("hidden");
+                });
+            });
+
+            // Clear Filters functionality
+            document.getElementById("clearFiltersButton").addEventListener("click", () => {
+                // Reset filteredJobs to all jobs
+                renderJobs(allJobs);
+
+                // Reset any dropdowns and input fields
+                searchInput.value = "";
+                dropdowns.forEach((dropdown) => dropdown.classList.add("hidden"));
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener("click", (event) => {
+                if (!event.target.closest(".filter-group")) {
+                    dropdowns.forEach((dropdown) => dropdown.classList.add("hidden"));
+                }
+            });
+
+     
+            // Open modal when "Apply Now" is clicked
+            
+             jobsTableBody.addEventListener('click', function(e) {
+              
+              if (e.target && e.target.classList.contains('apply-now-btn')) {
+                  const jobId = e.target.getAttribute('data-job-id');
+                  const job = allJobs.find(j => j._id === jobId);
+                  document.getElementById('job-about').textContent = job.jobAbout || 'No description available';
+                  document.getElementById('job-responsibilities').textContent = job.jobResponsibilities || 'No responsibilities listed';
+                  jobTitleSpan.textContent = job.jobTitle;
+                  jobIdInput.value = jobId;
+                  modal.style.display = 'block';
+              }
+              console.log();
           });
+
+          // Close modal when 'x' is clicked
+          closeBtn.onclick = function() {
+              modal.style.display = 'none';
+          }
+
+          // Close modal when clicking outside of it
+          window.onclick = function(event) {
+              if (event.target == modal) {
+                  modal.style.display = 'none';
+              }
+          }
+          if (applyjobForm) {
+            applyjobForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+      
+                const formData = new FormData(applyjobForm);
+                   // Retrieve the job title from the modal
+            formData.append('jobTitle', jobTitleSpan.textContent);
+             
+            console.log(jobTitleSpan.textContent);
+
+                try {
+                    const response = await fetch("/applyjob", {
+                        method: "POST",
+                        body: formData,
+                    });
+      
+                    if (response.ok) {
+                        alert("Application submitted successfully!");
+                    } else {
+                        alert("Failed to submit application");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("An error occurred while submitting the application");
+                }
+      
+                applyjobForm.reset();
+                modal.style.display = 'none';
+            });
+        }
+         
         });
-      </script>
+        // Handle form submission
+   </script>
       
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
@@ -337,3 +427,5 @@ hamburger.addEventListener('click', () => {
 </body>
 
 </html>
+
+

@@ -55,27 +55,35 @@ nav {
   color: #0066cc;
 }
 
+
+
 .nav-links {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  transition: max-height 0.3s ease-in-out;
+
+display: flex;
+list-style: none;
+margin: 0;
+padding: 0; 
+transition: all 0.3s ease-in-out;
 }
 
 .nav-links li {
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 8px 12px;
   margin-left: 30px;
+  transition: color 0.3s;
+margin-left: 30px;
 }
 
 .nav-links a {
   text-decoration: none;
   color: #333;
-  font-weight: 500;
+  font-weight: 700;
   transition: color 0.3s;
 }
 
 .nav-links a:hover {
-  color: #0066cc;
+color: #0066cc;
 }
 
 /* Hamburger Menu */
@@ -126,12 +134,19 @@ nav {
 
 /* Dashboard Layout */
 .dashboard {
-padding-top: 38px; /* Increased to account for the fixed header */
-display: flex;
-min-height: 100vh; /* Initial height */
+  padding-top: 38px; /* Account for the fixed header */
+  display: flex;
+  height: calc(100vh); /* Subtract header height from viewport height */
+  overflow: hidden;
 transition: height 0.3s ease; /* Smooth transition when changing height */
 }
-
+.dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f4f4f4;
+  overflow-y: auto; /* Allow vertical scrolling */
+  height: 100%; /* Take full height of parent */
+}
 /* When form is shown, adjust height */
 .dashboard.form-shown {
 height: auto; /* Adjust to fit the content */
@@ -143,7 +158,7 @@ display: none; /* Hidden by default */
 
 /* Show the form when the .active class is added */
 .job-posting-form.active {
-display: block;
+display: block; 
 }
 
 
@@ -271,7 +286,7 @@ padding: 8px;
 
 .form-container {
 max-width: 600px;
-max-height: 100vh;
+max-height: auto;
 margin: 20px auto;
 padding: 30px;
 border: 1px solid #ddd;
@@ -280,7 +295,7 @@ background: #ffffff;
 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 transition: transform 0.3s, box-shadow 0.3s;
 height: auto; /* Ensures height adjusts based on content */
-overflow: hidden; /* Prevents unnecessary scrolling */
+overflow: visible; /* Prevents unnecessary scrolling */
 }
 
 .form-container:hover {
@@ -288,12 +303,21 @@ transform: translateY(-3px);
 box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
 }
 
-form label {
-display: block;
-margin: 15px 0 5px;
-font-weight: 600;
-color: #34495e;
-font-size: 16px;
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px; /* Ensures elements have space between each other */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
 }
 
 form input,
@@ -346,6 +370,7 @@ form button:focus {
 outline: 3px solid rgba(37, 117, 252, 0.5);
 outline-offset: 2px;
 }
+
 
 /* Error Message Styling */
 form .error {
@@ -528,12 +553,20 @@ color: #333;
 color: #666;
 margin-top: 10px;
 }
+.update-positions-form label{
 
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 5px;
+    display: block;
+    
+}
 /* Update Positions Form Styling */
 .update-positions-form {
 
 max-width: 500px;
-max-height: 60vh;
+max-height: 80vh;
 margin: 50px auto;
 padding: 30px;
 border: 1px solid #ddd;
@@ -587,6 +620,15 @@ max-height: 110vh;
     max-height: 120vh;
 }
 
+.job-posting-form select,
+.job-posting-form input {
+width: 100%;
+padding: 12px;
+margin-bottom: 20px;
+border: 1px solid #ccc;
+border-radius: 8px;
+font-size: 16px;
+}
 .form-container, .job-posting-form, .update-positions-form, .iframe-container {
 background-color: white;
 padding: 20px;
@@ -743,3 +785,38 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 }
 
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  }
+
+  #applicantTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#applicantTable th, td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd
+}
+
+#applicantTable th {
+    background-color: #f4f4f4;
+}
+#contactSubmissionTable {
+  width: 100%;
+  border-collapse: collapse; /* Ensures borders are not doubled */
+}
+
+#contactSubmissionTable th, #contactSubmissionTable td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd; /* Adds a border between cells */
+}
+
+#contactSubmissionTable th {
+  background-color: #f2f2f2; /* Light grey for the header */
+}

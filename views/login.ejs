@@ -1,0 +1,42 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+          <div class="logo">A2IK Global Solutions</div>
+          <div id="hamburger" class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <ul id="nav-links" class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="dashboard">Dashboard</a></li>
+            <li><a href="careers">Careers</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+ 
+      
+      <section id="loginformadmin" style="text-align: center; padding: 150px;">
+        <h1>Enter Password to Access </h1>
+        <form action="/login" method="post">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+ 
+      <script src="script.js"></script>
+</body>
+</html>

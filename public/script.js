@@ -74,8 +74,20 @@ document
 
     // Send the email using EmailJS
     emailjs.send("service_yvzqjh6", "template_xm45s8m", templateParams).then(
-      function (response) {
+      async function (response) {
         console.log("Email sent successfully:", response);
+        const savetodb = await fetch('/contactus' , {
+          method: 'POST',
+          body: JSON.stringify({
+            from_name: name,
+            from_email: email,
+            message: message,
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        if(savetodb.ok){
         document.getElementById("status").innerText =
           "Your message has been sent successfully!";
 
@@ -83,6 +95,12 @@ document
         document.getElementById("namejs").value = "";
         document.getElementById("emailjs").value = "";
         document.getElementById("message").value = "";
+        }else{
+          document.getElementById("status").style = "color: red; "
+          document.getElementById("status").innerText =
+          "Error sending mail!";
+
+        }
       },
       function (error) {
         console.log("Error sending email:", error);
@@ -204,35 +222,35 @@ resourceForm.addEventListener("submit", async (event) => {
 // });
 
 
-const applyjobForm = document.getElementById("applyjob");
-if (applyjobForm) {
-applyjobForm.addEventListener("submit", async (event) => {
-  event.preventDefault(); // Prevents the form from submitting the usual way (which causes redirection)
+// const applyjobForm = document.getElementById("applyjob");
+// if (applyjobForm) {
+// applyjobForm.addEventListener("submit", async (event) => {
+//   event.preventDefault(); // Prevents the form from submitting the usual way (which causes redirection)
 
-  const formData = new FormData(applyjobForm);
+//   const formData = new FormData(applyjobForm);
+  
+//   try {
+//     const response = await fetch("/applyjob", {
+//       method: "POST",
+//       body: formData, // Sending FormData directly to the server
+//     });
 
-  try {
-    const response = await fetch("/applyjob", {
-      method: "POST",
-      body: formData, // Sending FormData directly to the server
-    });
+//     if (response.ok) {
+//       console.log("Application submitted successfully");
+//       document.getElementById("apply-job").innerHTML = "<h3>Thank you for your application!</h3>";
 
-    if (response.ok) {
-      console.log("Application submitted successfully");
-      document.getElementById("apply-job").innerHTML = "<h3>Thank you for your application!</h3>";
+//       alert("Application submitted successfully!");
+//     } else {
+//       alert("Failed to submit application");
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//     alert("An error occurred while submitting the application");
+//   }
 
-      alert("Application submitted successfully!");
-    } else {
-      alert("Failed to submit application");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred while submitting the application");
-  }
-
-  applyjobForm.reset(); // Reset the form after submission
-});
-};
+//   applyjobForm.reset(); // Reset the form after submission
+// });
+// };
 
 
 

@@ -35,21 +35,24 @@ position: fixed;
 width: 100%;
 z-index: 1000;
 overflow: visible;
-
+font-family: 'Varela',Verdana, Tahoma, sans-serif;
 }
 header .container{
 overflow: visible;
 }
 nav {
-
-height: auto;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 15px 20px;
-max-width: 1200px;
-margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 
 .logo {
 font-size: 24px;
@@ -67,14 +70,20 @@ transition: all 0.3s ease-in-out;
 }
 
 .nav-links li {
+  font-family: 'Fantasy', 'Courier New', Courier, monospace;
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 8px 12px;
+  margin-left: 30px;
+  transition: color 0.3s;
 margin-left: 30px;
 }
 
 .nav-links a {
-text-decoration: none;
-color: #333;
-font-weight: 500;
-transition: color 0.3s;
+  text-decoration: none;
+  color: #333;
+  font-weight: 700;
+  transition: color 0.3s;
 }
 
 .nav-links a:hover {
@@ -357,20 +366,32 @@ background-color: #cfe6f2;
 font-size: 2.5rem;
 margin-bottom: 20px;
 color: #2c3e50;
+font-family: 'Georgia', serif;
+line-height: 1.8;
+margin: 0;
+padding: 0; /* Light background for an article look */
+color: #333;
 }
 
 
 #about p {
-font-size: 1.5rem;
-margin: 5px;
+font-size: 1.3rem;
+color: #2c3e50;
+font-family: 'Georgia', serif;
+line-height: 1.8;
+margin: 0;
+padding: 0; /* Light background for an article look */
 color: #333;
-line-height: 1.6;
 }
 #about ul {
+  font-size: 1.2rem;
+  font-weight: 100;
 margin-top: 5px;
 padding-left: 50px;
-font-size: 1.5rem;
-line-height: 1.6;
+color: #2c3e50;
+font-family: 'Georgia', serif;
+line-height: 1.8;
+color: #333;
 }
 
 #contact {
@@ -384,7 +405,7 @@ margin: 0 auto;
 }
 
 .form-group {
-margin-bottom: 20px;
+margin-bottom: 5px;
 }
 
 .form-group label {
@@ -1569,6 +1590,7 @@ font-size: 36px;
 font-weight: 700;
 text-align: center;
 color: #1a237e;
+margin-top: 30px;
 margin-bottom: 40px;
 }
 
@@ -1799,12 +1821,14 @@ margin-bottom: 60px;
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 gap: 20px;
+margin: 15px;
 }
 
 .job-board-card {
 background-color: #f8f9fa;
 border-radius: 10px;
 padding: 20px;
+margin-bottom: 20px;
 text-align: center;
 text-decoration: none;
 color: #333;
@@ -2241,3 +2265,470 @@ box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6); /* Focus outline for accessibili
 
 
 
+#loginformadmin {
+  text-align: center;
+  padding: 150px;
+  background-color: #f4f4f9; /* Subtle background color */
+  font-family: 'Arial', sans-serif;
+  color: #333; /* Neutral text color */
+}
+
+#loginformadmin h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #444; /* Slightly darker heading color */
+}
+
+#loginformadmin form {
+  display: inline-block;
+  text-align: left;
+  background: #fff; /* Form background */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+#loginformadmin label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #666; /* Label text color */
+}
+
+#loginformadmin input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Ensures proper padding */
+}
+
+#loginformadmin button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #007BFF; /* Blue background for button */
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#loginformadmin button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+#loginformadmin button:active {
+  background-color: #003f7f; /* Even darker blue on click */
+}
+
+#loginformadmin input:focus {
+  outline: none;
+  border-color: #007BFF; /* Highlight input on focus */
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+#article * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#article {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  padding: 50px 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800;
+  /* Add top margin to avoid overlapping with fixed navbar */
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+
+/* Article Container */
+#article .articlecontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Article Image */
+.article-image img {
+  width: 100%;  /* Ensures the image takes up full width of its container */
+  height: auto; /* Maintains the aspect ratio */
+  max-width: 600px; /* Sets a maximum width for the image */
+  max-height: 400px; /* Sets a maximum height for the image */
+  object-fit: cover; /* Ensures the image covers the area without distorting */
+  border-radius: 8px; /* Optional: adds rounded corners */
+  margin-bottom: 20px; /* Adds space below the image */
+}
+
+/* Article Title */
+#article .article-title {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 15px;
+}
+
+/* Article Tag */
+#article .article-tag {
+  font-size: 0.9rem;
+  color: #555;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* Article Text */
+#article .article-text {
+  font-size: 1.1rem;
+  color: #444;
+  text-align: start;
+  margin-bottom: 30px;
+}
+
+/* Article Link (optional, if needed) */
+#article .article-link {
+  text-decoration: none;
+  color: #fff;
+  background-color: #007BFF;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+#article .article-link:hover {
+  background-color: #0056b3;
+}
+
+/* Style for horizontal line after each article */
+.article-divider {
+  width: 100%;
+  border-top: 2px solid #f2f2f2;
+}
+.jobs-table a {
+  color: blue; /* Ensure the text is a contrasting color */
+  text-decoration: underline; /* Makes it stand out */
+  display: inline; /* Ensure the link is visible */
+  visibility: visible; /* Ensure it is not hidden */
+  z-index: 1; /* Ensure it is on top */
+}
+
+/* modal */
+.modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+    .modal.hidden {
+        display: none;
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+    }
+    .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    #applyForm {
+        display: flex;
+        flex-direction: column;
+    }
+    #applyForm label, #applyForm input, #applyForm button {
+        margin-bottom: 10px;
+    }
+
+
+    
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.job-details {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.apply-now-btn {
+  background-color: #006699; /* Green background */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  padding: 8px 12px; /* Add padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Inline button */
+  font-size: 16px; /* Font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition effect */
+}
+
+.apply-now-btn:hover {
+  background-color: #004d99; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+.apply-now-btn:active {
+  background-color: #3e8e41; /* Even darker green when pressed */
+  transform: scale(1); /* Return to normal size when pressed */
+}
+
+/* General Dropdown Container */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  display: none; /* Initially hidden */
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f4f4f4;
+}
+
+.dropdown-item:active {
+  background-color: #e2e2e2;
+}
+
+/* To show dropdown when active */
+.dropdown:not(.hidden) {
+  display: block;
+}
+
+/* Filter Group Container */
+.filter-group {
+  display: inline-block;
+  margin-right: 20px;
+  position: relative;
+}
+
+/* Filter Button Style */
+.filter-button {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 160px; /* Adjust width as needed */
+  transition: background-color 0.3s ease;
+}
+
+.filter-button:hover {
+  background-color: #e6e6e6;
+}
+
+.filter-button svg {
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+}
+
+/* Rotate the arrow when dropdown is open */
+.filter-button.active svg {
+  transform: rotate(180deg);
+}
+
+/* Hide the dropdown initially */
+.hidden {
+  display: none;
+}
+
+/* Clear Filters Button */
+.clear-filters-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  color: white;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 5px;
+  width: 40px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Button Hover Effect */
+.clear-filters-button:hover {
+  background-color: #e6e6e6;
+  color: #007bff;
+}
+
+/* Clear Filters Icon (SVG) */
+.clear-filters-button svg {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+/* Optional: Add a hover effect to the icon as well */
+.clear-filters-button:hover svg {
+  transform: rotate(180deg);
+}
+/* Filter Group Container */
+.filter-group {
+  display: inline-block;
+  margin-right: 20px;
+  position: relative;
+}
+
+/* Filter Button Style */
+.filter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 5px;
+  width: auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter-button:hover {
+  background-color: #e6e6e6;
+}
+
+.filter-button svg {
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+}
+
+/* Rotate the arrow when dropdown is open */
+.filter-button.active svg {
+  transform: rotate(180deg);
+}
+
+/* Hide the dropdown initially */
+.hidden {
+  display: none;
+}

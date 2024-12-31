@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact us</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
@@ -24,21 +25,20 @@
           </ul>
         </nav>
       </header>
- 
-    <section id="contact">
+      <section id="contact">
         <div class="container">
             <h2>Get in Touch</h2>
-            <form id="contact-form" class="contact-form" method="POST">
+            <form id="contact-form" class="contact-form"  method="POST">
                 <div class="form-group">
-                    <label for="namejs" style="font: bold; font-weight: 100;">Your Name</label>
+                    <label for="namejs" style="font: bold; margin-left: 5px; ">Name</label>
                     <input class="input" type="text" id="namejs" name="namejs" required />
                 </div>
                 <div class="form-group">
-                    <label for="emailjs" style="font: bold;">Your Email</label>
+                    <label for="emailjs" style="font: bold; margin-left: 5px; ">Email</label>
                     <input class="input" type="email" id="emailjs" name="emailjs" required />
                 </div>
                 <div class="form-group">
-                    <label for="message">Message</label>
+                    <label for="message" style="margin-left: 5px; ">Message</label>
                     <textarea name="message" class="textinput" id="message" placeholder="Please enter query..." required></textarea>
                 </div>
                 <div id="status" style="color: green; font-weight: bold; margin: 5px; text-align: center;"></div>
@@ -49,6 +49,18 @@
             </form>
         </div>
     </section>
-    <script src="srcipt.js"></script>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 A2IK Global Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="/script.js" defer></script>
+
 </body>
 </html>
