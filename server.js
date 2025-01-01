@@ -1,5 +1,4 @@
-
-require('dotenv').config();
+require('dotenv').config(); // Load environment variables
 const express = require('express');
 const mongodb = require('mongodb');
 const cors = require('cors');
@@ -15,13 +14,19 @@ const { ObjectId } = require('mongodb');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
+app.use(fileUpload({
+  useTempFiles:true
+}))
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
       title: 'A2IK API',
       version: '1.0.0',
-      description: 'API documentation for A2IK Global Solutions',
+      description: 'API documentation for A2IK',
     },
     servers: [
       {
@@ -33,12 +38,6 @@ const swaggerOptions = {
 };
 
 
-app.use(cors());
-app.use(express.json());
-app.use(express.static('public'));
-app.use(fileUpload({
-  useTempFiles:true
-}))
 app.use(express.urlencoded({ extended: true })); // Parses form data
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
@@ -53,6 +52,55 @@ app.use(
     cookie: { secure: false }, // Use secure: true in production with HTTPS
   })
 );
+
+/**
+ * @swagger
+ * /api/emailjs:
+ *   get:
+ *     summary: Retrieve EmailJS configuration keys.
+ *     description: Returns the public key, service ID, and template ID for EmailJS.
+ *     tags:
+ *       - EmailJS
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved EmailJS configuration keys.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 EMAILJS_SERVICE_ID:
+ *                   type: string
+ *                   description: The service ID for EmailJS.
+ *                   example: service_yvzqjh6
+ *                 EMAILJS_TEMPLATE_ID:
+ *                   type: string
+ *                   description: The template ID for EmailJS.
+ *                   example: template_12345abc
+ *                 EMAILJS_PUBLIC_KEY:
+ *                   type: string
+ *                   description: The public key for EmailJS.
+ *                   example: rkpynpwmbwkXF7tyZ
+ *       500:
+ *         description: Failed to retrieve EmailJS configuration keys.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Internal Server Error
+ */
+
+app.get('/api/emailjs', (req, res) => {
+  res.json({
+    EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
+    EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
+    EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY
+  });
+});
 
 
 cloudinary.config({ 
@@ -224,7 +272,7 @@ app.post('/applyjob', async (req, res) => {
   if (!resume) {
     return res.status(400).send('No resume file uploaded');
   }
- 
+
   try {
     cloudinary.uploader.upload(
       resume.tempFilePath,
@@ -318,13 +366,13 @@ app.get('/applyjob', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 const ensureAuthenticated = (req, res, next) => {
   if (req.session && req.session.isAuthenticated) {
     return next(); // Proceed if authenticated
   }
   res.redirect('/login'); // Redirect to login if not authenticated
 };
-
 
 
 app.get('/web', ensureAuthenticated, async (req, res) => 
@@ -517,9 +565,7 @@ app.get('/dashboard', (req, res) => {
   res.render(path.join(__dirname, 'dashboard.html'));
 });
 
-app.get('*', (req, res) => {
-  res.status(404).send('404 - Page Not Found');
-});
+
 
 /**
  * @swagger
@@ -1553,22 +1599,18 @@ app.delete('/jobboard', async (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 Technology:
- *                   type: integer
- *                   description: The number of open positions in the Technology category.
- *                   example: 5
- *                 SalesMarketing:
- *                   type: integer
- *                   description: The number of open positions in the Sales & Marketing category.
- *                   example: 3
- *                 Operations:
+ *                 _id:
+ *                   type: string
+ *                   description: object id.
+ *                   example: "6772977d5bb297a869843789"
+ *                 category:
+ *                   type: string
+ *                   description: job board category.
+ *                   example: "HR"
+ *                 openposition:
  *                   type: integer
  *                   description: The number of open positions in the Operations category.
  *                   example: 2
- *                 HumanResources:
- *                   type: integer
- *                   description: The number of open positions in the Human Resources category.
- *                   example: 4
  *       404:
  *         description: Job board data not found.
  *       500:
@@ -1582,15 +1624,14 @@ app.get('/jobboard', async (req, res) => {
       return res.status(404).send("Job board data not found");
     }
 
-    // Return only the relevant fields
-    const { Technology, SalesMarketing, Operations, HumanResources } = jobBoard;
-    res.json({ Technology, SalesMarketing, Operations, HumanResources });
+    // // Return only the relevant fields
+    // const { Technology, SalesMarketing, Operations, HumanResources } = jobBoard;
+    res.json({jobBoard});
   } catch (error) {
     console.error("Error fetching job board data:", error);
     res.status(500).send("Error fetching job board data");
   }
 });
-
 /**
  * @swagger
  * /analytics:
@@ -1605,67 +1646,69 @@ app.get('/jobboard', async (req, res) => {
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 totalVisits:
- *                   type: integer
- *                   description: The total number of visits on the website.
- *                   example: 5000
- *                 uniqueVisitors:
- *                   type: integer
- *                   description: The number of unique visitors based on visitor IDs.
- *                   example: 4500
- *                 pageViews:
- *                   type: integer
- *                   description: The total page views on the website.
- *                   example: 5000
- *                 bounceRate:
- *                   type: string
- *                   description: The percentage of visits where users left without interacting further.
- *                   example: "30.5"
- *                 topPages:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       _id:
- *                         type: string
- *                         description: The page path.
- *                         example: "/home"
- *                       views:
- *                         type: integer
- *                         description: The total number of views for the page.
- *                         example: 1000
- *                       avgTime:
- *                         type: string
- *                         description: The average time spent on the page (in seconds).
- *                         example: "15.32"
- *                 trafficOverTime:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       month:
- *                         type: string
- *                         description: The month for which the traffic is calculated (in YYYY-MM format).
- *                         example: "2024-06"
- *                       count:
- *                         type: integer
- *                         description: The total count of pageviews in the specified month.
- *                         example: 800
- *                 trafficSources:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       _id:
- *                         type: string
- *                         description: The source of the traffic (e.g., direct, referral, search engine).
- *                         example: "google"
- *                       count:
- *                         type: integer
- *                         description: The number of visits from that source.
- *                         example: 1200
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   totalVisits:
+ *                     type: integer
+ *                     description: The total number of visits on the website.
+ *                     example: 5000
+ *                   uniqueVisitors:
+ *                     type: integer
+ *                     description: The number of unique visitors based on visitor IDs.
+ *                     example: 4500
+ *                   pageViews:
+ *                     type: integer
+ *                     description: The total page views on the website.
+ *                     example: 5000
+ *                   bounceRate:
+ *                     type: string
+ *                     description: The percentage of visits where users left without interacting further.
+ *                     example: "30.5"
+ *                   topPages:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         _id:
+ *                           type: string
+ *                           description: The page path.
+ *                           example: "/home"
+ *                         views:
+ *                           type: integer
+ *                           description: The total number of views for the page.
+ *                           example: 1000
+ *                         avgTime:
+ *                           type: string
+ *                           description: The average time spent on the page (in seconds).
+ *                           example: "15.32"
+ *                   trafficOverTime:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         month:
+ *                           type: string
+ *                           description: The month for which the traffic is calculated (in YYYY-MM format).
+ *                           example: "2024-06"
+ *                         count:
+ *                           type: integer
+ *                           description: The total count of pageviews in the specified month.
+ *                           example: 800
+ *                   trafficSources:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         _id:
+ *                           type: string
+ *                           description: The source of the traffic (e.g., direct, referral, search engine).
+ *                           example: "google"
+ *                         count:
+ *                           type: integer
+ *                           description: The number of visits from that source.
+ *                           example: 1200
  *       500:
  *         description: Internal server error while fetching analytics data.
  */
@@ -1726,7 +1769,9 @@ app.get('/analytics', async (req, res) => {
 });
 
 
-
+app.get('*', (req, res) => {
+  res.status(404).send('404 - Page Not Found');
+});
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

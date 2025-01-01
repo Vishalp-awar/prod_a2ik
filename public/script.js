@@ -1,25 +1,3 @@
-// const hamburger = document.getElementById('hamburger');
-// const navLinks = document.getElementById('nav-links');
-
-// hamburger.addEventListener('click', () => {
-//   console.log('Nav Button clicked');
-//   navLinks.classList.toggle('active');
-// });
-// const hamburger = document.getElementById('hamburger');
-// const navLinks = document.getElementById('nav-links');
-
-// hamburger.addEventListener('click', () => {
-//     console.log('Nav Button clicked');
-//     navLinks.classList.toggle('active');
-//     console.log(navLinks.classList); // Debugging line
-// });
-// const hamburger = document.getElementById('hamburger');
-// const navLinks = document.getElementById('nav-links');
-
-// hamburger.addEventListener('click', () => {
-// console.log('Hamburger clicked');
-// navLinks.classList.toggle('active');
-// });
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
 
@@ -27,89 +5,83 @@ hamburger.addEventListener('click', () => {
   hamburger.setAttribute('aria-expanded', !hamburger.getAttribute('aria-expanded') === 'true');
   navLinks.classList.toggle('active');
 });
-  
+const emaildata = {};
 
-document.addEventListener("DOMContentLoaded", () => {
-  AOS.init();
-  emailjs.init("rkpynpwmbwkXF7tyZ"); // Replace with your actual public key
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    // Fetch email data
+    await fetch('/api/emailjs')
+      .then(response => response.json())
+      .then(data => {
+        emaildata.EMAILJS_PUBLIC_KEY = data.EMAILJS_PUBLIC_KEY;
+        emaildata.EMAILJS_SERVICE_ID = data.EMAILJS_SERVICE_ID;
+        emaildata.EMAILJS_TEMPLATE_ID = data.EMAILJS_TEMPLATE_ID;
+
+      })
+      .catch(error => {
+        console.error('Error fetching email data:', error);
+        throw new Error('Failed to initialize email data.');
+      });
+
+    // Initialize AOS and EmailJS after fetching data
+    AOS.init();
+    emailjs.init(emaildata.EMAILJS_PUBLIC_KEY); // Now the key is available
+  } catch (error) {
+    console.error('Initialization failed:', error);
+  }
 });
 
-// show data
-function setCondition(condition) {
-  document
-    .querySelectorAll(".section")
-    .forEach((section) => section.classList.add("hidden"));
-  const targetSection = document.getElementById(condition);
-  targetSection.classList.remove("hidden");
+// Handle form submission
+document.getElementById("contact-form").addEventListener("submit", async function (event) {
+  event.preventDefault(); // Prevent default form submission
 
-  targetSection.scrollIntoView({
-    behavior: "smooth",
-    block: "start",
-  });
-}
+  // Get form values
+  const name = document.getElementById("namejs").value;
+  const email = document.getElementById("emailjs").value;
+  const message = document.getElementById("message").value;
 
-// send email
-(function () {
-  emailjs.init("rkpynpwmbwkXF7tyZ"); // Replace with your actual public key
-})();
-// Handle the form submission
-document
-  .getElementById("contact-form")
-  .addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission
-    // Get form values
-    var name = document.getElementById("namejs").value;
-    var email = document.getElementById("emailjs").value;
-    var message = document.getElementById("message").value;
+  // Prepare the data for EmailJS
+  const templateParams = {
+    from_name: name,
+    from_email: email,
+    message: message,
+  };
 
-    // Prepare the data to send to EmailJS
-    var templateParams = {
-      from_name: name,
-      from_email: email,
-      message: message,
-    };
+  console.log('Template parameters:', templateParams);
 
-    // Log the data to verify
-    console.log(templateParams);
-
+  try {
     // Send the email using EmailJS
-    emailjs.send("service_yvzqjh6", "template_xm45s8m", templateParams).then(
-      async function (response) {
-        console.log("Email sent successfully:", response);
-        const savetodb = await fetch('/contactus' , {
-          method: 'POST',
-          body: JSON.stringify({
-            from_name: name,
-            from_email: email,
-            message: message,
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        if(savetodb.ok){
-        document.getElementById("status").innerText =
-          "Your message has been sent successfully!";
-
-        // Reset form fields
-        document.getElementById("namejs").value = "";
-        document.getElementById("emailjs").value = "";
-        document.getElementById("message").value = "";
-        }else{
-          document.getElementById("status").style = "color: red; "
-          document.getElementById("status").innerText =
-          "Error sending mail!";
-
-        }
-      },
-      function (error) {
-        console.log("Error sending email:", error);
-        document.getElementById("status").style.color = "red";
-        document.getElementById("status").innerText =
-          "There was an error sending your message. Please try again later.";
-      }
+    const response = await emailjs.send(
+      emaildata.EMAILJS_SERVICE_ID,
+      emaildata.EMAILJS_TEMPLATE_ID,
+      templateParams
     );
-  });
+
+    console.log('Email sent successfully:', response);
+
+    // Save to the database
+    const savetodb = await fetch('/contactus', {
+      method: 'POST',
+      body: JSON.stringify(templateParams),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (savetodb.ok) {
+      document.getElementById("status").innerText =
+        "Your message has been sent successfully!";
+      document.getElementById("namejs").value = "";
+      document.getElementById("emailjs").value = "";
+      document.getElementById("message").value = "";
+    } else {
+      throw new Error('Failed to save message to database.');
+    }
+  } catch (error) {
+    console.error('Error sending email or saving to DB:', error);
+    document.getElementById("status").style.color = "red";
+    document.getElementById("status").innerText =
+      "There was an error sending your message. Please try again later.";
+  }
+});
 
 // async function fetchAndRenderResources() {
 //   try {
@@ -222,35 +194,33 @@ resourceForm.addEventListener("submit", async (event) => {
 // });
 
 
-// const applyjobForm = document.getElementById("applyjob");
-// if (applyjobForm) {
-// applyjobForm.addEventListener("submit", async (event) => {
-//   event.preventDefault(); // Prevents the form from submitting the usual way (which causes redirection)
+const applyjobForm = document.getElementById("applyjob");
+if (applyjobForm) {
+applyjobForm.addEventListener("submit", async (event) => {
+  event.preventDefault(); // Prevents the form from submitting the usual way (which causes redirection)
 
-//   const formData = new FormData(applyjobForm);
+  const formData = new FormData(applyjobForm);
   
-//   try {
-//     const response = await fetch("/applyjob", {
-//       method: "POST",
-//       body: formData, // Sending FormData directly to the server
-//     });
+  try {
+    const response = await fetch("/applyjob", {
+      method: "POST",
+      body: formData, // Sending FormData directly to the server
+    });
 
-//     if (response.ok) {
-//       console.log("Application submitted successfully");
-//       document.getElementById("apply-job").innerHTML = "<h3>Thank you for your application!</h3>";
+    if (response.ok) {
+    
+      alert("Application submitted successfully!");
+    } else {
+      alert("Failed to submit application");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while submitting the application");
+  }
 
-//       alert("Application submitted successfully!");
-//     } else {
-//       alert("Failed to submit application");
-//     }
-//   } catch (error) {
-//     console.error("Error:", error);
-//     alert("An error occurred while submitting the application");
-//   }
-
-//   applyjobForm.reset(); // Reset the form after submission
-// });
-// };
+  applyjobForm.reset(); // Reset the form after submission
+});
+};
 
 
 
