@@ -15,8 +15,16 @@
 5. Set up the environment variables:
     ```env
    PORT=3000
-   MONGO_URI=mongodb+srv://vishal2550:Vishal%402550@cluster0.6nnwe.mongodb.net/A2ik/analytics
-   DASHBOARD_PASSWORD=a2ik 
+   
+   MONGODB_URI=mongodb+srv://vishal2550:Vishal%402550@cluster0.6nnwe.mongodb.net/analytics
+
+   DASHBOARD_PASSWORD=a2ik
+
+   EMAILJS_PUBLIC_KEY=rkpynpwmbwkXF7tyZ
+
+   EMAILJS_SERVICE_ID=service_yvzqjh6
+
+   EMAILJS_TEMPLATE_ID=template_xm45s8m
 
 6. Start the development server:
     ```env
