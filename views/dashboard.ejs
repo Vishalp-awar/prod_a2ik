@@ -424,9 +424,9 @@
               <!-- Contact submission rows will be inserted here -->
               <% submissions.forEach(submission => { %>
                 <tr>
-                  <td><%= submission.from_name %></td>
-                  <td><%= submission.from_email %></td>
-                  <td><%= submission.message %></td>
+                  <td data-label="User Name :"><%= submission.from_name %></td>
+                  <td data-label="User Email :"><%= submission.from_email %></td>
+                  <td data-label="User Message :"><%= submission.message %></td>
                 </tr>
               <% }); %>
             </tbody>
@@ -1011,12 +1011,12 @@ function renderApplicants(applicants) {
       
       // Create table data cells for each applicant field
       row.innerHTML = `
-          <td>${applicant.fullname}</td>
-          <td>${applicant.email}</td>
-          <td>${applicant.phone}</td>
-          <td><a href="${applicant.resume}" target="_blank">View Resume</a></td>
-          <td>${applicant.coverletter}</td>
-          <td>${applicant.jobTitle}</td>
+          <td data-label="fullname :">${applicant.fullname}</td>
+          <td data-label="email :">${applicant.email}</td>
+          <td data-label="phone :">${applicant.phone}</td>
+          <td data-label="resume :"><a href="${applicant.resume}" target="_blank">View Resume</a></td>
+          <td data-label="coverletter :">${applicant.coverletter}</td>
+          <td data-label="jobTitle :">${applicant.jobTitle}</td>
       `;
       
       // Append the row to the table body
@@ -1054,9 +1054,9 @@ getApplicants();
         
               // Fill the row with data from the submission
               row.innerHTML = `
-                <td>${submission.from_name}</td>
-                <td>${submission.from_email}</td>
-                <td>${submission.message}</td>
+                <td >${submission.from_name}</td>
+                <td >${submission.from_email}</td>
+                <td >${submission.message}</td>
               `;
               
               // Append the row to the table body

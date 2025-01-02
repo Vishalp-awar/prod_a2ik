@@ -272,13 +272,15 @@
                 }
                 jobs.forEach((job) => {
                     const row = `
-                        <tr>
-                            <td>${job.jobTitle}</td>
-                            <td>${job.jobLocation}</td>
-                            <td>${job.jobExperiencelevel}</td>
-                            <td>${job.jobContractType}</td>
-                            <td><button class="apply-now-btn" data-job-id="${job._id}">Apply Now</button></td>
-                        </tr>`;
+                       <tr>
+    <td data-label="Job Title">${job.jobTitle}</td>
+    <td data-label="Location">${job.jobLocation}</td>
+    <td data-label="Experience Level">${job.jobExperiencelevel}</td>
+    <td data-label="Contract Type">${job.jobContractType}</td>
+    <td data-label="Action">
+      <button class="apply-now-btn" data-job-id="${job._id}">Apply Now</button>
+    </td>
+  </tr>`;
                     jobsTableBody.insertAdjacentHTML("beforeend", row);
                 });
             }

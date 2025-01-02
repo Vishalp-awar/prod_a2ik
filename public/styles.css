@@ -2193,6 +2193,65 @@ align-items: center;
 }
 
 
+@media screen and (max-width: 768px) {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    display: block; /* Allow scrolling horizontally */
+  }
+
+  thead {
+    display: none; /* Hide headers for better mobile layout */
+  }
+
+  tbody {
+    display: block; /* Stack rows vertically */
+    width: 100%;
+  }
+
+  tr {
+    display: block; /* Stack each row */
+    border: 1px solid #ddd; /* Add borders for clarity */
+    margin-bottom: 10px; /* Spacing between rows */
+    background: #f9f9f9;
+  }
+
+  td {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    word-wrap: break-word; /* Break long words */
+  }
+
+  td::before {
+    content: attr(data-label); /* Use data-label attribute for context */
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #333;
+    margin-right: 10px;
+  }
+
+  td:last-child {
+    text-align: right; /* Align the button */
+  }
+
+  .apply-now-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .apply-now-btn:hover {
+    background-color: #0056b3;
+  }
+}
+
 /* Mobile view: Make table horizontal */
 @media (max-width: 768px) {
 table#topPages {
