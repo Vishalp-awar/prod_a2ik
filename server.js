@@ -80,9 +80,6 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
   
 
 const password = process.env.DASHBOARD_PASSWORD;
-const bcrypt = require('bcrypt');
-const fetch = require('node-fetch'); // Assuming you're using node-fetch
-const password = process.env.DASHBOARD_PASSWORD;
 
 app.get("/", async (req, res) => {
   try {
