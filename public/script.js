@@ -10,7 +10,7 @@ const emaildata = {};
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     // Fetch email data
-    await fetch('/api/emailjs')
+    await fetch('/emailjs')
       .then(response => response.json())
       .then(data => {
         emaildata.EMAILJS_PUBLIC_KEY = data.EMAILJS_PUBLIC_KEY;
@@ -47,7 +47,6 @@ document.getElementById("contact-form").addEventListener("submit", async functio
     message: message,
   };
 
-  console.log('Template parameters:', templateParams);
 
   try {
     // Send the email using EmailJS
@@ -57,7 +56,7 @@ document.getElementById("contact-form").addEventListener("submit", async functio
       templateParams
     );
 
-    console.log('Email sent successfully:', response);
+    
 
     // Save to the database
     const savetodb = await fetch('/contactus', {
@@ -83,47 +82,6 @@ document.getElementById("contact-form").addEventListener("submit", async functio
   }
 });
 
-// async function fetchAndRenderResources() {
-//   try {
-//     const response = await fetch("/resources");
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-//     const data = await response.json();
-
-//     // Ensure 'resources' is defined in the response
-//     if (!data.resources) {
-//       throw new Error("Invalid response format: missing resources");
-//     }
-
-//     console.log("Fetched resources:", data.resources);
-
-//     // Render the resources in your UI
-//     renderResources(data.resources); // Update this function to manipulate the DOM
-//   } catch (error) {
-//     console.error("Error fetching resources:", error);
-//   }
-// }
-
-// Example render function
-// function renderResources(resources) {
-//   const resourceContainer = document.getElementById("resourceContainer");
-//   resourceContainer.innerHTML = ""; // Clear previous entries
-
-//   resources.forEach((resource) => {
-//     const resourceElement = document.createElement("div");
-//     resourceElement.innerHTML = `
-//       <img src="${resource.image}" alt="${resource.alt}">
-//       <h3>${resource.title}</h3>
-//       <p>${resource.tag}</p>
-//       <a href="${resource.link}">Learn more</a>
-//     `;
-//     resourceContainer.appendChild(resourceElement);
-//   });
-// }
-
-// // Call the function to fetch and render resources
-// fetchAndRenderResources();
 
 const resourceForm = document.getElementById("resourceForm");
 const resourcesGrid = document.getElementById("resourcesGrid");
@@ -152,7 +110,7 @@ resourceForm.addEventListener("submit", async (event) => {
     });
 
     if (response.ok) {
-      console.log("Resource saved successfully");
+      // console.log("Resource saved successfully");
       // Handle successful response...
     } else {
       alert("Error saving the resource");
@@ -164,35 +122,6 @@ resourceForm.addEventListener("submit", async (event) => {
   // Clear the form
   resourceForm.reset();
 });
-
-
-
-// const applyjob = document.getElementById("applyjob");
-// applyjob.addEventListener("submit", async (event) => {
-//   event.preventDefault();
-
-//   const formData = new FormData(applyjob); // Collect form data
-
-//   try {
-//     const response = await fetch("/applyjob", {
-//       method: "POST",
-//       body: formData, // Send form data directly
-//     });
-
-//     if (response.ok) {
-//       console.log("Application submitted successfully");
-//       alert("Application submitted successfully!");
-//     } else {
-//       alert("Error submitting the application");
-//     }
-//   } catch (error) {
-//     console.error("Error:", error);
-//     alert("Error submitting the application");
-//   }
-
-//   applyjob.reset();
-// });
-
 
 const applyjobForm = document.getElementById("applyjob");
 if (applyjobForm) {
@@ -330,24 +259,8 @@ function showForm(formId) {
   }
 }
 
-// // Handle the form submission for updating positions
-// document
-//   .getElementById("update-positions-form")
-//   .addEventListener("submit", function (event) {
-//     event.preventDefault(); // Prevent the form from submitting normally
-
-//     const category = document.getElementById("category").value;
-//     const openPositions = document.getElementById("open-positions").value;
-
-//     if (category && openPositions !== "") {
-//       // Here, you would typically update the backend with the new positions
-//       alert(`Updated ${category} with ${openPositions} open positions.`);
-
-//       // Optionally, reset the form
-//       this.reset();
-//     }
-//   });
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", (event) => {
+  event.preventDefault()
   const updatePositionsForm = document.getElementById("update-positions-form");
 
   // Check if the form exists before attaching the event listener
@@ -366,8 +279,6 @@ document.addEventListener("DOMContentLoaded", () => {
         this.reset();
       }
     });
-  } else {
-    console.log("The form with id 'update-positions-form' was not found in the DOM.");
   }
 });
 
@@ -379,166 +290,3 @@ function showWebsiteAnalytics() {
 
 
 
-
-
-// document.querySelector('.btn-primary').addEventListener('click', () => {
-//   document.getElementById('job-description').style.display = 'none';
-//   document.getElementById('apply-job').style.display = 'block';
-// });
-
-// show apply job form
-// document.addEventListener("DOMContentLoaded", function() {
-//   const applyButton = document.querySelector(".btn.btn-primary");
-//   const applyForm = document.getElementById("apply-job");
-
-//   applyButton.addEventListener("click", function(event) {
-//       event.preventDefault(); // Prevent default anchor behavior
-//       applyForm.style.display = "block"; // Show the form
-//       applyForm.scrollIntoView({ behavior: "smooth" }); // Scroll to the form
-//       setTimeout(() => {
-//           showJobDescription.scrollIntoView({ behavior: "smooth", block: "start" });
-//       }, 50);
-//   });
-// });
-
-//       // need resource
-//       const resourcesData = [
-//         {
-//             image: "https://www.shutterstock.com/image-photo/authentication-by-facial-recognition-concept-260nw-1456783511.jpg",
-//             alt: "Data visualization",
-//             tag: "Brochure",
-//             title: "Transform Experience across Stakeholder Spectrum with Cognitive Prior Authorization",
-//             link: "#",
-//         },
-//         {
-//             image: "https://www.shutterstock.com/image-photo/ai-brain-motif-centered-on-600w-2500501245.jpg",
-//             alt: "Brain visualization",
-//             tag: "Brochure",
-//             title: "DeepInsights™ Model the World, Model the Mind",
-//             link: "#",
-//         },
-//         {
-//             image: "https://www.shutterstock.com/image-photo/technology-robot-robotic-engineering-connected-600w-1159539946.jpg",
-//             alt: "Technology interface",
-//             tag: "Brochure",
-//             title: "Next-Gen Data Services Discover 360-degree Value in the Data-to-Action Journey",
-//             link: "#",
-//         },
-//         {
-//           image: "https://www.shutterstock.com/image-photo/technology-robot-robotic-engineering-connected-600w-1159539946.jpg",
-//           alt: "Technology in  interface",
-//           tag: "Brochure",
-//           title: "Next-Gen Data Services Discover 360-degree Value in the Data-to-Action Journey",
-//           link: "#",
-//       },
-//     ];
-
-//       // resource
-//       const resourcesGrid = document.getElementById("resourcesGrid");
-
-// resourcesData.forEach((resource) => {
-//     const resourceCard = `
-//         <article class="resource-card" data-aos="fade-up" data-aos-offset="250" data-aos-easing="ease-in-sine">
-//             <div class="resource-card__image">
-//                 <img src="${resource.image}" alt="${resource.alt}">
-//                 <span class="resource-card__tag">${resource.tag}</span>
-//             </div>
-//             <div class="resource-card__content">
-//                 <h3 class="resource-card__title">${resource.title}</h3>
-//                 <a href="${resource.link}" class="resource-card__link">KNOW MORE</a>
-//             </div>
-//         </article>
-//     `;
-//     resourcesGrid.innerHTML += resourceCard;
-// });
-
-// const fetchAndRenderResources = async () => {
-//   try {
-//     const response = await fetch('http://localhost:3000/resources')
-//     .then((response) => response.json())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error('Error fetching resources:', error));
-
-//     if (data.success) { // Check the 'success' field
-//       const resourcesGrid = document.querySelector('.resources__grid');
-//       resourcesGrid.innerHTML = ''; // Clear existing content
-
-//       // Render each resource card
-//       data.resources.forEach((resource) => {
-//         const resourceCard = `
-//           <article class="resource-card" data-aos="fade-up" data-aos-offset="250" data-aos-easing="ease-in-sine">
-//             <div class="resource-card__image">
-//               <img src="${resource.image}" alt="${resource.alt}">
-//               <span class="resource-card__tag">${resource.tag}</span>
-//             </div>
-//             <div class="resource-card__content">
-//               <h3 class="resource-card__title">${resource.title}</h3>
-//               <a href="${resource.link}" class="resource-card__link">KNOW MORE</a>
-//             </div>
-//           </article>
-//         `;
-//         resourcesGrid.innerHTML += resourceCard;
-//       });
-//     } else {
-//       console.error('Failed to fetch resources:', data.message);
-//     }
-//   } catch (error) {
-//     console.error('Error fetching resources:', error);
-//   }
-// };
-
-// // Initial fetch
-// fetchAndRenderResources();
-
-// const resourcesData = [
-//   {
-//       image: "https://www.shutterstock.com/image-photo/authentication-by-facial-recognition-concept-260nw-1456783511.jpg",
-//       alt: "Data visualization",
-//       tag: "Brochure",
-//       title: "Transform Experience across Stakeholder Spectrum with Cognitive Prior Authorization",
-//       link: "#",
-//   },
-//   {
-//       image: "https://www.shutterstock.com/image-photo/ai-brain-motif-centered-on-600w-2500501245.jpg",
-//       alt: "Brain visualization",
-//       tag: "Brochure",
-//       title: "DeepInsights™ Model the World, Model the Mind",
-//       link: "#",
-//   },
-//   {
-//       image: "https://www.shutterstock.com/image-photo/technology-robot-robotic-engineering-connected-600w-1159539946.jpg",
-//       alt: "Technology interface",
-//       tag: "Brochure",
-//       title: "Next-Gen Data Services Discover 360-degree Value in the Data-to-Action Journey",
-//       link: "#",
-//   },
-//   {
-//       image: "https://www.shutterstock.com/image-photo/technology-robot-robotic-engineering-connected-600w-1159539946.jpg",
-//       alt: "Technology in interface",
-//       tag: "Brochure",
-//       title: "Next-Gen Data Services Discover 360-degree Value in the Data-to-Action Journey",
-//       link: "#",
-//   },
-// ];
-
-// // Function to render a single resource card
-// const renderResourceCard = (resource) => {
-//   const resourceCard = `
-//       <article class="resource-card" data-aos="fade-up" data-aos-offset="250" data-aos-easing="ease-in-sine">
-//           <div class="resource-card__image">
-//               <img src="${resource.image}" alt="${resource.alt}">
-//               <span class="resource-card__tag">${resource.tag}</span>
-//           </div>
-//           <div class="resource-card__content">
-//               <h3 class="resource-card__title">${resource.title}</h3>
-//               <a href="${resource.link}" class="resource-card__link">KNOW MORE</a>
-//           </div>
-//       </article>
-//   `;
-//   resourcesGrid.innerHTML += resourceCard; // Append new card
-// };
-
-// // Initially render all resources from resourcesData
-// resourcesData.forEach((resource) => {
-//   renderResourceCard(resource);
-// });

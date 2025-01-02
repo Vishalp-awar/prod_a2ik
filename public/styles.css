@@ -2732,3 +2732,57 @@ button[type="submit"]:hover {
 .hidden {
   display: none;
 }
+
+@media screen and (max-width: 768px) {
+  #loginformadmin {
+  
+    padding: 100px 20px; /* Reduce padding for smaller screens */
+    text-align: center; /* Keep content centered */
+  }
+
+  #loginformadmin h1 {
+    font-size: 20px; /* Adjust heading font size */
+    margin-bottom: 20px; /* Space between heading and form */
+  }
+
+  #loginformadmin form {
+    display: flex;
+    flex-direction: column; /* Stack form elements vertically */
+    align-items: center; /* Center-align form elements */
+  }
+
+  #loginformadmin label {
+    font-size: 16px; /* Adjust label font size */
+    margin-bottom: 10px; /* Add space below label */
+    text-align: left; /* Align text to the left */
+    width: 100%; /* Full width label */
+  }
+
+  #loginformadmin input[type="password"] {
+    width: 100%; /* Full width input */
+    max-width: 400px; /* Limit input width on larger devices */
+    padding: 10px; /* Add padding for comfort */
+    font-size: 16px; /* Adjust font size */
+    margin-bottom: 20px; /* Space below input */
+    border: 1px solid #ccc; /* Subtle border for clarity */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box; /* Ensure padding is included in width */
+  }
+
+  #loginformadmin button {
+    width: 100%; /* Full width button */
+    max-width: 400px; /* Limit button width */
+    padding: 10px; /* Comfortable button size */
+    font-size: 16px; /* Adjust font size */
+    background-color: #007bff; /* Blue background */
+    color: #fff; /* White text */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-transform: uppercase; /* Make text uppercase */
+  }
+
+  #loginformadmin button:hover {
+    background-color: #0056b3; /* Darker blue for hover state */
+  }
+}

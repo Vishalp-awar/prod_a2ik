@@ -37,8 +37,9 @@
         <li><a href="dashboard">Dashboard</a></li>
         <li><a href="careers">Careers</a></li>
         <li><a href="about">About</a></li>
-        <li><a href="contact">Contact</a></li>
         <li><a href="" id="logoutButton">Logout</a></li>
+        <li><a href="contact">Contact</a></li>
+  
 
       </ul>
     </nav>
@@ -409,7 +410,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="contactSubmissions" class="form-container" style="display: none;">
+        <div id="contactSubmissions" class="form-container3" style="display: none;">
           <h1>Contact Query</h1>
           <table id="contactSubmissionTable">
             <thead>
@@ -947,7 +948,7 @@ deletejobForm.addEventListener("submit", async (event) => {
     // Function to hide all forms
 function hideAllForms() {
   // Hide all forms by selecting them with querySelectorAll
-  document.querySelectorAll('.form-container, .form-container1, .job-posting-form, .update-positions-form').forEach((form) => {
+  document.querySelectorAll('.form-container, .form-container1,.form-container3, .job-posting-form, .update-positions-form').forEach((form) => {
     form.style.display = 'none';
   });
   document.getElementById('websiteAnalytics').style.display = 'none'; // Example of other hidden element

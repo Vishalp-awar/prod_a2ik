@@ -120,6 +120,7 @@ color: #0066cc;
       max-height: 0;
       overflow: hidden;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
   }
 
   .nav-links.active {
@@ -127,7 +128,8 @@ color: #0066cc;
   }
 
   .nav-links li {
-      margin: 10px 0;
+      margin: 5px 0;
+      font-size: 0.9rm;
       text-align: center;
   }
 }
@@ -662,20 +664,24 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 /* Mobile View Styles */
 @media screen and (max-width: 768px) {
   .dashboard {
+    
+    font-size: 0.8rem;
     display: flex;
     flex-direction: column;
   }
 
   .sidebar {
+    margin-top: 5px;
     width: 100%;
     padding: 10px 0;
     background-color: #2c3e50;
     text-align: center;
+    height: 42vh;
   }
 
   .sidebar h2.logo {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
   }
 
   .sidebar ul {
@@ -685,20 +691,20 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .sidebar ul li {
-    margin: 10px 0;
+    margin: 5px 0;
   }
 
   .sidebar ul li a {
     display: block;
-    padding: 10px;
-    font-size: 1rem;
+    padding: 5px;
+    font-size: 0.8rem;
     color: #ecf0f1;
     text-decoration: none;
   }
 
   .sidebar ul li a:hover {
     background-color: #34495e;
-    border-radius: 5px;
+    
   }
 
   .dashboard-content {
@@ -819,4 +825,67 @@ footer {
 
 #contactSubmissionTable th {
   background-color: #f2f2f2; /* Light grey for the header */
+}
+
+@media screen and (max-width: 768px) {
+  #applicantTable {
+    width: 100%; /* Ensure the table fits within the viewport */
+    overflow-x: auto; /* Add horizontal scrolling for smaller screens */
+    border-collapse: collapse; /* Adjust spacing for compact display */
+  }
+
+  #applicantTable thead {
+    display: none; /* Hide the header for mobile */
+  }
+
+  #applicantTable tbody tr {
+    display: block; /* Make rows block elements */
+    margin-bottom: 15px; /* Add spacing between rows */
+    border: 1px solid #ddd; /* Add a border for better separation */
+  }
+
+  #applicantTable tbody tr td {
+    display: block; /* Stack cells vertically */
+    text-align: left; /* Align text to the left */
+    padding: 10px; /* Add padding for better readability */
+    font-size: 14px; /* Adjust text size for smaller screens */
+  }
+
+  #applicantTable tbody tr td::before {
+    content: attr(data-label); /* Use the data-label attribute for context */
+    font-weight: bold; /* Highlight labels */
+    display: block; /* Make labels stand out */
+    margin-bottom: 5px; /* Add spacing between label and content */
+    color: #555; /* Style the label text */
+  }
+  #contactSubmissionTable {
+    width: 100%; /* Ensure the table fits within the viewport */
+    overflow-x: auto; /* Add horizontal scrolling for smaller screens */
+    border-collapse: collapse; /* Make table spacing compact */
+  }
+
+  #contactSubmissionTable thead {
+    display: none; /* Hide the table header for better mobile layout */
+  }
+
+  #contactSubmissionTable tbody tr {
+    display: block; /* Stack each row as a block */
+    margin-bottom: 15px; /* Add space between rows */
+    border: 1px solid #ddd; /* Add border for row separation */
+  }
+
+  #contactSubmissionTable tbody tr td {
+    display: block; /* Stack table cells vertically */
+    padding: 10px; /* Add padding for better readability */
+    font-size: 14px; /* Adjust text size for mobile */
+    text-align: left; /* Align text to the left */
+  }
+
+  #contactSubmissionTable tbody tr td::before {
+    content: attr(data-label); /* Display data-label as a pseudo-element */
+    font-weight: bold; /* Make labels stand out */
+    display: block; /* Stack label and data */
+    margin-bottom: 5px; /* Add space between label and data */
+    color: #555; /* Style the label text */
+  }
 }
