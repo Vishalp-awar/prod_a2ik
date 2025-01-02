@@ -4,7 +4,7 @@
    The following libraries are used in this project:
 
    1. bcrypt: For hashing passwords and securing sensitive data.
-   2. cloudinary: To handle image uploads and storage in the cloud.
+   2. cloudinary: To handle image,resume uploads and storage in the cloud.
    3. cors: Middleware for handling Cross-Origin Resource Sharing.
    4. dotenv: To manage environment variables securely.
    5. ejs: A templating engine for rendering dynamic HTML pages.
