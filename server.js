@@ -80,6 +80,10 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
   
 
 const password = process.env.DASHBOARD_PASSWORD;
+const bcrypt = require('bcrypt');
+const fetch = require('node-fetch'); // Assuming you're using node-fetch
+const password = process.env.DASHBOARD_PASSWORD;
+
 app.get("/", async (req, res) => {
   try {
     // Check if the admin password is already set
@@ -89,20 +93,13 @@ app.get("/", async (req, res) => {
 
     if (!existingAdmin) {
       // If no admin exists, hash the password and insert it into the database
-      const password = process.env.DASHBOARD_PASSWORD;
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-      bcrypt.hash(password, 10, async (err, hashedPassword) => {
-        if (err) {
-          console.error("Error hashing password:", err);
-        } else {
-          // Store hashed password in your database
-          await db.collection("admin").insertOne({
-            role: "admin",
-            password: hashedPassword,
-          });
-        }
+      // Store hashed password in your database
+      await db.collection("admin").insertOne({
+        role: "admin",
+        password: hashedPassword,
       });
-    } else {
     }
 
     // Fetch resources from the API
@@ -120,6 +117,7 @@ app.get("/", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 app.get("/web", ensureAuthenticated, async (req, res) => {
   try {
