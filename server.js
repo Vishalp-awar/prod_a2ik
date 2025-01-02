@@ -1,57 +1,367 @@
-require('dotenv').config(); // Load environment variables
-const express = require('express');
-const mongodb = require('mongodb');
-const cors = require('cors');
-const path = require('path');
+require("dotenv").config(); // Load environment variables
+const express = require("express");
+const mongodb = require("mongodb");
+const cors = require("cors");
+const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 const MongoClient = mongodb.MongoClient;
-const fileUpload = require('express-fileupload');
-const cloudinary = require('cloudinary').v2;
-const session = require('express-session');
-const bcrypt = require('bcrypt');
-const { ObjectId } = require('mongodb');
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const fileUpload = require("express-fileupload");
+const cloudinary = require("cloudinary").v2;
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
-app.use(fileUpload({
-  useTempFiles:true
-}))
+app.use(express.static("public"));
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 const swaggerOptions = {
   definition: {
-    openapi: '3.0.0',
+    openapi: "3.0.0",
     info: {
-      title: 'A2IK API',
-      version: '1.0.0',
-      description: 'API documentation for A2IK',
+      title: "A2IK API",
+      version: "1.0.0",
+      description: "API documentation for A2IK",
     },
     servers: [
       {
-        url: 'http://localhost:3000', // Base URL for your API
+        url: process.env.BASE_URL, // Base URL for your API
       },
     ],
   },
-  apis: [path.join(__dirname, 'server.js')], // Point to the current file for Swagger annotations
+  apis: [path.join(__dirname, "server.js")], // Point to the current file for Swagger annotations
 };
-
 
 app.use(express.urlencoded({ extended: true })); // Parses form data
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
 // Setup Swagger UI route
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(
   session({
-    secret: '67613fe1ca9cf7b5bebabf91', // Replace with a strong, unique key
+    secret: "67613fe1ca9cf7b5bebabf91", // Replace with a strong, unique key
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }, // Use secure: true in production with HTTPS
   })
 );
+
+
+cloudinary.config({
+  cloud_name: "dhyelfsdz",
+  api_key: "822689461397169",
+  api_secret: "efAL8AJ7noJPEAhKlDyKcFL3tiM",
+});
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+let db;
+
+MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
+  .then((client) => {
+    console.log("Connected to Database");
+    db = client.db("analytics");
+  })
+  .catch((error) => console.error(error));
+
+  const ensureAuthenticated = (req, res, next) => {
+    if (req.session && req.session.isAuthenticated) {
+      return next(); // Proceed if authenticated
+    }
+    res.redirect("/login"); // Redirect to login if not authenticated
+  };
+  
+
+const password = process.env.DASHBOARD_PASSWORD;
+app.get("/", async (req, res) => {
+  try {
+    // Check if the admin password is already set
+    const existingAdmin = await db
+      .collection("admin")
+      .findOne({ role: "admin" });
+
+    if (!existingAdmin) {
+      // If no admin exists, hash the password and insert it into the database
+      const password = process.env.DASHBOARD_PASSWORD;
+
+      bcrypt.hash(password, 10, async (err, hashedPassword) => {
+        if (err) {
+          console.error("Error hashing password:", err);
+        } else {
+          // Store hashed password in your database
+          await db.collection("admin").insertOne({
+            role: "admin",
+            password: hashedPassword,
+          });
+        }
+      });
+    } else {
+    }
+
+    // Fetch resources from the API
+    const response = await fetch(`${process.env.BASE_URL}/resources`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch resources: ${response.statusText}`);
+    }
+
+    const { resources } = await response.json();
+    res.render("index", {
+      resources,
+    });
+  } catch (error) {
+    console.error("Error fetching resources or processing password:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/web", ensureAuthenticated, async (req, res) => {
+  try {
+    const pageviews = await fetch(`${process.env.BASE_URL}/analytics`);
+    if (!pageviews.ok) {
+      throw new Error(`Failed to fetch resources: ${pageviews.statusText}`);
+    }
+    const data = await pageviews.json();
+
+    res.render("web", { data });
+  } catch (error) {
+    console.error("Error fetching analytics data:", error);
+    res
+      .status(500)
+      .render("error", { message: "Error fetching analytics data" });
+  }
+});
+app.get("/about", async (req, res) => {
+  res.render("about");
+});
+app.get("/contact", async (req, res) => {
+  res.render("contact");
+});
+app.get("/blog", async (req, res) => {
+  try {
+    const response = await fetch(`${process.env.BASE_URL}/resources`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch resources: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Validate the response structure
+    if (!data.success || !Array.isArray(data.resources)) {
+      throw new Error("Invalid resources data format");
+    }
+
+    const resources = data.resources.map((resource) => ({
+      ...resource,
+      _id: resource._id?.toString(), // Convert _id to string if needed
+    }));
+
+    res.render("blog", { resources });
+  } catch (error) {
+    console.error("Error fetching blog data:", error.message);
+    res.status(500).send("Error fetching blog data");
+  }
+});
+
+app.get("/login", (req, res) => {
+  res.render("login"); // Render the login form view
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { password } = req.body;
+
+    if (!password) {
+      return res.status(400).send("Password is required.");
+    }
+
+    // Retrieve the correct password from the database
+    const admin = await db.collection("admin").findOne({ role: "admin" });
+
+    // If no admin or password mismatch, respond with an error
+    if (!admin) {
+      return res.status(401).send("Invalid password.");
+    }
+
+    // Use bcrypt.compare to compare the stored hash with the provided password
+    const isMatch = await bcrypt.compare(password, admin.password);
+
+    if (!isMatch) {
+      return res.status(401).send("Invalid password.");
+    }
+
+    // Save the authenticated status in the session
+    req.session.isAuthenticated = true;
+
+    // Redirect to the dashboard
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Authentication error:", error);
+    res.status(500).send("Internal server error.");
+  }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+      return res.status(500).send("Unable to log out");
+    }
+    res.clearCookie("connect.sid"); // Clear the session cookie
+    res.redirect("/login"); // Redirect to login page
+  });
+});
+
+app.get("/dashboard", ensureAuthenticated, async (req, res) => {
+  try {
+    const iframeSrc = "/web";
+    // Fetch job data from the API
+    const responsejob = await fetch(`${process.env.BASE_URL}/addjob`);
+    if (!responsejob.ok) {
+      throw new Error(`Failed to fetch jobs: ${responsejob.statusText}`);
+    }
+
+    // Parse responsejob data
+    const datajob = await responsejob.json();
+
+    // Validate response structure
+    if (!datajob.success || !Array.isArray(datajob.jobs)) {
+      throw new Error("Invalid job datajob format");
+    }
+
+    // Transform job array
+    const job = datajob.jobs.map((job) => ({
+      ...job,
+      _id: job._id.toString(),
+    }));
+
+    const responseresources = await fetch(`${process.env.BASE_URL}/resources`);
+    if (!responseresources.ok) {
+      throw new Error(
+        `Failed to fetch resources: ${responseresources.statusText}`
+      );
+    }
+
+    const dataresources = await responseresources.json();
+
+    // Validate the responseresources structure
+    if (!dataresources.success || !Array.isArray(dataresources.resources)) {
+      throw new Error("Invalid resources data format");
+    }
+
+    const resource = dataresources.resources.map((resource) => ({
+      ...resource,
+      _id: resource._id?.toString(), // Convert _id to string if needed
+    }));
+
+    const responseJobBoards = await fetch(`${process.env.BASE_URL}/jobboard`);
+    if (!responseJobBoards.ok) {
+      throw new Error(
+        `Failed to fetch job boards: ${responseJobBoards.statusText}`
+      );
+    }
+
+    const dataJobBoards = await responseJobBoards.json();
+
+    // Validate the jobBoards structure
+    if (!dataJobBoards.success || !Array.isArray(dataJobBoards.jobBoard)) {
+      throw new Error("Invalid job boards data format");
+    }
+
+    // Access the jobBoard array and map the data
+    const jobboards = dataJobBoards.jobBoard.map((jobBoard) => ({
+      ...jobBoard,
+      _id: jobBoard._id?.toString(), // Convert _id to string if needed
+    }));
+
+    // Now you can use 'jobboards' in your application logic
+
+    const responseContactUs = await fetch(`${process.env.BASE_URL}/contactus`);
+    if (!responseContactUs.ok) {
+      throw new Error(
+        `Failed to fetch contact submissions: ${responseContactUs.statusText}`
+      );
+    }
+
+    const dataContactUs = await responseContactUs.json();
+
+    // Validate the structure of the contact submissions data
+    if (!dataContactUs.success || !Array.isArray(dataContactUs.submissions)) {
+      throw new Error("Invalid contact submissions data format");
+    }
+
+    // Map the submissions to ensure the correct data format if needed
+    const submissions = dataContactUs.submissions.map((submission) => ({
+      ...submission,
+      _id: submission._id?.toString(), // Convert _id to string if needed
+    }));
+    // Pass 'submissions' to the view
+    res.render("dashboard", {
+      iframeSrc,
+      job,
+      resource,
+      jobboards,
+      submissions,
+    });
+  } catch (error) {
+    console.error("Error loading dashboard:", error);
+    res.status(500).send("Error loading dashboard.");
+  }
+});
+
+app.get("/careers", async (req, res) => {
+  try {
+    // Fetch job board data from /jobboard API
+    const jobBoardResponse = await fetch(`${process.env.BASE_URL}/jobboard`);
+    if (!jobBoardResponse.ok) {
+      throw new Error(
+        `Failed to fetch job boards: ${jobBoardResponse.statusText}`
+      );
+    }
+    const jobBoardData = await jobBoardResponse.json();
+    if (!jobBoardData.success || !Array.isArray(jobBoardData.jobBoard)) {
+      throw new Error("Invalid job boards data format");
+    }
+    const jobBoard = jobBoardData.jobBoard;
+
+    // Fetch job data from /jobs API
+    const jobResponse = await fetch(`${process.env.BASE_URL}/addjob`);
+    if (!jobResponse.ok) {
+      throw new Error(`Failed to fetch jobs: ${jobResponse.statusText}`);
+    }
+    const jobData = await jobResponse.json();
+    if (!jobData.success || !Array.isArray(jobData.jobs)) {
+      throw new Error("Invalid jobs data format");
+    }
+    const job = jobData.jobs.map((job) => ({
+      ...job,
+      _id: job._id?.toString(), // Ensure _id is a string
+    }));
+
+    // Render careers page with fetched data
+    res.render("careers", {
+      jobBoard,
+      job,
+    });
+  } catch (error) {
+    console.error("Error fetching career data:", error);
+    res.status(500).send("Error fetching data: " + error.message);
+  }
+});
+
+app.get("/careers", (req, res) => {
+  res.render(path.join(__dirname, "/pages/careers.html"));
+});
+
+app.get("/dashboard", (req, res) => {
+  res.render(path.join(__dirname, "dashboard.html"));
+});
 
 /**
  * @swagger
@@ -94,130 +404,13 @@ app.use(
  *                   example: Internal Server Error
  */
 
-app.get('/api/emailjs', (req, res) => {
+app.get("/api/emailjs", (req, res) => {
   res.json({
     EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
     EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
-    EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY
+    EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
   });
 });
-
-
-cloudinary.config({ 
-  cloud_name: 'dhyelfsdz', 
-  api_key: '822689461397169', 
-  api_secret: 'efAL8AJ7noJPEAhKlDyKcFL3tiM'
-});
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); 
-
-let db;
-
-MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
-  .then(client => {
-    console.log('Connected to Database');
-    db = client.db('analytics');
-  })
-  .catch(error => console.error(error));
-
-// The plain-text password you want to hash
-const password = process.env.DASHBOARD_PASSWORD;
-app.get('/', async (req, res) => {
-  try {
-    // Check if the admin password is already set
-    const existingAdmin = await db.collection('admin').findOne({ role: 'admin' });
-
-    if (!existingAdmin) {
-      // If no admin exists, hash the password and insert it into the database
-      const password = process.env.DASHBOARD_PASSWORD;
-
-      bcrypt.hash(password, 10, async (err, hashedPassword) => {
-        if (err) {
-          console.error('Error hashing password:', err);
-        } else {
-         
-          // Store hashed password in your database
-          await db.collection('admin').insertOne({
-            role: 'admin',
-            password: hashedPassword
-          });
-        }
-      });
-    } else {
-    }
-
-         // Fetch resources from the API
-    //  const response = await fetch('http://localhost:3000/resources');
-    //  if (!response.ok) {
-    //    throw new Error(`Failed to fetch resources: ${response.statusText}`);
-    //  }
- 
-    //  const { resources } = await response.json();
-    //  console.log('Fetched resources:', resources);
-    // Render the page with the resources
-    // Fetch resources for the page
-    const resources = await db.collection('resources').find().toArray();
-
-    res.render('index', {
-      resources
-    });
-  } catch (error) {
-    console.error('Error fetching resources or processing password:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-
-// app.get('/form',(req,res) =>{
-//   res.render('form');
-// });
-
-// app.post('/applyjob', async (req, res) => {
-//   const resume = req.files?.resume;
-//   const { "full-name": fullname, email, phone, "cover-letter": coverletter } = req.body;
-
-
- 
-//   if (!resume) {
-//     return res.status(400).send('No resume file uploaded');
-//   }
-
-//   try {
-//     cloudinary.uploader.upload(
-//       resume.tempFilePath,
-//       { resource_type: 'raw' },
-//       async (err, result) => {
-//         if (err) {
-//           console.error("Error uploading file:", err);
-//           return res.status(500).send("Error uploading file");
-//         }
-
-//         const resumeUrl = result.secure_url;
-
-//         const data = {
-//           fullname,
-//           email,
-//           phone,
-//           resume: resumeUrl,
-//           coverletter,
-//         };
-
-//         try {
-//           await db.collection('applyjob').insertOne(data);
-//           res.status(201).send("Application submitted successfully");
-//         } catch (error) {
-//           console.error("Error inserting data:", error);
-//           res.status(500).send("Error inserting application data");
-//         }
-//       }
-//     );
-//   } catch (error) {
-//     console.error("Error occurred while saving form data:", error);
-//     res.status(500).send("Server error");
-//   }
-// });
-
-
 /**
  * @swagger
  * /applyjob:
@@ -266,17 +459,23 @@ app.get('/', async (req, res) => {
  *       500:
  *         description: Error uploading file or saving application data.
  */
-app.post('/applyjob', async (req, res) => {
+app.post("/applyjob", async (req, res) => {
   const resume = req.files?.resume;
-  const { "full-name": fullname, email, phone, "cover-letter": coverletter, "jobTitle": jobTitle } = req.body;
+  const {
+    "full-name": fullname,
+    email,
+    phone,
+    "cover-letter": coverletter,
+    jobTitle: jobTitle,
+  } = req.body;
   if (!resume) {
-    return res.status(400).send('No resume file uploaded');
+    return res.status(400).send("No resume file uploaded");
   }
 
   try {
     cloudinary.uploader.upload(
       resume.tempFilePath,
-      { resource_type: 'raw' },
+      { resource_type: "raw" },
       async (err, result) => {
         if (err) {
           console.error("Error uploading file:", err);
@@ -295,7 +494,7 @@ app.post('/applyjob', async (req, res) => {
         };
 
         try {
-          await db.collection('applyjob').insertOne(data);
+          await db.collection("applyjob").insertOne(data);
           res.status(201).send("Application submitted successfully");
         } catch (error) {
           console.error("Error inserting data:", error);
@@ -357,215 +556,15 @@ app.post('/applyjob', async (req, res) => {
  *       500:
  *         description: Error fetching job application data.
  */
-app.get('/applyjob', async (req, res) => {
+app.get("/applyjob", async (req, res) => {
   try {
-    const applyjob = await db.collection('applyjob').find().toArray();
+    const applyjob = await db.collection("applyjob").find().toArray();
     res.status(200).send(applyjob);
   } catch (error) {
-    console.error('Error fetching applyjob data:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error fetching applyjob data:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
-
-const ensureAuthenticated = (req, res, next) => {
-  if (req.session && req.session.isAuthenticated) {
-    return next(); // Proceed if authenticated
-  }
-  res.redirect('/login'); // Redirect to login if not authenticated
-};
-
-
-app.get('/web', ensureAuthenticated, async (req, res) => 
-  {
-  // This is where you would normally fetch data from your database or API
-  try {
-    const pageviews = await db.collection('pageviews').find().toArray();
-    const totalVisits = pageviews.length;
-    const uniqueVisitors = new Set(pageviews.map(pv => pv.visitorId)).size;
-    const pageViews = totalVisits;
-    const bounceRate = (pageviews.filter(pv => pv.bounced).length / totalVisits * 100).toFixed(1);
-
-    const topPages = await db.collection('pageviews').aggregate([
-      { $group: { 
-        _id: '$path', 
-        views: { $sum: 1 },
-        avgTime: { $avg: '$timeOnPage' }
-      }},
-      { $sort: { views: -1 } },
-      { $limit: 5 }
-    ]).toArray();
-
-    topPages.forEach(page => {
-      page.avgTime = (page.avgTime / 1000).toFixed(2); 
-    });
-
-    const last6Months = Array.from({length: 6}, (_, i) => {
-      const d = new Date();
-      d.setMonth(d.getMonth() - i);
-      return d.toISOString().slice(0, 7);
-    }).reverse();
-
-    const trafficOverTime = await Promise.all(last6Months.map(async (month) => {
-      const count = await db.collection('pageviews').countDocuments({
-        timestamp: { $regex: `^${month}` }
-      });
-      return { month, count };
-    }));
-    
-    const trafficSources = await db.collection('pageviews').aggregate([
-      { $group: { _id: '$source', count: { $sum: 1 } } },
-      { $sort: { count: -1 } },
-      { $limit: 4 }
-    ]).toArray();
-
-    const data = {
-      totalVisits,
-      uniqueVisitors,
-      pageViews,
-      bounceRate,
-      topPages,
-      trafficOverTime,
-      trafficSources
-    };
-
-    res.render('web', { data });
-  } catch (error) {
-    console.error('Error fetching analytics data:', error);
-    res.status(500).render('error', { message: 'Error fetching analytics data' });
-  }
-});
-app.get('/about', async (req, res) => {
-
-  res.render('about');
- 
-});
-app.get('/contact', async (req, res) => {
-
-  res.render('contact');
- 
-});
-app.get('/blog', async (req, res) => {
-  const resources  = await db.collection('resources').find().toArray();
-  res.render('blog',{resources });
- 
-});
-
-app.get('/login', (req, res) => {
-  res.render('login'); // Render the login form view
-});
-
-app.post('/login', async (req, res) => {
-  try {
-    const { password } = req.body;
-    console.log("Received form data:", req.body); // Debug log
-
-    if (!password) {
-      return res.status(400).send("Password is required.");
-    }
-
-    // Retrieve the correct password from the database
-    const admin = await db.collection("admin").findOne({ role: "admin" });
-    
-    // If no admin or password mismatch, respond with an error
-    if (!admin) {
-      return res.status(401).send("Invalid password.");
-    }
-
-    // Use bcrypt.compare to compare the stored hash with the provided password
-    const isMatch = await bcrypt.compare(password, admin.password);
-
-    if (!isMatch) {
-      return res.status(401).send("Invalid password.");
-    }
-
-    // Save the authenticated status in the session
-    req.session.isAuthenticated = true;
-
-    // Redirect to the dashboard
-    res.redirect('/dashboard');
-  } catch (error) {
-    console.error("Authentication error:", error);
-    res.status(500).send("Internal server error.");
-  }
-});
-
-
-
-
-app.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Error destroying session:', err);
-      return res.status(500).send('Unable to log out');
-    }
-    res.clearCookie('connect.sid'); // Clear the session cookie
-    res.redirect('/login'); // Redirect to login page
-  });
-});
-
-app.get('/dashboard', ensureAuthenticated, async (req, res) => {
-  try {
-    const iframeSrc = '/web';
-    const job = await db.collection("jobs")
-      .find()
-      .map((job) => ({
-        ...job,
-        _id: job._id.toString(),
-      }))
-      .toArray();
-
-    const resource = await db.collection('resources').find().toArray();
-    const jobboards = await db.collection('jobboards').find().toArray();
-    const submissions = await db.collection('contactus').find().toArray(); // Ensure this line is correct
-
-    // Pass 'submissions' to the view
-    res.render('dashboard', { iframeSrc, job, resource, jobboards, submissions });
-  } catch (error) {
-    console.error("Error loading dashboard:", error);
-    res.status(500).send("Error loading dashboard.");
-  }
-});
-
-app.get('/careers', async (req, res) => {
-  try {
-    const jobBoard = await db.collection('jobboards').find().toArray();
-    console.log(jobBoard);
-    if (!jobBoard) {
-      return res.status(404).send('Job board not found');
-    }
-
-    const job = await db
-    .collection("jobs")
-    .find()
-    .map((job) => ({
-      ...job,
-      _id: job._id.toString(), 
-    }))
-    .toArray();
-     
-
-
-    res.render('careers', {
-      jobBoard, job 
-    });
-  } catch (error) {
-    console.error('Error fetching job board data:', error);
-    res.status(500).send('Error fetching data: ' + error.message);
-  }
-});
-
-
-
-app.get('/careers', (req, res) => {
-  res.render(path.join(__dirname, '/pages/careers.html'));
-});
-
-
-app.get('/dashboard', (req, res) => {
-  res.render(path.join(__dirname, 'dashboard.html'));
-});
-
-
 
 /**
  * @swagger
@@ -614,14 +613,17 @@ app.get('/dashboard', (req, res) => {
  *       500:
  *         description: Error saving analytics data.
  */
-app.post('/analytics', async (req, res) => {
+app.post("/analytics", async (req, res) => {
   try {
-    const { path, timestamp, visitorId, timeOnPage, bounced,source } = req.body;
-    await db.collection('pageviews').insertOne({ path, timestamp, visitorId, timeOnPage, bounced,source});
-    res.status(201).send('Analytics data received');
+    const { path, timestamp, visitorId, timeOnPage, bounced, source } =
+      req.body;
+    await db
+      .collection("pageviews")
+      .insertOne({ path, timestamp, visitorId, timeOnPage, bounced, source });
+    res.status(201).send("Analytics data received");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error saving analytics data');
+    res.status(500).send("Error saving analytics data");
   }
 });
 
@@ -659,14 +661,16 @@ app.post('/analytics', async (req, res) => {
  *       500:
  *         description: Error saving contact form data.
  */
-app.post('/contactus', async (req, res) => {
+app.post("/contactus", async (req, res) => {
   try {
-    const {from_name,from_email,message } = req.body;
-    await db.collection('contactus').insertOne({ from_name,from_email,message});
-    res.status(201).send('contactus data received');
+    const { from_name, from_email, message } = req.body;
+    await db
+      .collection("contactus")
+      .insertOne({ from_name, from_email, message });
+    res.status(201).send("contactus data received");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error saving contactus data');
+    res.status(500).send("Error saving contactus data");
   }
 });
 /**
@@ -706,18 +710,22 @@ app.post('/contactus', async (req, res) => {
  *       500:
  *         description: Error fetching contact form data.
  */
-app.get('/contactus', async (req, res) => {
+app.get("/contactus", async (req, res) => {
   try {
-    const submissions = await db.collection('contactus').find().toArray();
-    console.log(submissions);  // Log the data to verify it's coming from the database
-    res.status(200).json(submissions);
+    const submissions = await db.collection("contactus").find().toArray();
+    if (submissions.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No contact submissions found" });
+    }
+    res.status(200).json({ success: true, submissions });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error fetching contactus data');
+    console.error("Error fetching contact us data:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Error fetching contactus data" });
   }
 });
-
-
 
 /**
  * @swagger
@@ -762,45 +770,43 @@ app.get('/contactus', async (req, res) => {
  *       500:
  *         description: Error saving resource data.
  */
-app.post('/resources', async (req, res) => {
+app.post("/resources", async (req, res) => {
   try {
     // Ensure the file is available
     const file = req.files?.image;
     if (!file) {
-      return res.status(400).send('Image file is required');
+      return res.status(400).send("Image file is required");
     }
 
     // Upload the image to Cloudinary
     cloudinary.uploader.upload(file.tempFilePath, async (err, uploadResult) => {
       if (err) {
-        console.error('Error uploading image:', err);
-        return res.status(500).send('Error uploading image: ' + err.message);
+        console.error("Error uploading image:", err);
+        return res.status(500).send("Error uploading image: " + err.message);
       }
 
-      console.log('Received resource data:', req.body);
       const { alt, tag, title, link } = req.body;
 
       // Validate required fields (excluding `image` as it’s uploaded)
       if (!alt || !tag || !title || !link) {
-        console.log('Missing required fields:', { alt, tag, title, link });
-        return res.status(400).send('Missing required fields');
+        console.log("Missing required fields:", { alt, tag, title, link });
+        return res.status(400).send("Missing required fields");
       }
 
       // Save to the database
-      const dbResult = await db.collection('resources').insertOne({
+      const dbResult = await db.collection("resources").insertOne({
         image: uploadResult.url, // Use the Cloudinary URL
         alt,
         tag,
         title,
-        link: link || 'blog',
+        link: link || "blog",
       });
 
-      console.log('Inserted resource:', dbResult.insertedId);
-      res.status(201).send('Resource added successfully');
+      res.status(201).send("Resource added successfully");
     });
   } catch (error) {
-    console.error('Error saving resource:', error);
-    res.status(500).send('Error saving resource: ' + error.message);
+    console.error("Error saving resource:", error);
+    res.status(500).send("Error saving resource: " + error.message);
   }
 });
 /**
@@ -844,31 +850,19 @@ app.post('/resources', async (req, res) => {
  *       500:
  *         description: Error retrieving resources.
  */
-// app.get('/resources', async (req, res) => {
-//   console.log('GET /resources hit'); // Log to confirm the route is accessed
-//   try {
-//     const resources = await db.collection('resources').find().toArray();
-//     console.log('Resources fetched:', resources); // Log the fetched resources
-//     res.json({ success: true, resources }); // Send response as JSON
-//   } catch (error) {
-//     console.error('Error fetching resources:', error);
-//     res.status(500).json({ success: false, message: 'Error fetching resources' });
-//   }
-// });
-
-// Resources API Endpoint
-app.get('/resources', async (req, res) => {
-  console.log('GET /resources hit');
+app.get("/resources", async (req, res) => {
+  
   try {
-    const resources = await db.collection('resources').find().toArray();
-    console.log('Resources fetched:', resources);
+    const resources = await db.collection("resources").find().toArray();
+   
     res.json({ success: true, resources }); // Send response as JSON
   } catch (error) {
-    console.error('Error fetching resources:', error);
-    res.status(500).json({ success: false, message: 'Error fetching resources' });
+    console.error("Error fetching resources:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Error fetching resources" });
   }
 });
-
 
 /**
  * @swagger
@@ -921,48 +915,48 @@ app.get('/resources', async (req, res) => {
  *       500:
  *         description: Error updating resource.
  */
-app.put('/resources',async (req , res) => {
+app.put("/resources", async (req, res) => {
   try {
     const { resourceId, alt, tag, title, link } = req.body;
     const file = req.files?.image;
     if (!file) {
-      return res.status(400).send('Image file is required');
+      return res.status(400).send("Image file is required");
     }
 
     // Upload the image to Cloudinary
     cloudinary.uploader.upload(file.tempFilePath, async (err, uploadResult) => {
       if (err) {
-        console.error('Error uploading image:', err);
-        return res.status(500).send('Error uploading image: ' + err.message);
+        console.error("Error uploading image:", err);
+        return res.status(500).send("Error uploading image: " + err.message);
       }
-      
+
       if (!resourceId) {
-        return res.status(400).send('Resource ID is required');
+        return res.status(400).send("Resource ID is required");
       }
-  
+
       const updateData = {};
       updateData.image = uploadResult.url;
-       if (alt) updateData.alt = alt;
-       if (tag) updateData.tag = tag;
-       if (title) updateData.title = title;
-       if (link) updateData.link = link;
-   
-       const result = await db.collection('resources').updateOne(
-         { _id: new mongodb.ObjectId(resourceId) },
-         { $set: updateData }
-       );
-   
-       if (result.matchedCount === 0) {
-         return res.status(404).send('Resource not found');
-       }
-   
-       res.status(200).send('Resource updated successfully');
+      if (alt) updateData.alt = alt;
+      if (tag) updateData.tag = tag;
+      if (title) updateData.title = title;
+      if (link) updateData.link = link;
+
+      const result = await db
+        .collection("resources")
+        .updateOne(
+          { _id: new mongodb.ObjectId(resourceId) },
+          { $set: updateData }
+        );
+
+      if (result.matchedCount === 0) {
+        return res.status(404).send("Resource not found");
+      }
+
+      res.status(200).send("Resource updated successfully");
     });
-   
-   
   } catch (error) {
-    console.error('Error updating resource:', error);
-    res.status(500).send('Error updating resource');
+    console.error("Error updating resource:", error);
+    res.status(500).send("Error updating resource");
   }
 });
 
@@ -998,7 +992,7 @@ app.put('/resources',async (req , res) => {
  */
 app.delete("/resources", async (req, res) => {
   try {
-    console.log("Request Body:", req.body); // Log incoming data
+  
 
     const { resourceId } = req.body;
 
@@ -1006,7 +1000,9 @@ app.delete("/resources", async (req, res) => {
       return res.status(400).send("Resource ID is required");
     }
 
-    const result = await db.collection("resources").deleteOne({ _id: new mongodb.ObjectId(resourceId) });
+    const result = await db
+      .collection("resources")
+      .deleteOne({ _id: new mongodb.ObjectId(resourceId) });
 
     if (result.deletedCount === 0) {
       return res.status(404).send("Resource not found");
@@ -1071,22 +1067,54 @@ app.delete("/resources", async (req, res) => {
  *       500:
  *         description: Error saving job.
  */
-app.post('/addjob', async (req, res) => {
+app.post("/addjob", async (req, res) => {
   try {
-    console.log('Received job data:', req.body);
-    const { jobTitle, jobLocation, jobAbout, jobResponsibilities, jobRequirements,jobExperiencelevel,jobContractType } = req.body;
-    
-    if (!jobTitle || !jobLocation || !jobAbout || !jobResponsibilities || !jobRequirements || !jobExperiencelevel || !jobContractType ) {
-      console.log('Missing required fields:', { jobTitle, jobLocation, jobAbout, jobResponsibilities, jobRequirements, jobExperiencelevel,jobContractType });
-      return res.status(400).send('Missing required fields');
+   
+    const {
+      jobTitle,
+      jobLocation,
+      jobAbout,
+      jobResponsibilities,
+      jobRequirements,
+      jobExperiencelevel,
+      jobContractType,
+    } = req.body;
+
+    if (
+      !jobTitle ||
+      !jobLocation ||
+      !jobAbout ||
+      !jobResponsibilities ||
+      !jobRequirements ||
+      !jobExperiencelevel ||
+      !jobContractType
+    ) {
+      console.log("Missing required fields:", {
+        jobTitle,
+        jobLocation,
+        jobAbout,
+        jobResponsibilities,
+        jobRequirements,
+        jobExperiencelevel,
+        jobContractType,
+      });
+      return res.status(400).send("Missing required fields");
     }
+
+    const result = await db.collection("jobs").insertOne({
+      jobTitle,
+      jobLocation,
+      jobAbout,
+      jobResponsibilities,
+      jobRequirements,
+      jobExperiencelevel,
+      jobContractType,
+    });
     
-    const result = await db.collection('jobs').insertOne({ jobTitle, jobLocation, jobAbout, jobResponsibilities, jobRequirements,jobExperiencelevel,jobContractType  });
-    console.log('Inserted job:', result.insertedId);
-    res.status(201).send('Job added successfully');
+    res.status(201).send("Job added successfully");
   } catch (error) {
-    console.error('Error saving job:', error);
-    res.status(500).send('Error saving job: ' + error.message);
+    console.error("Error saving job:", error);
+    res.status(500).send("Error saving job: " + error.message);
   }
 });
 
@@ -1146,21 +1174,21 @@ app.post('/addjob', async (req, res) => {
  *       500:
  *         description: Error fetching jobs.
  */
-app.get('/addjob', async (req, res) => {
+app.get("/addjob", async (req, res) => {
   try {
-   const jobs = await db
-  .collection("jobs")
-  .find()
-  .map((job) => ({
-    ...job,
-    _id: job._id.toString(),
-  }))
-  .toArray();
-  console.log(jobs);
+    const jobs = await db
+      .collection("jobs")
+      .find()
+      .map((job) => ({
+        ...job,
+        _id: job._id.toString(),
+      }))
+      .toArray();
+   
     res.json({ success: true, jobs });
   } catch (error) {
-    console.error('Error fetching jobs:', error);
-    res.status(500).json({ success: false, message: 'Error fetching jobs' });
+    console.error("Error fetching jobs:", error);
+    res.status(500).json({ success: false, message: "Error fetching jobs" });
   }
 });
 
@@ -1218,53 +1246,10 @@ app.get('/addjob', async (req, res) => {
  *       500:
  *         description: Error updating the job.
  */
-
-// Update Job Endpoint
-// app.put('/addjob', async (req, res) => {
-//   try {
-//     const {
-//       jobTitle,
-//       jobLocation,
-//       jobAbout,
-//       jobResponsibilities,
-//       jobRequirements,
-//       jobExperiencelevel,
-//       jobContractType,
-//     } = req.body;
-
-//     // Ensure the `jobTitle` (or equivalent ID) is provided for identification
-//     if (!jobTitle) {
-//       return res.status(400).send('Job title or ID is required to update a job.');
-//     }
-
-//     console.log(jobTitle);
-//     const updateData = {};
-//     if (jobLocation) updateData.jobLocation = jobLocation;
-//     if (jobAbout) updateData.jobAbout = jobAbout;
-//     if (jobResponsibilities) updateData.jobResponsibilities = jobResponsibilities;
-//     if (jobRequirements) updateData.jobRequirements = jobRequirements;
-//     if (jobExperiencelevel) updateData.jobExperiencelevel = jobExperiencelevel;
-//     if (jobContractType) updateData.jobContractType = jobContractType;
-
-//     const result = await db.collection('jobs').updateOne(
-//       { _id: new mongodb.ObjectId(jobTitle) }, // Replace `jobTitle` with `_id` as it should be the unique identifier
-//       { $set: updateData }
-//     );
-
-//     if (result.matchedCount === 0) {
-//       return res.status(404).send('Job not found.');
-//     }
-
-//     res.status(200).send('Job updated successfully.');
-//   } catch (error) {
-//     console.error('Error updating job:', error);
-//     res.status(500).send('Error updating job.');
-//   }
-// });
-app.put('/addjob', async (req, res) => {
+app.put("/addjob", async (req, res) => {
   try {
     const {
-      jobTitle,  // Job title that needs to be matched
+      jobTitle, // Job title that needs to be matched
       jobLocation,
       jobAbout,
       jobResponsibilities,
@@ -1275,36 +1260,37 @@ app.put('/addjob', async (req, res) => {
 
     // Ensure the `jobTitle` is provided for identification
     if (!jobTitle) {
-      return res.status(400).send('Job title is required to update a job.');
+      return res.status(400).send("Job title is required to update a job.");
     }
 
-    console.log('Updating job with title:', jobTitle);
+    
 
     // Prepare the update data
     const updateData = {};
     if (jobLocation) updateData.jobLocation = jobLocation;
     if (jobAbout) updateData.jobAbout = jobAbout;
-    if (jobResponsibilities) updateData.jobResponsibilities = jobResponsibilities;
+    if (jobResponsibilities)
+      updateData.jobResponsibilities = jobResponsibilities;
     if (jobRequirements) updateData.jobRequirements = jobRequirements;
     if (jobExperiencelevel) updateData.jobExperiencelevel = jobExperiencelevel;
     if (jobContractType) updateData.jobContractType = jobContractType;
 
     // Perform the update using the jobTitle to find the correct job
-    const result = await db.collection('jobs').updateOne(
-      { jobTitle: jobTitle },  // Matching by jobTitle instead of _id
+    const result = await db.collection("jobs").updateOne(
+      { jobTitle: jobTitle }, // Matching by jobTitle instead of _id
       { $set: updateData }
     );
 
     // If no job matches, return 404
     if (result.matchedCount === 0) {
-      return res.status(404).send('Job not found.');
+      return res.status(404).send("Job not found.");
     }
 
     // Send success response
-    res.status(200).send('Job updated successfully.');
+    res.status(200).send("Job updated successfully.");
   } catch (error) {
-    console.error('Error updating job:', error);
-    res.status(500).send('Error updating job.');
+    console.error("Error updating job:", error);
+    res.status(500).send("Error updating job.");
   }
 });
 
@@ -1339,7 +1325,7 @@ app.put('/addjob', async (req, res) => {
  *         description: Error deleting the job.
  */
 
-app.delete('/addjob', async (req, res) => {
+app.delete("/addjob", async (req, res) => {
   try {
     const { jobTitle } = req.body;
 
@@ -1348,7 +1334,9 @@ app.delete('/addjob', async (req, res) => {
     }
 
     // Assuming your MongoDB connection is set up
-    const result = await db.collection('jobs').deleteOne({ jobTitle: jobTitle });
+    const result = await db
+      .collection("jobs")
+      .deleteOne({ jobTitle: jobTitle });
 
     if (result.deletedCount === 0) {
       return res.status(404).send("Job not found");
@@ -1360,50 +1348,6 @@ app.delete('/addjob', async (req, res) => {
     res.status(500).send("Error deleting job");
   }
 });
-
-
-
-// app.post('/jobboard', async (req, res) => {
-//   try {
-//     const { category, openPositions } = req.body;
-
-//     if (!category || openPositions === undefined) {
-//       return res.status(400).send('Missing required fields: category or openPositions');
-//     }
-
-//     // Map form categories to database fields
-//     const categoryMapping = {
-//       technology: 'Technology',
-//       'sales-marketing': 'SalesMarketing',
-//       operations: 'Operations',
-//       'human-resources': 'HumanResources',
-//     };
-
-//     const fieldToUpdate = categoryMapping[category];
-//     if (!fieldToUpdate) {
-//       return res.status(400).send('Invalid category');
-//     }
-
-//     const positions = parseInt(openPositions, 10);
-//     if (isNaN(positions)) {
-//       return res.status(400).send('Invalid number for openPositions');
-//     }
-
-//     const result = await db.collection('jobboards').updateOne(
-//       { _id: new mongodb.ObjectId("67613fe1ca9cf7b5bebabf91") }, 
-//       { $set: { [fieldToUpdate]: positions } }
-//     );
-
-//     if (result.modifiedCount === 0) {
-//       return res.status(404).send('No document found to update');
-//     }
-
-//     res.status(200).send('Job board updated successfully');
-//   } catch (error) {
-//     console.error('Error updating job board:', error);
-//     res.status(500).send('Error updating job board: ' + error.message);
-//   }
-// });
 /**
  * @swagger
  * /jobboard:
@@ -1440,24 +1384,22 @@ app.delete('/addjob', async (req, res) => {
 app.post("/jobboard", async (req, res) => {
   try {
     const { category, openposition } = req.body; // Example: { "category": "design", "openPositions": 10 }
-    
-    console.log(category,openposition);
-    if (!category || openposition === undefined) {
-      return res.status(400).send("Missing required fields: category or openPositions");
-    }
 
    
+    if (!category || openposition === undefined) {
+      return res
+        .status(400)
+        .send("Missing required fields: category or openPositions");
+    }
 
     // Update the document dynamically
     const result = await db.collection("jobboards").insertOne(
-     {category ,openposition}// Dynamically sets "design": 10
+      { category, openposition } // Dynamically sets "design": 10
     );
 
-    if(result){
-
+    if (result) {
       res.status(200).send("Field added successfully");
     }
-
   } catch (error) {
     console.error("Error updating the document:", error);
     res.status(500).send("Error updating the document: " + error.message);
@@ -1503,13 +1445,17 @@ app.put("/jobboard", async (req, res) => {
     let { category, openposition } = req.body;
 
     if (!category || openposition === undefined) {
-      return res.status(400).send("Missing required fields: category or openposition");
+      return res
+        .status(400)
+        .send("Missing required fields: category or openposition");
     }
 
     // Ensure `openposition` is stored as a number
     openposition = Number(openposition);
     if (isNaN(openposition)) {
-      return res.status(400).send("Invalid value for openposition. Must be a number.");
+      return res
+        .status(400)
+        .send("Invalid value for openposition. Must be a number.");
     }
 
     const filter = { category: category };
@@ -1562,24 +1508,24 @@ app.put("/jobboard", async (req, res) => {
  *       500:
  *         description: Error deleting the job board.
  */
-app.delete('/jobboard', async (req, res) => {
+app.delete("/jobboard", async (req, res) => {
   const { category } = req.body; // Expect category as the identifier
 
   if (!category) {
-    return res.status(400).send('Category is required');
+    return res.status(400).send("Category is required");
   }
 
   try {
-    const result = await db.collection('jobboards').deleteOne({ category });
+    const result = await db.collection("jobboards").deleteOne({ category });
 
     if (result.deletedCount === 0) {
-      return res.status(404).send('Job board not found');
+      return res.status(404).send("Job board not found");
     }
 
-    res.status(200).send('Job board deleted successfully');
+    res.status(200).send("Job board deleted successfully");
   } catch (error) {
-    console.error('Error deleting job board:', error);
-    res.status(500).send('Error deleting job board: ' + error.message);
+    console.error("Error deleting job board:", error);
+    res.status(500).send("Error deleting job board: " + error.message);
   }
 });
 
@@ -1616,9 +1562,9 @@ app.delete('/jobboard', async (req, res) => {
  *       500:
  *         description: Error fetching job board data.
  */
-app.get('/jobboard', async (req, res) => {
+app.get("/jobboard", async (req, res) => {
   try {
-    const jobBoard = await db.collection('jobboards').find().toArray();
+    const jobBoard = await db.collection("jobboards").find().toArray();
 
     if (!jobBoard) {
       return res.status(404).send("Job board data not found");
@@ -1626,7 +1572,7 @@ app.get('/jobboard', async (req, res) => {
 
     // // Return only the relevant fields
     // const { Technology, SalesMarketing, Operations, HumanResources } = jobBoard;
-    res.json({jobBoard});
+    res.json({ success: true, jobBoard });
   } catch (error) {
     console.error("Error fetching job board data:", error);
     res.status(500).send("Error fetching job board data");
@@ -1712,46 +1658,59 @@ app.get('/jobboard', async (req, res) => {
  *       500:
  *         description: Internal server error while fetching analytics data.
  */
-app.get('/analytics', async (req, res) => {
+app.get("/analytics", async (req, res) => {
   try {
-    const pageviews = await db.collection('pageviews').find().toArray();
+    const pageviews = await db.collection("pageviews").find().toArray();
     const totalVisits = pageviews.length;
-    const uniqueVisitors = new Set(pageviews.map(pv => pv.visitorId)).size;
+    const uniqueVisitors = new Set(pageviews.map((pv) => pv.visitorId)).size;
     const pageViews = totalVisits;
-    const bounceRate = (pageviews.filter(pv => pv.bounced).length / totalVisits * 100).toFixed(1);
+    const bounceRate = (
+      (pageviews.filter((pv) => pv.bounced).length / totalVisits) *
+      100
+    ).toFixed(1);
 
-    const topPages = await db.collection('pageviews').aggregate([
-      { $group: { 
-        _id: '$path', 
-        views: { $sum: 1 },
-        avgTime: { $avg: '$timeOnPage' }
-      }},
-      { $sort: { views: -1 } },
-      { $limit: 5 }
-    ]).toArray();
+    const topPages = await db
+      .collection("pageviews")
+      .aggregate([
+        {
+          $group: {
+            _id: "$path",
+            views: { $sum: 1 },
+            avgTime: { $avg: "$timeOnPage" },
+          },
+        },
+        { $sort: { views: -1 } },
+        { $limit: 5 },
+      ])
+      .toArray();
 
-    topPages.forEach(page => {
-      page.avgTime = (page.avgTime / 1000).toFixed(2); 
+    topPages.forEach((page) => {
+      page.avgTime = (page.avgTime / 1000).toFixed(2);
     });
 
-    const last6Months = Array.from({length: 6}, (_, i) => {
+    const last6Months = Array.from({ length: 6 }, (_, i) => {
       const d = new Date();
       d.setMonth(d.getMonth() - i);
       return d.toISOString().slice(0, 7);
     }).reverse();
 
-    const trafficOverTime = await Promise.all(last6Months.map(async (month) => {
-      const count = await db.collection('pageviews').countDocuments({
-        timestamp: { $regex: `^${month}` }
-      });
-      return { month, count };
-    }));
+    const trafficOverTime = await Promise.all(
+      last6Months.map(async (month) => {
+        const count = await db.collection("pageviews").countDocuments({
+          timestamp: { $regex: `^${month}` },
+        });
+        return { month, count };
+      })
+    );
 
-    const trafficSources = await db.collection('pageviews').aggregate([
-      { $group: { _id: '$source', count: { $sum: 1 } } },
-      { $sort: { count: -1 } },
-      { $limit: 4 }
-    ]).toArray();
+    const trafficSources = await db
+      .collection("pageviews")
+      .aggregate([
+        { $group: { _id: "$source", count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+        { $limit: 4 },
+      ])
+      .toArray();
 
     res.json({
       totalVisits,
@@ -1760,35 +1719,17 @@ app.get('/analytics', async (req, res) => {
       bounceRate,
       topPages,
       trafficOverTime,
-      trafficSources
+      trafficSources,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error fetching analytics data');
+    res.status(500).send("Error fetching analytics data");
   }
 });
 
-
-app.get('*', (req, res) => {
-  res.status(404).send('404 - Page Not Found');
+app.get("*", (req, res) => {
+  res.status(404).send("404 - Page Not Found");
 });
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-
-
-// POST route for saving resource data
-// app.post('/resources', async (req, res) => {
-//   try {
-//     const { image, alt, tag, title, link } = req.body;
-//     if (!image || !alt || !tag || !title || !link) {
-//       return res.status(400).send('Missing required fields');
-//     }
-//     await db.collection('resources').insertOne({ image, alt, tag, title, link });
-//     res.status(201).send('Resource added successfully');
-//   } catch (error) {
-//     console.error('Error saving resource:', error);
-//     res.status(500).send('Error saving resource');
-//   }
-// });
