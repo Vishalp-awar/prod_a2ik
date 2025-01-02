@@ -31,7 +31,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: process.env.BASE_URL+process.env.PORT, // Base URL for your API
+        url: process.env.BASE_URL, // Base URL for your API
       },
     ],
   },
@@ -106,7 +106,7 @@ app.get("/", async (req, res) => {
     }
 
     // Fetch resources from the API
-    const response = await fetch(`${process.env.BASE_URL+process.env.PORT}/resources`);
+    const response = await fetch(`${process.env.BASE_URL}/resources`);
     if (!response.ok) {
       throw new Error(`Failed to fetch resources: ${response.statusText}`);
     }
@@ -123,7 +123,7 @@ app.get("/", async (req, res) => {
 
 app.get("/web", ensureAuthenticated, async (req, res) => {
   try {
-    const pageviews = await fetch(`${process.env.BASE_URL+process.env.PORT}/analytics`);
+    const pageviews = await fetch(`${process.env.BASE_URL}/analytics`);
     if (!pageviews.ok) {
       throw new Error(`Failed to fetch resources: ${pageviews.statusText}`);
     }
@@ -145,7 +145,7 @@ app.get("/contact", async (req, res) => {
 });
 app.get("/blog", async (req, res) => {
   try {
-    const response = await fetch(`${process.env.BASE_URL+process.env.PORT}/resources`);
+    const response = await fetch(`${process.env.BASE_URL}/resources`);
     if (!response.ok) {
       throw new Error(`Failed to fetch resources: ${response.statusText}`);
     }
@@ -222,7 +222,7 @@ app.get("/dashboard", ensureAuthenticated, async (req, res) => {
   try {
     const iframeSrc = "/web";
     // Fetch job data from the API
-    const responsejob = await fetch(`${process.env.BASE_URL+process.env.PORT}/addjob`);
+    const responsejob = await fetch(`${process.env.BASE_URL}/addjob`);
     if (!responsejob.ok) {
       throw new Error(`Failed to fetch jobs: ${responsejob.statusText}`);
     }
@@ -241,7 +241,7 @@ app.get("/dashboard", ensureAuthenticated, async (req, res) => {
       _id: job._id.toString(),
     }));
 
-    const responseresources = await fetch(`${process.env.BASE_URL+process.env.PORT}/resources`);
+    const responseresources = await fetch(`${process.env.BASE_URL}/resources`);
     if (!responseresources.ok) {
       throw new Error(
         `Failed to fetch resources: ${responseresources.statusText}`
@@ -260,7 +260,7 @@ app.get("/dashboard", ensureAuthenticated, async (req, res) => {
       _id: resource._id?.toString(), // Convert _id to string if needed
     }));
 
-    const responseJobBoards = await fetch(`${process.env.BASE_URL+process.env.PORT}/jobboard`);
+    const responseJobBoards = await fetch(`${process.env.BASE_URL}/jobboard`);
     if (!responseJobBoards.ok) {
       throw new Error(
         `Failed to fetch job boards: ${responseJobBoards.statusText}`
@@ -282,7 +282,7 @@ app.get("/dashboard", ensureAuthenticated, async (req, res) => {
 
     // Now you can use 'jobboards' in your application logic
 
-    const responseContactUs = await fetch(`${process.env.BASE_URL+process.env.PORT}/contactus`);
+    const responseContactUs = await fetch(`${process.env.BASE_URL}/contactus`);
     if (!responseContactUs.ok) {
       throw new Error(
         `Failed to fetch contact submissions: ${responseContactUs.statusText}`
@@ -318,7 +318,7 @@ app.get("/dashboard", ensureAuthenticated, async (req, res) => {
 app.get("/careers", async (req, res) => {
   try {
     // Fetch job board data from /jobboard API
-    const jobBoardResponse = await fetch(`${process.env.BASE_URL+process.env.PORT}/jobboard`);
+    const jobBoardResponse = await fetch(`${process.env.BASE_URL}/jobboard`);
     if (!jobBoardResponse.ok) {
       throw new Error(
         `Failed to fetch job boards: ${jobBoardResponse.statusText}`
@@ -331,7 +331,7 @@ app.get("/careers", async (req, res) => {
     const jobBoard = jobBoardData.jobBoard;
 
     // Fetch job data from /jobs API
-    const jobResponse = await fetch(`${process.env.BASE_URL+process.env.PORT}/addjob`);
+    const jobResponse = await fetch(`${process.env.BASE_URL}/addjob`);
     if (!jobResponse.ok) {
       throw new Error(`Failed to fetch jobs: ${jobResponse.statusText}`);
     }
