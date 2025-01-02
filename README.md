@@ -16,7 +16,7 @@
     ```env
    PORT=3000
    
-   MONGODB_URI=mongodb+srv://vishal2550:Vishal%402550@cluster0.6nnwe.mongodb.net/analytics
+   MONGODB_URI=
 
    DASHBOARD_PASSWORD=a2ik
 
