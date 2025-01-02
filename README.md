@@ -16,15 +16,17 @@
     ```env
    PORT=3000
    
-   MONGODB_URI=mongodb+srv://vishal2550:Vishal%402550@cluster0.6nnwe.mongodb.net/analytics
+   MONGODB_URI=
 
    DASHBOARD_PASSWORD=a2ik
 
-   EMAILJS_PUBLIC_KEY=rkpynpwmbwkXF7tyZ
+   EMAILJS_PUBLIC_KEY=
 
-   EMAILJS_SERVICE_ID=service_yvzqjh6
+   EMAILJS_SERVICE_ID=
 
-   EMAILJS_TEMPLATE_ID=template_xm45s8m
+   EMAILJS_TEMPLATE_ID=
+
+   BASE_URL=http://localhost:
 
 6. Start the development server:
     ```env
