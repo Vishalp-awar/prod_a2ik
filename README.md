@@ -26,6 +26,8 @@
 
    EMAILJS_TEMPLATE_ID=template_xm45s8m
 
+   BASE_URL=http://localhost:3000
+
 6. Start the development server:
     ```env
    node server.js
