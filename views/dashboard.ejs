@@ -39,7 +39,7 @@
         <li><a href="about">About</a></li>
         <li><a href="" id="logoutButton">Logout</a></li>
         <li><a href="contact">Contact</a></li>
-  
+
 
       </ul>
     </nav>
@@ -80,7 +80,7 @@
 
         <div id="addnewArticle" style="display: none;">
           <h3>Add a New Resource</h3>
-          <form id="resourceForm">
+          <form id="resourceForm" enctype="multipart/form-data">
             <label for="image">Image</label>
             <input type="file" id="image" name="image" accept="image/*" required />
             <label for="alt">Alt Text:</label>
@@ -90,7 +90,7 @@
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" placeholder="Enter title" required />
             <label for="link">Link:</label>
-            <input type="url" id="link" name="link" placeholder="Enter link URL" required />
+            <input type="text" id="link" name="link" placeholder="Enter link URL" required />
             <button type="submit">Add Resource</button>
           </form>
         </div>
@@ -119,7 +119,7 @@
             <input type="text" id="tag" name="tag" placeholder="Enter tag" />
 
             <label for="link">Link:</label>
-            <input type="url" id="link" name="link" placeholder="Enter link URL" />
+            <input type="text" id="link" name="link" placeholder="Enter link URL" />
 
             <button type="submit">Update Resource</button>
           </form>
@@ -143,53 +143,53 @@
         </div>
       </div>
 
-        <!-- Job -->
-        <div class="job-posting-form" id="jobPostingForm" style="display: none;">
-          <h1>Jobs</h1>
-          <div>
-            <label for="jobOption">Select an Action:</label>
-            <select id="jobOption" onchange="toggleForm()">
-              <option value="none" selected>Select an action</option>
-              <option value="add">Add</option>
-              <option value="update">Update</option>
-              <option value="delete">Delete</option>
-            </select>
-          </div>
+      <!-- Job -->
+      <div class="job-posting-form" id="jobPostingForm" style="display: none;">
+        <h1>Jobs</h1>
+        <div>
+          <label for="jobOption">Select an Action:</label>
+          <select id="jobOption" onchange="toggleForm()">
+            <option value="none" selected>Select an action</option>
+            <option value="add">Add</option>
+            <option value="update">Update</option>
+            <option value="delete">Delete</option>
+          </select>
+        </div>
 
-          <div id="addjob" style="display: none;">
-            <h3>Post New Job</h3>
-            <form id="addjobForm">
-              <label for="jobTitle">Job Title<span style="color: red;">*</span></label>
-              <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title" required />
+        <div id="addjob" style="display: none;">
+          <h3>Post New Job</h3>
+          <form id="addjobForm">
+            <label for="jobTitle">Job Title<span style="color: red;">*</span></label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title" required />
 
-              <label for="jobLocation">Job Location<span style="color: red;">*</span></label>
-              <input type="text" id="jobLocation" name="jobLocation" placeholder="Enter job location" required />
+            <label for="jobLocation">Job Location<span style="color: red;">*</span></label>
+            <input type="text" id="jobLocation" name="jobLocation" placeholder="Enter job location" required />
 
-              <label for="jobAbout">About the Role<span style="color: red;">*</span></label>
-              <textarea id="jobAbout" name="jobAbout" placeholder="Write a brief description about the role" rows="4"
-                required></textarea>
+            <label for="jobAbout">About the Role<span style="color: red;">*</span></label>
+            <textarea id="jobAbout" name="jobAbout" placeholder="Write a brief description about the role" rows="4"
+              required></textarea>
 
-              <label for="jobResponsibilities">Responsibilities<span style="color: red;">*</span></label>
-              <textarea id="jobResponsibilities" name="jobResponsibilities"
-                placeholder="List job responsibilities (one per line)" rows="6" required></textarea>
+            <label for="jobResponsibilities">Responsibilities<span style="color: red;">*</span></label>
+            <textarea id="jobResponsibilities" name="jobResponsibilities"
+              placeholder="List job responsibilities (one per line)" rows="6" required></textarea>
 
-              <label for="jobRequirements">Requirements<span style="color: red;">*</span></label>
-              <textarea id="jobRequirements" name="jobRequirements" placeholder="List job requirements (one per line)"
-                rows="6" required></textarea>
+            <label for="jobRequirements">Requirements<span style="color: red;">*</span></label>
+            <textarea id="jobRequirements" name="jobRequirements" placeholder="List job requirements (one per line)"
+              rows="6" required></textarea>
 
-              <label for="jobExperiencelevel">Job Experiencelevel<span style="color: red;">*</span></label>
-              <input type="text" id="jobExperiencelevel" name="jobExperiencelevel"
-                placeholder="Enter job Experiencelevel" required />
+            <label for="jobExperiencelevel">Job Experiencelevel<span style="color: red;">*</span></label>
+            <input type="text" id="jobExperiencelevel" name="jobExperiencelevel" placeholder="Enter job Experiencelevel"
+              required />
 
-              <label for="jobContractType">job ContractType<span style="color: red;">*</span></label>
-              <input type="text" id="jobContractType" name="jobContractType" placeholder="Enter job ContractType"
-                required />
+            <label for="jobContractType">job ContractType<span style="color: red;">*</span></label>
+            <input type="text" id="jobContractType" name="jobContractType" placeholder="Enter job ContractType"
+              required />
 
-              <button type="submit">Post Job</button>
-            </form>
-          </div>
-          
-          <!-- <div id="updatejobmain" style="display: none;">
+            <button type="submit">Post Job</button>
+          </form>
+        </div>
+
+        <!-- <div id="updatejobmain" style="display: none;">
             <h3>Update Job</h3>
             <form id="updatejob">
               <label for="jobTitle">Job Title<span style="color: red;">*</span></label>
@@ -227,72 +227,77 @@
               <button type="submit">Update Job</button>
             </form>
           </div> -->
-          <div id="updatejobmain" style="display: none;">
-            <h3>Update Job</h3>
-            <form id="updatejob">
-              <label for="jobTitle">Job Title<span style="color: red;">*</span></label>
-              <select id="jobTitle" name="jobTitle" required>
-                <option value="" disabled selected>Select a job title</option>
-                <% job.forEach(function(job) { %>
-                  <option value="<%= job._id %>">
-                    <%= job.jobTitle %>
-                  </option>
+        <div id="updatejobmain" style="display: none;">
+          <h3>Update Job</h3>
+          <form id="updatejob">
+            <label for="jobTitle">Job Title<span style="color: red;">*</span></label>
+            <select id="jobTitle" name="jobTitle" required>
+              <option value="" disabled selected>Select a job title</option>
+              <% job.forEach(function(job) { %>
+                <option value="<%= job._id %>">
+                  <%= job.jobTitle %>
+                </option>
                 <% }); %>
-              </select>
-          
-              <label for="jobLocation">Job Location<span style="color: red;">*</span></label>
-              <input type="text" id="jobLocation" name="jobLocation" placeholder="Enter job location" required />
-          
-              <label for="jobAbout">About the Role<span style="color: red;">*</span></label>
-              <textarea id="jobAbout" name="jobAbout" placeholder="Write a brief description about the role" rows="4" required></textarea>
-          
-              <label for="jobResponsibilities">Responsibilities<span style="color: red;">*</span></label>
-              <textarea id="jobResponsibilities" name="jobResponsibilities" placeholder="List job responsibilities (one per line)" rows="6" required></textarea>
-          
-              <label for="jobRequirements">Requirements<span style="color: red;">*</span></label>
-              <textarea id="jobRequirements" name="jobRequirements" placeholder="List job requirements (one per line)" rows="6" required></textarea>
-          
-              <label for="jobExperiencelevel">Job Experiencelevel<span style="color: red;">*</span></label>
-              <input type="text" id="jobExperiencelevel" name="jobExperiencelevel" placeholder="Enter job Experiencelevel" required />
-          
-              <label for="jobContractType">Job ContractType<span style="color: red;">*</span></label>
-              <input type="text" id="jobContractType" name="jobContractType" placeholder="Enter job ContractType" required />
-          
-              <button type="submit">Update Job</button>
-            </form>
-          </div>
-  
-          <div id="deletejobContainer" style="display: none;">
-            <h3>Delete Job</h3>
-            <form id="deletejobForm">
-              <label for="jobTitle">Job Title<span style="color: red;">*</span></label>
-              <select id="deletejobTitle" name="jobTitle" required>
-                <option value="" disabled selected>Select a job title</option>
-                <% job.forEach(function(job) { %>
-                  <option value="<%= job._id %>">
-                    <%= job.jobTitle %>
-                  </option>
-                <% }); %>
-              </select>
-              <button type="submit">Delete Job</button>
-            </form>
-          </div>
-          </div>
-          
+            </select>
 
-          <!-- job boards -->
-          <div class="update-positions-form" id="jobboardupdateForm" style="display: none;">
-            <h1>Job Board</h1>
-            <div>
-              <label for="jobboardOption">Select an Action:</label>
-              <select id="jobboardOption" onchange="togglejobboardForm()">
-                <option value="none" selected>Select an action</option>
-                <option value="add">Add</option>
-                <option value="update">Update</option>
-                <option value="delete">Delete</option>
-              </select>
-            </div>
-            <!-- <div id="updatejobboards" style="display: none;">
+            <label for="jobLocation">Job Location<span style="color: red;">*</span></label>
+            <input type="text" id="jobLocation" name="jobLocation" placeholder="Enter job location" required />
+
+            <label for="jobAbout">About the Role<span style="color: red;">*</span></label>
+            <textarea id="jobAbout" name="jobAbout" placeholder="Write a brief description about the role" rows="4"
+              required></textarea>
+
+            <label for="jobResponsibilities">Responsibilities<span style="color: red;">*</span></label>
+            <textarea id="jobResponsibilities" name="jobResponsibilities"
+              placeholder="List job responsibilities (one per line)" rows="6" required></textarea>
+
+            <label for="jobRequirements">Requirements<span style="color: red;">*</span></label>
+            <textarea id="jobRequirements" name="jobRequirements" placeholder="List job requirements (one per line)"
+              rows="6" required></textarea>
+
+            <label for="jobExperiencelevel">Job Experiencelevel<span style="color: red;">*</span></label>
+            <input type="text" id="jobExperiencelevel" name="jobExperiencelevel" placeholder="Enter job Experiencelevel"
+              required />
+
+            <label for="jobContractType">Job ContractType<span style="color: red;">*</span></label>
+            <input type="text" id="jobContractType" name="jobContractType" placeholder="Enter job ContractType"
+              required />
+
+            <button type="submit">Update Job</button>
+          </form>
+        </div>
+
+        <div id="deletejobContainer" style="display: none;">
+          <h3>Delete Job</h3>
+          <form id="deletejobForm">
+            <label for="jobTitle">Job Title<span style="color: red;">*</span></label>
+            <select id="deletejobTitle" name="jobTitle" required>
+              <option value="" disabled selected>Select a job title</option>
+              <% job.forEach(function(job) { %>
+                <option value="<%= job._id %>">
+                  <%= job.jobTitle %>
+                </option>
+                <% }); %>
+            </select>
+            <button type="submit">Delete Job</button>
+          </form>
+        </div>
+      </div>
+
+
+      <!-- job boards -->
+      <div class="update-positions-form" id="jobboardupdateForm" style="display: none;">
+        <h1>Job Board</h1>
+        <div>
+          <label for="jobboardOption">Select an Action:</label>
+          <select id="jobboardOption" onchange="togglejobboardForm()">
+            <option value="none" selected>Select an action</option>
+            <option value="add">Add</option>
+            <option value="update">Update</option>
+            <option value="delete">Delete</option>
+          </select>
+        </div>
+        <!-- <div id="updatejobboards" style="display: none;">
               <h3>Update Open Positions</h3>
               <form id="updatepositionsform">
                 <label for="category">Select Category:</label>
@@ -310,7 +315,7 @@
                 <button type="submit">Update Positions</button>
               </form>
             </div> -->
-            <!-- <div id="updatejobboards" style="display: none;">
+        <!-- <div id="updatejobboards" style="display: none;">
               <h3>Update Open Positions</h3>
               <form id="updatepositionsform">
                 <label for="category">Select Category:</label>
@@ -326,33 +331,30 @@
                 <button type="submit">Update Positions</button>
               </form>
             </div> -->
-            <div id="updatejobboards" style="display: none;">
-              <h3>Update Open Positions</h3>
-              <form id="updatepositionsform">
-                <label for="category">Select Category:</label>
-                <select id="category" name="category" required>
-                  <% jobboards.forEach((board) => { %>
-                    <option value="<%= board.category %>" data-id="<%= board.id %>"><%= board.category %></option>
-                  <% }); %>
-                </select>
-            
-                <input type="hidden" id="document-id" name="id" />
-            
-                <label for="open-positions">Open Positions:</label>
-                <input
-                  type="number"
-                  id="open-positions"
-                  name="openPositions"
-                  placeholder="Enter number of positions"
-                  required
-                />
-            
-                <button type="submit">Update JobBoard</button>
-              </form>
-            </div>
-            
+        <div id="updatejobboards" style="display: none;">
+          <h3>Update Open Positions</h3>
+          <form id="updatepositionsform">
+            <label for="category">Select Category:</label>
+            <select id="category" name="category" required>
+              <% jobboards.forEach((board)=> { %>
+                <option value="<%= board.category %>" data-id="<%= board.id %>">
+                  <%= board.category %>
+                </option>
+                <% }); %>
+            </select>
 
-            <!-- <div id="addjobboards" style="display: none;">
+            <input type="hidden" id="document-id" name="id" />
+
+            <label for="open-positions">Open Positions:</label>
+            <input type="number" id="open-positions" name="openPositions" placeholder="Enter number of positions"
+              required />
+
+            <button type="submit">Update JobBoard</button>
+          </form>
+        </div>
+
+
+        <!-- <div id="addjobboards" style="display: none;">
               <h3>Add JobBoards</h3>
               <form id="addjobboardsform">
                 <label for="category">Enter Category:</label>
@@ -364,167 +366,183 @@
                 <button type="submit">Create Jobboard</button>
               </form>
             </div> -->
-            <div id="addjobboards" style="display: none;">
-              <h3>Add JobBoard Field</h3>
-              <form id="addjobboardsform">
-                <label for="category">Enter Category:</label>
-                <input type="text" id="category" name="category" placeholder="Enter category name" required />
-            
-                <label for="open-positions">Number of Positions:</label>
-                <input type="number" id="open-positions" name="openPositions" placeholder="Enter number of positions" required />
-            
-                <button type="submit">Add JobBoard</button>
-              </form>
-            </div>
+        <div id="addjobboards" style="display: none;">
+          <h3>Add JobBoard Field</h3>
+          <form id="addjobboardsform">
+            <label for="category">Enter Category:</label>
+            <input type="text" id="category" name="category" placeholder="Enter category name" required />
 
-            <div id="deletejobboards" style="display: none;">
-              <h3>Delete JobBoards</h3>
-              <form id="deletejobboardsform">
-                <label for="category">Select Category:</label>
-                <select id="category" name="category" required>
-                  <% jobboards.forEach((board) => { %>
-                    <option value="<%= board.category %>" data-id="<%= board.id %>"><%= board.category %></option>
-                  <% }); %>
-                </select>
-                <button type="submit">Delete Jobboard</button>
-              </form>
-            </div>
-          
-          </div>
+            <label for="open-positions">Number of Positions:</label>
+            <input type="number" id="open-positions" name="openPositions" placeholder="Enter number of positions"
+              required />
 
-          <div id="applicantTable" class="form-container1" style="display: none;">
-            <h1>Job Application</h1>
-            <table id="applicantTable">
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Resume</th>
-                        <th>Cover Letter</th>
-                        <th>Job Title</th>
-                    </tr>
-                </thead>
-                <tbody id="applicantTableBody">
-                    <!-- Applicant rows will be inserted here -->
-                </tbody>
-            </table>
+            <button type="submit">Add JobBoard</button>
+          </form>
         </div>
-        <div id="contactSubmissions" class="form-container3" style="display: none;">
-          <h1>Contact Query</h1>
-          <table id="contactSubmissionTable">
-            <thead>
-              <tr>
-                <th>From Name</th>
-                <th>From Email</th>
-                <th>Message</th>
-              </tr>
-            </thead>
-            <tbody id="contactSubmissionTableBody">
-              <!-- Contact submission rows will be inserted here -->
-              <% submissions.forEach(submission => { %>
-                <tr>
-                  <td data-label="User Name :"><%= submission.from_name %></td>
-                  <td data-label="User Email :"><%= submission.from_email %></td>
-                  <td data-label="User Message :"><%= submission.message %></td>
-                </tr>
+
+        <div id="deletejobboards" style="display: none;">
+          <h3>Delete JobBoards</h3>
+          <form id="deletejobboardsform">
+            <label for="category">Select Category:</label>
+            <select id="category" name="category" required>
+              <% jobboards.forEach((board) => { %>
+                <option value="<%= board.category %>" data-id="<%= board.id %>">
+                  <%= board.category %>
+                </option>
               <% }); %>
-            </tbody>
-          </table>
+            </select>
+            <button type="submit">Delete Jobboard</button>
+          </form>
         </div>
-        
-          <!-- Website Analytics (Iframe) -->
-          <!-- <div id="websiteAnalytics" class="iframe-container" style="display: none;">
+
+      </div>
+
+      <div id="applicantTable" class="form-container1" style="display: none;">
+        <h1>Job Application</h1>
+        <table id="applicantTable">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Resume</th>
+              <th>Cover Letter</th>
+              <th>Job Title</th>
+            </tr>
+          </thead>
+          <tbody id="applicantTableBody">
+            <!-- Applicant rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+      <div id="contactSubmissions" class="form-container3" style="display: none;">
+        <h1>Contact Query</h1>
+        <table id="contactSubmissionTable">
+          <thead>
+            <tr>
+              <th>From Name</th>
+              <th>From Email</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody id="contactSubmissionTableBody">
+            <!-- Contact submission rows will be inserted here -->
+            <% submissions.forEach(submission=> { %>
+              <tr>
+                <td data-label="User Name :">
+                  <%= submission.from_name %>
+                </td>
+                <td data-label="User Email :">
+                  <%= submission.from_email %>
+                </td>
+                <td data-label="User Message :">
+                  <%= submission.message %>
+                </td>
+              </tr>
+              <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Website Analytics (Iframe) -->
+      <!-- <div id="websiteAnalytics" class="iframe-container" style="display: none;">
                 <iframe src="web.html" width="100%" height="600px"></iframe>
             </div> -->
-          <div id="websiteAnalytics" class="iframe-container" style="display: none;">
-            <iframe src="<%= iframeSrc %>" width="100%" height="600px"></iframe>
-          </div>
-
-        </div>
+      <div id="websiteAnalytics" class="iframe-container" style="display: none;">
+        <iframe src="<%= iframeSrc %>" width="100%" height="600px"></iframe>
       </div>
+
     </div>
-    
+  </div>
+  </div>
 
-    <!-- Update Resource -->
-    <script>
 
-      const updateResourceForm = document.getElementById("updateResourceForm");
+  <!-- Update Resource -->
+  
+  <script>
 
-      updateResourceForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
+    const updateResourceForm = document.getElementById("updateResourceForm");
 
-        // Gather form data
-        const formData = new FormData(updateResourceForm);
+    updateResourceForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-        try {
-          const response = await fetch("/resources", {
-            method: "PUT",
-            body: formData,
-          });
+      // Gather form data
+      const formData = new FormData(updateResourceForm);
 
-          if (response.ok) {
-            alert("Resource updated successfully!");
-            // Handle successful response (e.g., reload page or reset form)...
-          } else {
-            alert("Error updating the resource.");
-          }
-        } catch (error) {
-          console.error("Error:", error);
+      try {
+        const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/resources";
+       
+       
+        const response = await fetch(apiUrl, {
+          method: "PUT",
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert("Resource updated successfully!");
+          // Handle successful response (e.g., reload page or reset form)...
+        } else {
           alert("Error updating the resource.");
         }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error updating the resource.");
+      }
 
-        // Reset the form
-        updateResourceForm.reset();
-      });
-    </script>
+      // Reset the form
+      updateResourceForm.reset();
+    });
+  </script>
 
-    <script>
+  <script>
 
-      const deleteArticleForm = document.getElementById("deleteArticleForm");
+    const deleteArticleForm = document.getElementById("deleteArticleForm");
 
-      deleteArticleForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
+    deleteArticleForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-        // Get the selected resource ID
-        const resourceId = document.getElementById("deleteArticletitle").value;
+      // Get the selected resource ID
+      const resourceId = document.getElementById("deleteArticletitle").value;
 
-        // Debug: Check if resourceId is fetched correctly
-        console.log("Selected Resource ID:", resourceId);
+      // Debug: Check if resourceId is fetched correctly
+      console.log("Selected Resource ID:", resourceId);
 
-        if (!resourceId) {
-          alert("Please select a resource to delete.");
-          return;
-        }
+      if (!resourceId) {
+        alert("Please select a resource to delete.");
+        return;
+      }
 
-        try {
-          const response = await fetch("/resources", {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ resourceId }),
-          });
+      try {
+        const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/resources";
+       
+       
+        const response = await fetch(apiUrl, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ resourceId }),
+        });
 
-          if (response.ok) {
-            alert("Resource deleted successfully!");
-            // Reload the page or update UI dynamically
-          } else {
-            alert("Error deleting the resource.");
-          }
-        } catch (error) {
-          console.error("Error:", error);
+        if (response.ok) {
+          alert("Resource deleted successfully!");
+          // Reload the page or update UI dynamically
+        } else {
           alert("Error deleting the resource.");
         }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error deleting the resource.");
+      }
 
-        // Reset the form
-        deleteArticleForm.reset();
-      });
+      // Reset the form
+      deleteArticleForm.reset();
+    });
 
-    </script>
+  </script>
 
-    <!-- update job -->
-    <!-- <script>
+  <!-- update job -->
+  <!-- <script>
 
       const updatejob = document.getElementById("updatejob");
 
@@ -556,46 +574,49 @@
       });
     </script> -->
 
-    <script>
-      const updatejob = document.getElementById("updatejob");
-    
-      updatejob.addEventListener("submit", async (event) => {
-        event.preventDefault();
-    
-        // Gather form data
-        const formData = new FormData(updatejob);
-        const formObject = {};
-        formData.forEach((value, key) => {
-          formObject[key] = value;
+  <script>
+    const updatejob = document.getElementById("updatejob");
+
+    updatejob.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      // Gather form data
+      const formData = new FormData(updatejob);
+      const formObject = {};
+      formData.forEach((value, key) => {
+        formObject[key] = value;
+      });
+
+      try {
+        
+        const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/addjob";
+       console.log(apiUrl);
+        const response = await fetch(apiUrl, {
+          method: "PUT",
+          body: JSON.stringify(formObject),
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
-    
-        try {
-          const response = await fetch("/addjob", {
-            method: "PUT",
-            body: JSON.stringify(formObject),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-    
-          if (response.ok) {
-            alert("Job updated successfully!");
-            // Handle successful response (e.g., reload page or reset form)...
-          } else {
-            alert("Error updating the job.");
-          }
-        } catch (error) {
-          console.error("Error:", error);
+
+        if (response.ok) {
+          alert("Job updated successfully!");
+          // Handle successful response (e.g., reload page or reset form)...
+        } else {
           alert("Error updating the job.");
         }
-    
-        // Reset the form
-        updatejob.reset();
-      });
-    </script>
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error updating the job.");
+      }
 
-    <!-- delete job -->
-    <!-- <script>
+      // Reset the form
+      updatejob.reset();
+    });
+  </script>
+
+  <!-- delete job -->
+  <!-- <script>
       const deletejobForm = document.getElementById("deletejobForm");
 
       deletejobForm.addEventListener("submit", async (event) => {
@@ -634,383 +655,408 @@
       });
       
     </script> -->
-      <script>
-        const deletejobForm = document.getElementById("deletejobForm");
+  <script>
+    const deletejobForm = document.getElementById("deletejobForm");
 
-deletejobForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
+    deletejobForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-  // Get the selected job title
-  const jobTitle = document.getElementById("deletejobTitle").value;
+      // Get the selected job title
+      const jobTitle = document.getElementById("deletejobTitle").value;
 
-  if (!jobTitle) {
-    alert("Please select a job to delete.");
-    return;
-  }
+      if (!jobTitle || jobTitle === "") {
+        alert("Please select a job to delete.");
+        return;
+      }
 
-  try {
-    const response = await fetch("/addjob", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ jobTitle }), // Send jobTitle
+      try {
+        const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/addjob";
+       
+
+        const response = await fetch(apiUrl, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ jobTitle }),
+        });
+        
+        if (response.ok) {
+          alert("Job deleted successfully!");
+          deletejobForm.reset();
+        } else {
+          const errorText = await response.text();
+          console.error("Error deleting job:", errorText);
+          alert("Error deleting job: " + errorText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error deleting the job.");
+      }
     });
 
-    if (response.ok) {
-      alert("Job deleted successfully!");
-      deletejobForm.reset(); // Reset the form
-      // Optionally refresh the page or update the UI dynamically
-    } else {
-      const errorText = await response.text();
-      console.error("Error deleting job:", errorText);
-      alert("Error deleting job: " + errorText);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Error deleting the job.");
-  }
-});
 
-      </script>
-    <script>
-      function ArticletoggleForm() {
-        const option = document.getElementById("ArticleOption").value;
+  </script>
+  <script>
+    function ArticletoggleForm() {
+      const option = document.getElementById("ArticleOption").value;
 
-        // Hide all forms initially
-        document.getElementById("addnewArticle").style.display = "none";
-        document.getElementById("updateResource").style.display = "none";
-        document.getElementById("deleteArticle").style.display = "none";
+      // Hide all forms initially
+      document.getElementById("addnewArticle").style.display = "none";
+      document.getElementById("updateResource").style.display = "none";
+      document.getElementById("deleteArticle").style.display = "none";
 
-        // Show the selected form based on the option
-        if (option === "add") {
-          document.getElementById("addnewArticle").style.display = "block";
-        } else if (option === "update") {
-          document.getElementById("updateResource").style.display = "block";
-        } else if (option === "delete") {
-          document.getElementById("deleteArticle").style.display = "block";
-        }
+      // Show the selected form based on the option
+      if (option === "add") {
+        document.getElementById("addnewArticle").style.display = "block";
+      } else if (option === "update") {
+        document.getElementById("updateResource").style.display = "block";
+      } else if (option === "delete") {
+        document.getElementById("deleteArticle").style.display = "block";
       }
-    </script>
+    }
+  </script>
 
-    <script>
-      function toggleForm() {
-        const option = document.getElementById("jobOption").value;
-        console.log(option + "  option selecyed")
-        // Hide all forms initially
+  <script>
+    function toggleForm() {
+      const option = document.getElementById("jobOption").value;
+      console.log(option + "  option selecyed")
+      // Hide all forms initially
+      document.getElementById("addjob").style.display = "none";
+      document.getElementById("updatejobmain").style.display = "none";
+      document.getElementById("deletejobContainer").style.display = "none";
+
+      // Show the selected form
+      if (option === "add") {
+        document.getElementById("addjob").style.display = "block";
+      } else if (option === "update") {
+        document.getElementById("updatejobmain").style.display = "block";
+      } else if (option === "delete") {
+        document.getElementById("deletejobContainer").style.display = "block";
+      } else if (option === "none") {
         document.getElementById("addjob").style.display = "none";
         document.getElementById("updatejobmain").style.display = "none";
         document.getElementById("deletejobContainer").style.display = "none";
-
-        // Show the selected form
-        if (option === "add") {
-          document.getElementById("addjob").style.display = "block";
-        } else if (option === "update") {
-          document.getElementById("updatejobmain").style.display = "block";
-        } else if (option === "delete") {
-          document.getElementById("deletejobContainer").style.display = "block";
-        } else if (option === "none") {
-          document.getElementById("addjob").style.display = "none";
-          document.getElementById("updatejobmain").style.display = "none";
-          document.getElementById("deletejobContainer").style.display = "none";
-        }
       }
-
-    </script>
-
-
-    <script>
-      function togglejobboardForm() {
-        const option = document.getElementById("jobboardOption").value;
-
-        // Hide all forms initially
-        document.getElementById("addjobboards").style.display = "none";
-        document.getElementById("updatejobboards").style.display = "none";
-        document.getElementById("deletejobboards").style.display = "none";
-
-        // Show the selected form
-        if (option === "add") {
-          document.getElementById("addjobboards").style.display = "block";
-        } else if (option === "update") {
-          document.getElementById("updatejobboards").style.display = "block";
-        } else if (option === "delete") {
-          document.getElementById("deletejobboards").style.display = "block";
-        }
-      }
-
-
-    </script>
-    <script>
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('nav-links');
-
-      hamburger.addEventListener('click', () => {
-        console.log('Hamburger clicked');
-        navLinks.classList.toggle('active');
-      });
-
-    </script>
-    <script>
-      // Function to show the websiteAnalytics iframe
-      function showWebsiteAnalytics() {
-        hideAllForms(); // Hide other forms
-        document.getElementById('websiteAnalytics').style.display = 'block'; // Show the analytics iframe
-      }
-
-
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script>
-
-      const resourceForm = document.getElementById("resourceForm");
-      const resourcesGrid = document.getElementById("resourcesGrid");
-
-      // Function to render a single resource card
-
-
-
-
-      // Handle form submission
-      resourceForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        // Gather form data
-        const formData = new FormData(resourceForm);
-
-        try {
-          const response = await fetch("http://localhost:3000/resources", {
-            method: "POST",
-            body: formData, // Send FormData directly
-          });
-
-          if (response.ok) {
-            console.log("Resource saved successfully");
-            alert("Resource added successfully!");
-            // Optionally, reset the form or update the UI
-            resourceForm.reset();
-          } else {
-            const error = await response.text();
-            alert("Error saving the resource: " + error);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          alert("An unexpected error occurred.");
-        }
-      });
-
-
-
-
-  //add jobs
-  const addjobboardsform = document.getElementById("addjobboardsform");
-
-  addjobboardsform.addEventListener("submit", async (event) => {
-    event.preventDefault();
-  
-    // Get the form data
-    const formData = new FormData(addjobboardsform);
-    const newField = Object.fromEntries(formData);
-  
-    // Rename "openPositions" to "openposition" to match backend expectation
-    newField.openposition = newField.openPositions; // Map it correctly
-    delete newField.openPositions; // Remove the old key
-    console.log("Formatted Data:", newField);
-  
-    try {
-      // Make the API call
-      const response = await fetch("http://localhost:3000/jobboard", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newField),
-      });
-  
-      if (response.ok) {
-        console.log("jobboard Added  successfully");
-        alert("jobboard Added successfully!");
-        addjobboardsform.reset(); // Reset the form after success
-      } else {
-        const errorText = await response.text();
-        console.error("Error Added field:", errorText);
-        alert("Error while Adding jobboard: " + errorText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Error Added field: " + error.message);
     }
-  });
-  
-  
+
+  </script>
+
+
+  <script>
+    function togglejobboardForm() {
+      const option = document.getElementById("jobboardOption").value;
+
+      // Hide all forms initially
+      document.getElementById("addjobboards").style.display = "none";
+      document.getElementById("updatejobboards").style.display = "none";
+      document.getElementById("deletejobboards").style.display = "none";
+
+      // Show the selected form
+      if (option === "add") {
+        document.getElementById("addjobboards").style.display = "block";
+      } else if (option === "update") {
+        document.getElementById("updatejobboards").style.display = "block";
+      } else if (option === "delete") {
+        document.getElementById("deletejobboards").style.display = "block";
+      }
+    }
+
+
+  </script>
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      console.log('Hamburger clicked');
+      navLinks.classList.toggle('active');
+    });
+
+  </script>
+  <script>
+    // Function to show the websiteAnalytics iframe
+    function showWebsiteAnalytics() {
+      hideAllForms(); // Hide other forms
+      document.getElementById('websiteAnalytics').style.display = 'block'; // Show the analytics iframe
+    }
+
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+
+  <script>
+
+    const resourceForm = document.getElementById("resourceForm");
+    const resourcesGrid = document.getElementById("resourcesGrid");
+
+    // Function to render a single resource card
 
 
 
 
-      const updatepositionsform = document.getElementById("updatepositionsform");
+    // Handle form submission
+    resourceForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-      updatepositionsform.addEventListener("submit", async (event) => {
-        event.preventDefault();
-      
-        // Get the form data
-        const formData = new FormData(updatepositionsform);
-        const newField = Object.fromEntries(formData);
-      
-        // Rename "openPositions" to "openposition" to match backend expectation
-        newField.openposition = newField.openPositions; // Map it correctly
-        delete newField.openPositions; // Remove the old key
-        console.log("Formatted Data:", newField);
-      
-        try {
-          // Make the API call
-          const response = await fetch("http://localhost:3000/jobboard", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newField),
-          });
-      
-          if (response.ok) {
-            console.log("Field Updating successfully");
-            alert("Field Updating successfully!");
-            addjobboardsform.reset(); // Reset the form after success
-          } else {
-            const errorText = await response.text();
-            console.error("Error Updating field:", errorText);
-            alert("Error Updatingfield: " + errorText);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          alert("Error Updating field: " + error.message);
-        }
-      });
+      // Gather form data
+      const formData = new FormData(resourceForm);
 
+      try {
+      const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/resources";
+    
 
-      const deletejobboardsform = document.getElementById("deletejobboardsform");
-      
-      
-      deletejobboardsform.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const categorySelectDelete = document.getElementById("category");
-        const selectedOption = categorySelectDelete.options[categorySelectDelete.selectedIndex];
-        const category = selectedOption.value;  // Fetch the category value (NOT the id)
-      
-        if (!category) {
-          alert("No category selected!");
-          return;
-        }
-      
-        console.log("Selected Category:", category);
-      
-        try {
-          const response = await fetch("/jobboard", {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ category }),  // Send the category value in the request body
-          });
-      
-          if (response.ok) {
-            console.log("Job board deleted successfully");
-            alert("Job board deleted successfully!");
-            deletejobboardsform.reset();
-      
-            // Optionally, remove the deleted option from the select dropdown
-            selectedOption.remove();
-          } else {
-            const errorText = await response.text();
-            console.error("Error deleting job board:", errorText);
-            alert("Error deleting job board: " + errorText);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          alert("Error deleting job board: " + error.message);
-        }
-      });
-      
-      
-      
-      document.querySelectorAll('.job-link').forEach(link => {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          const jobId = e.target.dataset.jobId;
-          // Fetch job details based on jobId (mock for now)
-          document.getElementById('job-description').style.display = 'block';
-          document.getElementById('apply-job').style.display = 'none';
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          body: formData, // Send FormData directly
         });
+
+        if (response.ok) {
+          console.log("Resource saved successfully");
+          alert("Resource added successfully!");
+          // Optionally, reset the form or update the UI
+          resourceForm.reset();
+        } else {
+          const error = await response.text();
+          alert("Error saving the resource: " + error);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An unexpected error occurred.");
+      }
+    });
+
+
+
+
+    //add jobboard
+    const addjobboardsform = document.getElementById("addjobboardsform");
+
+    addjobboardsform.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      // Get the form data
+      const formData = new FormData(addjobboardsform);
+      const newField = Object.fromEntries(formData);
+
+      // Rename "openPositions" to "openposition" to match backend expectation
+      newField.openposition = newField.openPositions; // Map it correctly
+      delete newField.openPositions; // Remove the old key
+      console.log("Formatted Data:", newField);
+
+      try {
+        // Make the API call
+     const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/jobboard";
+
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newField),
+        });
+
+        if (response.ok) {
+          console.log("jobboard Added  successfully");
+          alert("jobboard Added successfully!");
+          addjobboardsform.reset(); // Reset the form after success
+        } else {
+          const errorText = await response.text();
+          console.error("Error Added field:", errorText);
+          alert("Error while Adding jobboard: " + errorText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error Added field: " + error.message);
+      }
+    });
+
+
+
+
+
+
+    const updatepositionsform = document.getElementById("updatepositionsform");
+
+    updatepositionsform.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      // Get the form data
+      const formData = new FormData(updatepositionsform);
+      const newField = Object.fromEntries(formData);
+
+      // Rename "openPositions" to "openposition" to match backend expectation
+      newField.openposition = newField.openPositions; // Map it correctly
+      delete newField.openPositions; // Remove the old key
+      console.log("Formatted Data:", newField);
+
+      try {
+        // Make the API call
+        //const apiUrl = `${process.env.BASE_URL}${process.env.PORT ? `:${process.env.PORT}` : ""}/api/addjob`;
+        const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/jobboard";
+        console.log("API URL:", apiUrl);
+        const response = await fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newField),
+        });
+
+        if (response.ok) {
+          console.log("Field Updating successfully");
+          alert("Field Updating successfully!");
+          addjobboardsform.reset(); // Reset the form after success
+        } else {
+          const errorText = await response.text();
+          console.error("Error Updating field:", errorText);
+          alert("Error Updatingfield: " + errorText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error Updating field: " + error.message);
+      }
+    });
+
+
+
+
+
+    document.querySelectorAll('.job-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const jobId = e.target.dataset.jobId;
+        // Fetch job details based on jobId (mock for now)
+        document.getElementById('job-description').style.display = 'block';
+        document.getElementById('apply-job').style.display = 'none';
       });
+    });
 
 
 
     // Function to hide all forms
-function hideAllForms() {
-  // Hide all forms by selecting them with querySelectorAll
-  document.querySelectorAll('.form-container, .form-container1,.form-container3, .job-posting-form, .update-positions-form').forEach((form) => {
-    form.style.display = 'none';
-  });
-  document.getElementById('websiteAnalytics').style.display = 'none'; // Example of other hidden element
-}
-
-// Function to show a specific form based on its ID
-function showForm(formId) {
-  // Hide all forms first
-  hideAllForms();
-
-  // Show the desired form by ID
-  const form = document.getElementById(formId);
-  if (form) {
-    form.style.display = 'block';
-  }
-}
-
-
-
-
-    </script>
-    <script>
-      document.getElementById('logoutButton').addEventListener('click', async () => {
-        const response = await fetch('/logout', { method: 'GET' });
-        if (response.ok) {
-          window.location.href = '/login'; // Redirect to login page
-        } else {
-          alert('Logout failed.');
-        }
+    function hideAllForms() {
+      // Hide all forms by selecting them with querySelectorAll
+      document.querySelectorAll('.form-container, .form-container1,.form-container3, .job-posting-form, .update-positions-form').forEach((form) => {
+        form.style.display = 'none';
       });
-    </script>
-    <script>
-      AOS.init();
-    </script>
+      document.getElementById('websiteAnalytics').style.display = 'none'; // Example of other hidden element
+    }
 
-    <script>
-      // Fetch applicants from the server
-async function getApplicants() {
-  try {
-      const response = await fetch('/applyjob', { method: 'GET' });
-      if (!response.ok) {
-          throw new Error('Failed to fetch applicants');
+    // Function to show a specific form based on its ID
+    function showForm(formId) {
+      // Hide all forms first
+      hideAllForms();
+
+      // Show the desired form by ID
+      const form = document.getElementById(formId);
+      if (form) {
+        form.style.display = 'block';
       }
-      const applicants = await response.json();
+    }
 
-      
-      renderApplicants(applicants); // Render the applicants once the data is fetched
-  } catch (error) {
-      console.error('Error fetching applicants:', error);
-  }
-}
 
-// Function to render applicants in the table
-function renderApplicants(applicants) {
-  const tableBody = document.getElementById('applicantTableBody');
-  tableBody.innerHTML = ''; // Clear the table body before rendering new rows
 
-  applicants.forEach(applicant => {
-      const row = document.createElement('tr');
-      
-      // Create table data cells for each applicant field
-      row.innerHTML = `
+
+  </script>
+  <script>
+    document.getElementById("category").addEventListener("change", (event) => {
+      console.log("Dropdown changed to:", event.target.value);
+    });
+
+    const deletejobboardsform = document.getElementById("deletejobboardsform");
+
+    deletejobboardsform.addEventListener("submit", async (event) => {
+      event.preventDefault();
+    
+      // Get the category select element
+      const categorySelectDelete = document.getElementById("category");
+    
+      // Get the selected option dynamically
+      const selectedOption = categorySelectDelete.options[categorySelectDelete.selectedIndex];
+      const category = selectedOption.value; // Fetch the updated category value (not the default)
+    
+      if (!category) {
+        alert("No category selected!");
+        return;
+      }
+    
+      console.log("Selected Category:", category);
+    
+      try {
+        // Set your API endpoint
+        const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/jobboard";
+        // Replace with your actual API URL
+        const response = await fetch(apiUrl, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ category }), // Send the category value in the request body
+        });
+    
+        if (response.ok) {
+          console.log("Job board deleted successfully");
+          alert("Job board deleted successfully!");
+          deletejobboardsform.reset();
+    
+          // Optionally, remove the deleted option from the select dropdown
+          selectedOption.remove();
+        } else {
+          const errorText = await response.text();
+          console.error("Error deleting job board:", errorText);
+          alert("Error deleting job board: " + errorText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error deleting job board: " + error.message);
+      }
+    });
+  </script>
+  <script>
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+      const response = await fetch('/logout', { method: 'GET' });
+      if (response.ok) {
+        window.location.href = '/login'; // Redirect to login page
+      } else {
+        alert('Logout failed.');
+      }
+    });
+  </script>
+  <script>
+    AOS.init();
+  </script>
+
+  <script>
+    // Fetch applicants from the server
+    async function getApplicants() {
+      try {
+        const response = await fetch('/api/applyjob', { method: 'GET' });
+        if (!response.ok) {
+          throw new Error('Failed to fetch applicants');
+        }
+        const applicants = await response.json();
+
+
+        renderApplicants(applicants); // Render the applicants once the data is fetched
+      } catch (error) {
+        console.error('Error fetching applicants:', error);
+      }
+    }
+
+    // Function to render applicants in the table
+    function renderApplicants(applicants) {
+      const tableBody = document.getElementById('applicantTableBody');
+      tableBody.innerHTML = ''; // Clear the table body before rendering new rows
+
+      applicants.forEach(applicant => {
+        const row = document.createElement('tr');
+
+        // Create table data cells for each applicant field
+        row.innerHTML = `
           <td data-label="fullname :">${applicant.fullname}</td>
           <td data-label="email :">${applicant.email}</td>
           <td data-label="phone :">${applicant.phone}</td>
@@ -1018,140 +1064,103 @@ function renderApplicants(applicants) {
           <td data-label="coverletter :">${applicant.coverletter}</td>
           <td data-label="jobTitle :">${applicant.jobTitle}</td>
       `;
-      
-      // Append the row to the table body
-      tableBody.appendChild(row);
-  });
-}
 
-// Call the function to fetch and render applicants
-getApplicants();
+        // Append the row to the table body
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Call the function to fetch and render applicants
+    getApplicants();
 
 
-    </script>
-      <script>
-        const allJobs = <%- JSON.stringify(submissions) %>; /
-        async function fetchAndRenderContactSubmissions() {
-          try {
-            // Fetch the contact submissions from the server
-            const response = await fetch('http://localhost:3000/contactus', { method: 'GET' });
+  </script>
+  <script>
+    const allJobs = <% - JSON.stringify(submissions) %>;/
+    async function fetchAndRenderContactSubmissions() {
+      try {
+        // Fetch the contact submissions from the server
+        const response = await fetch('http://localhost:3000/api/contactus', { method: 'GET' });
 
-            
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-        
-            // Parse the JSON response
-            const submissions = await response.json();
-        
-            // Select the table body element
-            const tableBody = document.getElementById('contactSubmissionTableBody');
-            tableBody.innerHTML = ''; // Clear the table body before rendering new rows
-        
-            // Loop through the submissions and add a row for each one
-            submissions.forEach(submission => {
-              const row = document.createElement('tr');
-        
-              // Fill the row with data from the submission
-              row.innerHTML = `
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        // Parse the JSON response
+        const submissions = await response.json();
+
+        // Select the table body element
+        const tableBody = document.getElementById('contactSubmissionTableBody');
+        tableBody.innerHTML = ''; // Clear the table body before rendering new rows
+
+        // Loop through the submissions and add a row for each one
+        submissions.forEach(submission => {
+          const row = document.createElement('tr');
+
+          // Fill the row with data from the submission
+          row.innerHTML = `
                 <td >${submission.from_name}</td>
                 <td >${submission.from_email}</td>
                 <td >${submission.message}</td>
               `;
-              
-              // Append the row to the table body
-              tableBody.appendChild(row);
-            });
-          } catch (error) {
-            console.error('Error fetching contact submissions:', error);
-            alert('Failed to load contact submissions. Please try again later.');
+
+          // Append the row to the table body
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching contact submissions:', error);
+        alert('Failed to load contact submissions. Please try again later.');
+      }
+    }
+
+    // Call the function to render submissions when the page loads
+    fetchAndRenderContactSubmissions();
+
+  </script>
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const addjobForm = document.getElementById("addjobForm");
+
+      addjobForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(addjobForm);
+        const newJobData = Object.fromEntries(formData.entries());
+
+        console.log("New Job Data:", newJobData);
+
+        try {
+          const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/addjob";
+
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newJobData), // This sends the data in the body
+          });
+
+          if (response.ok) {
+            console.log("Job posted successfully!");
+            alert("Job posted successfully!");
+            addjobForm.reset();
+          } else {
+            const errorText = await response.text();
+            console.error("Error posting job:", errorText);
+            alert("Error posting job: " + errorText);
           }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Error posting job: " + error.message);
         }
-        
-        // Call the function to render submissions when the page loads
-        fetchAndRenderContactSubmissions();
-        
-      </script>
+      });
+    });
+
+
+  </script>
+
 </body>
 
 </html>
-
-
-
-<!-- /* Resource Input Form */
-/*.form-container {*/
-/*    max-width: 600px;*/
-/*    margin: 20px auto;*/
-/*    padding: 20px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 8px;*/
-/*    background: #f9f9f9;*/
-/*    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);*/
-/*}*/
-
-/*.form-container:hover {*/
-/*    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);*/
-/*}*/
-
-/*form label {*/
-/*    display: block;*/
-/*    margin: 10px 0 5px;*/
-/*    font-weight: bold;*/
-/*    color: #2C3E50;*/
-/*}*/
-
-/*form input {*/
-/*    width: 100%;*/
-/*    padding: 10px;*/
-/*    margin-bottom: 15px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 4px;*/
-/*    transition: border-color 0.3s;*/
-/*}*/
-
-/*form input:focus {*/
-/*    border-color: #007bff;*/
-/*    outline: none;*/
-/*    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);*/
-/*}*/
-
-/*form button {*/
-/*    padding: 10px 15px;*/
-/*    background: #007bff;*/
-/*    color: #fff;*/
-/*    border: none;*/
-/*    border-radius: 4px;*/
-/*    cursor: pointer;*/
-/*    font-weight: bold;*/
-/*    transition: background-color 0.3s, transform 0.2s;*/
-/*}*/
-
-/*form button:hover {*/
-/*    background: #0056b3;*/
-/*    transform: translateY(-2px);*/
-/*}*/
-
-/*form button:focus {*/
-/*    outline: 2px solid #0056b3;*/
-/*    outline-offset: 2px;*/
-/*}*/
-/* .form-container, #job-posting {*/
-/*            display: none;*/
-/*        }*/
-
-/*        .form-container.active, #job-posting.active {*/
-/*            display: block;*/
-/*        }*/
-
-/* General Form Styling */ -->
-
-<!-- {
-  "_id": {
-    "$oid": "67613fe1ca9cf7b5bebabf91"
-  },
-  "Technology": 20,
-  "SalesMarketing": 101,
-  "Operations": 50,
-  "HumanResources": 5,
-  "design": "10"
-} -->

@@ -10,7 +10,7 @@ const emaildata = {};
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     // Fetch email data
-    await fetch('/emailjs')
+    await fetch('/api/emailjs')
       .then(response => response.json())
       .then(data => {
         emaildata.EMAILJS_PUBLIC_KEY = data.EMAILJS_PUBLIC_KEY;
@@ -59,7 +59,7 @@ document.getElementById("contact-form").addEventListener("submit", async functio
     
 
     // Save to the database
-    const savetodb = await fetch('/contactus', {
+    const savetodb = await fetch('/api/contactus', {
       method: 'POST',
       body: JSON.stringify(templateParams),
       headers: { 'Content-Type': 'application/json' },
@@ -101,7 +101,7 @@ resourceForm.addEventListener("submit", async (event) => {
   };
 
   try {
-    const response = await fetch("/resources", {
+    const response = await fetch("/api/resources", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +131,7 @@ applyjobForm.addEventListener("submit", async (event) => {
   const formData = new FormData(applyjobForm);
   
   try {
-    const response = await fetch("/applyjob", {
+    const response = await fetch("/api/applyjob", {
       method: "POST",
       body: formData, // Sending FormData directly to the server
     });
@@ -211,7 +211,7 @@ addjobForm.addEventListener("submit", async (event) => {
   const newResource = Object.fromEntries(formData);
 
   try {
-    const response = await fetch("/addjob", {
+    const response = await fetch("/api/addjob", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
