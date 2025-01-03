@@ -26,7 +26,7 @@ app.use(
     debug: true,
   })
 );
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Swagger setup
@@ -84,7 +84,7 @@ app.set("views", path.join(__dirname, "views"));
   
 
 const password = process.env.DASHBOARD_PASSWORD;
-console.log(password);
+console.log(password)
 
 app.get("/", async (req, res) => {
   try {
