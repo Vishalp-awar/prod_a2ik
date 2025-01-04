@@ -391,7 +391,7 @@
 
                 try {
                     const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/applyjob";
-
+                    console.log(formData);
                     const response = await fetch(apiUrl, {
                         method: "POST",
                         body: formData,
