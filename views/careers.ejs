@@ -390,7 +390,7 @@
             console.log(jobTitleSpan.textContent);
 
                 try {
-                    const response = await fetch("/applyjob", {
+                    const response = await fetch("/api/applyjob", {
                         method: "POST",
                         body: formData,
                     });
