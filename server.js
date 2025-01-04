@@ -356,6 +356,10 @@ app.get("/careers", async (req, res) => {
     res.render("careers", {
       jobBoard,
       job,
+      env: {
+        BASE_URL: process.env.BASE_URL,
+        PORT: process.env.PORT,
+      },
     });
   } catch (error) {
     console.error("Error fetching career data:", error);
