@@ -379,41 +379,53 @@
                   modal.style.display = 'none';
               }
           }
-          if (applyjobForm) {
-            applyjobForm.addEventListener("submit", async (event) => {
-                event.preventDefault();
-      
-                const formData = new FormData(applyjobForm);
-                   // Retrieve the job title from the modal
-            formData.append('jobTitle', jobTitleSpan.textContent);
-             
-            console.log(jobTitleSpan.textContent);
-
-                try {
-                    const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/applyjob";
-                    console.log(formData);
-                    const response = await fetch(apiUrl, {
-                        method: "POST",
-                        body: formData,
-                    });
-      
-                    if (response.ok) {
-                        alert("Application submitted successfully!");
-                    } else {
-                        alert("Failed to submit application");
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                    alert("An error occurred while submitting the application");
-                }
-      
-                applyjobForm.reset();
-                modal.style.display = 'none';
-            });
-        }
          
         });
         // Handle form submission
+   </script>
+   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const applyjobForm = document.getElementById("applyjob");
+        const jobTitleSpan = document.getElementById('jobTitle');
+    
+        if (applyjobForm) {
+            applyjobForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+    
+                const formData = new FormData(applyjobForm);
+                formData.append('jobTitle', jobTitleSpan.textContent.trim());
+                
+                // Debug FormData
+                for (const [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
+    
+                try {
+                    const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/applyjob";
+
+                   const response = await fetch(apiUrl, {
+                        method: "POST",
+                        body: formData,
+                    });
+    
+                    if (response.ok) {
+                        alert("Application submitted successfully!");
+                    } else {
+                        console.error("Server Error:", response.status, response.statusText);
+                        alert("Failed to submit application. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("An error occurred while submitting the application.");
+                }
+    
+                applyjobForm.reset();
+                const modal = document.getElementById("applyModal");
+                if (modal) modal.style.display = "none";
+            });
+        }
+    });
+    
    </script>
       
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
