@@ -81,6 +81,12 @@ app.set("views", path.join(__dirname, "views"));
     res.redirect("/login"); // Redirect to login if not authenticated
   };
   
+  const WebsiteAnalyticAuthenticated = (req, res, next) => {
+    if (req.session && req.session.isAuthenticated) {
+      return next(); // Proceed if authenticated
+    }
+    res.redirect("/login"); // Redirect to login if not authenticated
+  };
 
 const password = process.env.DASHBOARD_PASSWORD;
 console.log(password)
@@ -106,7 +112,7 @@ app.get("/", async (req, res) => {
 });
 
 
-app.get("/web", async (req, res) => {
+app.get("/web", WebsiteAnalyticAuthenticated,async (req, res) => {
   try {
     const apiUrl = `${process.env.BASE_URL}${process.env.PORT ? `:${process.env.PORT}` : ""}/api/analytics`;
 
