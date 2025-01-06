@@ -246,24 +246,7 @@
 //   document.getElementById("websiteAnalytics").style.display = "block"; // Show the analytics iframe
 // }
 // Utility function for DOM element selection
-function setCondition(serviceId) {
-  // Hide all sections
-  const sections = document.querySelectorAll('.section');
-  sections.forEach(section => section.classList.add('hidden'));
 
-  // Show the selected section
-  const selectedSection = document.getElementById(serviceId);
-  if (selectedSection) {
-    selectedSection.classList.remove('hidden');
-    // Scroll to the selected section
-    selectedSection.scrollIntoView({
-      behavior: 'smooth', // Smooth scrolling
-      block: 'start',     // Align to the top of the section
-    });
-  } else {
-    console.error(`Section with ID "${serviceId}" not found.`);
-  }
-}
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
