@@ -28,7 +28,8 @@
   
     function sendAnalytics() {
       const timeOnPage = Date.now() - startTime;
-      fetch('http://localhost:3000/analytics', {
+      
+      fetch('http://localhost:3000/api/analytics', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

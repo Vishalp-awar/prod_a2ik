@@ -458,7 +458,7 @@
 
 
   <!-- Update Resource -->
-  
+  <script src="/script/analytics.js"></script>
   <script>
 
     const updateResourceForm = document.getElementById("updateResourceForm");
@@ -1075,8 +1075,10 @@
 
 
   </script>
+ 
   <script>
-    const allJobs = <% - JSON.stringify(submissions) %>;/
+    const allJobs = <%= JSON.stringify(submissions) %>;
+  
     async function fetchAndRenderContactSubmissions() {
       try {
         // Fetch the contact submissions from the server

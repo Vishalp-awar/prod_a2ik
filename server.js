@@ -303,10 +303,11 @@ app.get("/dashboard", ensureAuthenticated, async (req, res) => {
     }
 
     // Map the submissions to ensure the correct data format if needed
-    const submissions = dataContactUs.submissions.map((submission) => ({
-      ...submission,
-      _id: submission._id?.toString(), // Convert _id to string if needed
-    }));
+ const submissions = dataContactUs.submissions.map((submission) => ({
+  ...submission,
+  _id: submission._id?.toString(), // Convert _id to string if needed
+}));
+
     // Pass 'submissions' to the view
     res.render("dashboard", {
       iframeSrc,
