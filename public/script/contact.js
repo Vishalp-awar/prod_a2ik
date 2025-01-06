@@ -1,4 +1,4 @@
-const emaildata = {};
+const emaildatavar = {};
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     await fetch('/api/emailjs')
       .then(response => response.json())
       .then(data => {
-        emaildata.EMAILJS_PUBLIC_KEY = data.EMAILJS_PUBLIC_KEY;
-        emaildata.EMAILJS_SERVICE_ID = data.EMAILJS_SERVICE_ID;
-        emaildata.EMAILJS_TEMPLATE_ID = data.EMAILJS_TEMPLATE_ID;
+        emaildatavar.EMAILJS_PUBLIC_KEY = data.EMAILJS_PUBLIC_KEY;
+        emaildatavar.EMAILJS_SERVICE_ID = data.EMAILJS_SERVICE_ID;
+        emaildatavar.EMAILJS_TEMPLATE_ID = data.EMAILJS_TEMPLATE_ID;
 
       })
       .catch(error => {
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Initialize AOS and EmailJS after fetching data
     AOS.init();
-    emailjs.init(emaildata.EMAILJS_PUBLIC_KEY); // Now the key is available
+    emailjs.init(emaildatavar.EMAILJS_PUBLIC_KEY); // Now the key is available
   } catch (error) {
     console.error('Initialization failed:', error);
   }
@@ -43,9 +43,9 @@ document.getElementById("contact-form").addEventListener("submit", async functio
 
   try {
     // Send the email using EmailJS
-    const response = await emailjs.send(
-      emaildata.EMAILJS_SERVICE_ID,
-      emaildata.EMAILJS_TEMPLATE_ID,
+    const response = await emaildatavar.send(
+        emaildatavar.EMAILJS_SERVICE_ID,
+        emaildatavar.EMAILJS_TEMPLATE_ID,
       templateParams
     );
 
