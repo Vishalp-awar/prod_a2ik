@@ -106,7 +106,7 @@ app.get("/", async (req, res) => {
 });
 
 
-app.get("/web", ensureAuthenticated, async (req, res) => {
+app.get("/web", async (req, res) => {
   try {
     const apiUrl = `${process.env.BASE_URL}${process.env.PORT ? `:${process.env.PORT}` : ""}/api/analytics`;
 
@@ -160,7 +160,7 @@ app.get("/blog", async (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.render("login"); // Render the login form view
+  res.render("login"); 
 });
 
 app.post("/login", async (req, res) => {
