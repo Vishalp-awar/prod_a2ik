@@ -82,6 +82,8 @@ app.set("views", path.join(__dirname, "views"));
   };
   
   const WebsiteAnalyticAuthenticated = (req, res, next) => {
+    console.log(req.session);
+    console.log(req.session.isAuthenticated);
     if (req.session && req.session.isAuthenticated) {
       return next(); // Proceed if authenticated
     }
@@ -112,7 +114,7 @@ app.get("/", async (req, res) => {
 });
 
 
-app.get("/web", WebsiteAnalyticAuthenticated,async (req, res) => {
+app.get("/web",async (req, res) => {
   try {
     const apiUrl = `${process.env.BASE_URL}${process.env.PORT ? `:${process.env.PORT}` : ""}/api/analytics`;
 
@@ -218,7 +220,7 @@ app.get("/logout", (req, res) => {
 app.get("/dashboard", ensureAuthenticated, async (req, res) => {
   try {
 
-    const iframeSrc = "/web";
+   const iframeSrc = "/web";
     // Fetch job data from the API
     const apiUrl = `${process.env.BASE_URL}${process.env.PORT ? `:${process.env.PORT}` : ""}/api/addjob`;
 
@@ -379,6 +381,7 @@ app.get("/careers", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
+  
   res.render(path.join(__dirname, "dashboard.html"));
 });
 
