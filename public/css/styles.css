@@ -1101,8 +1101,9 @@ text-align: center;
 }
 
 #Cybersecurity .section-title {
-font-size:3rem; /* Title font size */
-font-weight: 700;
+  font-size: 2.5rem;
+font-weight: bold;
+color: #2d3748;
 margin-bottom: 1rem;
 }
 
@@ -1169,7 +1170,7 @@ display: -webkit-box;
 @media (max-width: 768px) {
 /* Section Title and Description */
 #Cybersecurity .section-title {
-  font-size: 1.75rem; /* Adjust font size for smaller screens */
+  font-size: 3rem; /* Adjust font size for smaller screens */
   line-height: 1.2; /* Ensure proper spacing */
 }
 
@@ -1211,9 +1212,9 @@ display: -webkit-box;
 
 /* Responsive Design */
 @media (min-width: 600px) {
-#Cybersecurity .section-title{
-  font-size: medium;
-}
+  #Cybersecurity .section-title {
+    font-size: 3rem; /* Reaffirm the default size */
+  }
 .card-container {
   grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
 }
@@ -1576,7 +1577,7 @@ background-color: #f9f9f9;
 #careers{
 padding-top: 38px;
 }
-.careers{
+#careers .careers{
 background-color: #0097a7;
 }
 .career-section {
@@ -1585,7 +1586,7 @@ background-color: #f8f9fa;
 }
 
 
-.section-title {
+#careers .section-title {
 font-size: 36px;
 font-weight: 700;
 text-align: center;
@@ -1594,13 +1595,13 @@ margin-top: 30px;
 margin-bottom: 40px;
 }
 
-.career-intro {
+#careers .career-intro {
 max-width: 800px;
 margin: 0 auto 60px;
 text-align: center;
 }
 
-.career-intro p {
+#careers .career-intro p {
 font-size: 18px;
 color: #333;
 margin-bottom: 30px;
