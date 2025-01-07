@@ -226,6 +226,11 @@
                 </div>
                 <button type="submit">Submit Application</button>
             </form>
+            <!-- Loading Indicator -->
+<div id="loadingIndicator" style="display: none;">
+    <p>Submitting, please wait...</p>
+    <div class="spinner"></div> <!-- Optionally add a CSS spinner -->
+</div>
         </div>
     </div>
         
@@ -385,50 +390,74 @@
    </script>
    <script>
     document.addEventListener("DOMContentLoaded", () => {
-    const applyjobForm = document.getElementById("applyjob");
-    const jobTitleSpan = document.getElementById('jobTitle');
+        const applyjobForm = document.getElementById("applyjob");
+        const jobTitleSpan = document.getElementById("jobTitle");
+        const submitButton = document.querySelector("#applyjob button[type='submit']");
+        const loadingIndicator = document.getElementById("loadingIndicator"); // Add a loading element
 
-    if (applyjobForm) {
-        applyjobForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
+        if (applyjobForm) {
+            applyjobForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
 
-            const formData = new FormData(applyjobForm);
-            formData.append('jobTitle', jobTitleSpan.textContent.trim());
+                // Show loading indicator
+                if (loadingIndicator) loadingIndicator.style.display = "block";
+                if (submitButton) submitButton.disabled = true; // Disable the submit button
 
-            // Debug FormData
-            for (const [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
+                const formData = new FormData(applyjobForm);
+                formData.append("jobTitle", jobTitleSpan.textContent.trim());
 
-            // Ensure URL is properly constructed
-            const apiUrl = "<%= env.BASE_URL.replace(/\/+$/, '') %><%= env.PORT ? `:${env.PORT}` : '' %>/api/applyjob";
-
-            console.log("API URL:", apiUrl);
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: "POST",
-                    body: formData,
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                console.log("Form Data:");
+                for (const [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
                 }
 
-                const result = await response.json();
-                console.log("Success:", result);
+                const apiUrl = "<%= env.BASE_URL.replace(/\/+$/, '') %><%= env.PORT ? `:${env.PORT}` : '' %>/api/applyjob";
+                console.log("API URL:", apiUrl);
 
-                // Reset the form and close modal
-                applyjobForm.reset();
-                const modal = document.getElementById("applyModal");
-                if (modal) modal.style.display = "none";
-            } catch (error) {
-                console.error("Fetch Error:", error.message);
-            }
-        });
-    }
-});
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log("Server Response:", result);
+
+                    if (result.message === "Application submitted successfully") {
+                        // Hide the loading indicator first
+                        if (loadingIndicator) loadingIndicator.style.display = "none";
+                    
+                        // Reset the form
+                        applyjobForm.reset();
+                    
+                        // Show success alert
+                        alert("Applied successfully");
+                    
+                        // Close the modal
+                        const modal = document.getElementById("applyModal");
+                        if (modal) modal.style.display = "none";
+                    }
+                     else {
+                        alert("Unexpected response from the server.");
+                    }
+                } catch (error) {
+                    console.error("Fetch Error:", error.message);
+                    alert("Failed to submit the application. Please try again.");
+                } finally {
+                    // Hide loading indicator and enable submit button
+                    if (loadingIndicator) loadingIndicator.style.display = "none";
+                    if (submitButton) submitButton.disabled = false;
+                }
+            });
+        }
+    });
 </script>
+
+
    <script src="/script/analytics.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>

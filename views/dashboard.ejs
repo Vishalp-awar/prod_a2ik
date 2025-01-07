@@ -354,18 +354,7 @@
         </div>
 
 
-        <!-- <div id="addjobboards" style="display: none;">
-              <h3>Add JobBoards</h3>
-              <form id="addjobboardsform">
-                <label for="category">Enter Category:</label>
-                <input type="text" id="category" name="category" placeholder="Enter category name" required />
-            
-                <label for="open-positions">Number of Positions:</label>
-                <input type="number" id="open-positions" name="openPositions" placeholder="Enter number of positions" required />
-            
-                <button type="submit">Create Jobboard</button>
-              </form>
-            </div> -->
+      
         <div id="addjobboards" style="display: none;">
           <h3>Add JobBoard Field</h3>
           <form id="addjobboardsform">
@@ -385,8 +374,9 @@
           <form id="deletejobboardsform">
             <label for="category">Select Category:</label>
             <select id="category" name="category" required>
+              <option value="" disabled selected>Select a category</option> <!-- Placeholder option -->
               <% jobboards.forEach((board) => { %>
-                <option value="<%= board.category %>" data-id="<%= board.id %>">
+                <option value="<%= board.category %>" data-id="<%= board._id %>">
                   <%= board.category %>
                 </option>
               <% }); %>
@@ -394,6 +384,9 @@
             <button type="submit">Delete Jobboard</button>
           </form>
         </div>
+        
+      
+        
 
       </div>
 
@@ -792,7 +785,82 @@
 
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Get the delete form
+    const deleteForm = document.getElementById("deletejobboardsform");
+  
+    if (!deleteForm) {
+      console.error("Delete form not found.");
+      return;
+    }
+  
+    // Get the category select element within the delete form
+    const categorySelect = deleteForm.querySelector("#category");
+  
+    if (!categorySelect) {
+      console.error("Category select element not found in delete form.");
+      return;
+    }
+  
+    // Log the selected category when the dropdown value changes
+    categorySelect.addEventListener("change", () => {
+      const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+      const selectedValue = selectedOption.value;
+      const selectedId = selectedOption.getAttribute("data-id");
+    });
+  
+    // Handle form submission
+    deleteForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+  
+      const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+      const selectedValue = selectedOption.value;
+  
+      // Log the selected category before sending the API request
+    
+      if (!selectedValue) {
+        alert("Please select a category to delete.");
+        return;
+      }
+  
+      // Prepare the payload for deletion
+      const payload = {
+        category: selectedValue,
+      };
+  
+     const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/jobboard";
+    
+      try {
+        // Send DELETE request
+        const response = await fetch(apiUrl, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Failed to delete job board: ${response.statusText}`);
+        }
+  
+        const result = await response.text();
+  
+        alert("Job board deleted successfully!");
+  
+        // Remove the deleted category from the dropdown
+        categorySelect.remove(categorySelect.selectedIndex);
+  
+      } catch (error) {
+        console.error("Error during delete operation:", error.message);
+        alert("Failed to delete the job board. Please try again.");
+      }
+    });
+  });
+  
 
+</script>
   <script>
 
     const resourceForm = document.getElementById("resourceForm");
@@ -928,8 +996,6 @@
 
 
 
-
-
     document.querySelectorAll('.job-link').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
@@ -967,49 +1033,58 @@
 
 
   </script>
-  <script>
-    document.getElementById("category").addEventListener("change", (event) => {
+ 
+<!-- <script>
+  document.getElementById("deletejobboardsform").addEventListener("submit", function (e) {
+    e.preventDefault(); // Prevent the default form submission
+    const selectedCategory = document.getElementById("category").value;
+    console.log("Selected Category:", selectedCategory);
+    categorySelect.addEventListener("change", (event) => {
       console.log("Dropdown changed to:", event.target.value);
     });
-
-    const deletejobboardsform = document.getElementById("deletejobboardsform");
-
+  
     deletejobboardsform.addEventListener("submit", async (event) => {
       event.preventDefault();
-    
-      // Get the category select element
-      const categorySelectDelete = document.getElementById("category");
-    
-      // Get the selected option dynamically
-      const selectedOption = categorySelectDelete.options[categorySelectDelete.selectedIndex];
-      const category = selectedOption.value; // Fetch the updated category value (not the default)
-    
+  
+      const category = categorySelect.value;
+  
+      console.log("Form submitted");
+      console.log("Selected Category:", category);
+  
       if (!category) {
-        alert("No category selected!");
+        console.error("No category selected");
+        alert("Please select a category to delete!");
         return;
       }
-    
-      console.log("Selected Category:", category);
-    
+  
       try {
-        // Set your API endpoint
-        const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/jobboard";
-        // Replace with your actual API URL
+        const apiUrl = `${window.location.origin}/api/jobboard`;
+        console.log("Sending DELETE request to:", apiUrl);
+        console.log("category just before sending to api" + category)
         const response = await fetch(apiUrl, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ category }), // Send the category value in the request body
+          body: JSON.stringify({ category }),
         });
-    
+  
         if (response.ok) {
           console.log("Job board deleted successfully");
           alert("Job board deleted successfully!");
-          deletejobboardsform.reset();
-    
-          // Optionally, remove the deleted option from the select dropdown
-          selectedOption.remove();
+          
+          // Remove the deleted option from the select dropdown
+          const optionToRemove = Array.from(categorySelect.options).find(option => option.value === category);
+          if (optionToRemove) {
+            optionToRemove.remove();
+          }
+          
+          if (categorySelect.options.length > 0) {
+            categorySelect.selectedIndex = 0;
+          } else {
+            // If no options left, hide or disable the form
+            deletejobboardsform.style.display = 'none';
+          }
         } else {
           const errorText = await response.text();
           console.error("Error deleting job board:", errorText);
@@ -1020,7 +1095,19 @@
         alert("Error deleting job board: " + error.message);
       }
     });
-  </script>
+  
+    // Log initial state
+    console.log("Initial options:", Array.from(categorySelect.options).map(opt => ({
+      value: opt.value,
+      text: opt.text
+    })));
+  });
+  
+  
+  
+  
+</script>
+
   <script>
     document.getElementById('logoutButton').addEventListener('click', async () => {
       const response = await fetch('/logout', { method: 'GET' });
