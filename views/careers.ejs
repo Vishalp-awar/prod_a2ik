@@ -400,24 +400,24 @@
                     console.log(`${key}: ${value}`);
                 }
     
-                try {
-                    const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>api/applyjob";
+                const apiUrl = `${process.env.BASE_URL}${process.env.PORT ? `:${process.env.PORT}` : ''}/api/applyjob`;
 
-                   const response = await fetch(apiUrl, {
+                try {
+                    const response = await fetch(apiUrl, {
                         method: "POST",
                         body: formData,
                     });
-    
-                    if (response.ok) {
-                        alert("Application submitted successfully!");
-                    } else {
-                        console.error("Server Error:", response.status, response.statusText);
-                        alert("Failed to submit application. Please try again.");
+                
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
+                
+                    const result = await response.json();
+                    console.log("Success:", result);
                 } catch (error) {
                     console.error("Error:", error);
-                    alert("An error occurred while submitting the application.");
                 }
+                
     
                 applyjobForm.reset();
                 const modal = document.getElementById("applyModal");
