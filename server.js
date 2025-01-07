@@ -16,9 +16,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 // Middleware declarations
 app.use(cors({
-  origin: "*", // Or specify allowed origins
-  methods: "GET,POST,PUT,DELETE",
-  allowedHeaders: "Content-Type",
+  origin: "*", // Update to your specific domain if needed
+  methods: "POST",
+  allowedHeaders: ["Content-Type"],
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -370,7 +370,7 @@ app.get("/careers", async (req, res) => {
       jobBoard,
       job,
       env: {
-        BASE_URL: process.env.BASE_URL?.replace(/\/+$/, ""), 
+        BASE_URL: process.env.BASE_URL,
         PORT: process.env.PORT,
       },
     });

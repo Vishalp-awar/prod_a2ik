@@ -110,52 +110,54 @@ router.get("/emailjs", (req, res) => {
   router.post("/applyjob", async (req, res) => {
     const resume = req.files?.resume;
     const {
-      "full-name": fullname,
-      email,
-      phone,
-      "cover-letter": coverletter,
-      jobTitle: jobTitle,
+        "full-name": fullname,
+        email,
+        phone,
+        "cover-letter": coverletter,
+        jobTitle,
     } = req.body;
+
     if (!resume) {
-      return res.status(400).send("No resume file uploaded");
+        return res.status(400).send("No resume file uploaded");
     }
-  
+
     try {
-      cloudinary.uploader.upload(
-        resume.tempFilePath,
-        { resource_type: "raw" },
-        async (err, result) => {
-          if (err) {
-            console.error("Error uploading file:", err);
-            return res.status(500).send("Error uploading file");
-          }
-  
-          const resumeUrl = result.secure_url;
-  
-          const data = {
-            fullname,
-            email,
-            phone,
-            resume: resumeUrl,
-            coverletter,
-            jobTitle,
-          };
-  
-          try {
-            const db = await connectToDatabase();
-            await db.collection("applyjob").insertOne(data);
-            res.status(201).send("Application submitted successfully");
-          } catch (error) {
-            console.error("Error inserting data:", error);
-            res.status(500).send("Error inserting application data");
-          }
-        }
-      );
-    } catch (error) {
-      console.error("Error occurred while saving form data:", error);
-      res.status(500).send("Server error");
+        // Upload the resume to Cloudinary
+        cloudinary.uploader.upload(
+            resume.tempFilePath,
+            { resource_type: "raw" },
+            async (err, result) => {
+                if (err) {
+                    console.error("Error uploading file to Cloudinary:", err);
+                    return res.status(500).send("Error uploading file");
+                }
+
+                const resumeUrl = result.secure_url;
+
+                const data = {
+                    fullname,
+                    email,
+                    phone,
+                    resume: resumeUrl,
+                    coverletter,
+                    jobTitle,
+                };
+
+                try {
+                    const db = await connectToDatabase();
+                    await db.collection("applyjob").insertOne(data);
+                    res.status(201).send("Application submitted successfully");
+                } catch (dbError) {
+                    console.error("Error inserting data into database:", dbError);
+                    res.status(500).send("Error saving application data");
+                }
+            }
+        );
+    } catch (uploadError) {
+        console.error("Unexpected server error:", uploadError);
+        res.status(500).send("Server error occurred");
     }
-  });
+});
   /**
    * @swagger
    * /api/applyjob:

@@ -385,52 +385,50 @@
    </script>
    <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const applyjobForm = document.getElementById("applyjob");
-        const jobTitleSpan = document.getElementById('jobTitle');
-    
-        if (applyjobForm) {
-            applyjobForm.addEventListener("submit", async (event) => {
-                event.preventDefault();
-    
-                const formData = new FormData(applyjobForm);
-                formData.append('jobTitle', jobTitleSpan.textContent.trim());
-                
-                // Debug FormData
-                for (const [key, value] of formData.entries()) {
-                    console.log(`${key}: ${value}`);
+    const applyjobForm = document.getElementById("applyjob");
+    const jobTitleSpan = document.getElementById('jobTitle');
+
+    if (applyjobForm) {
+        applyjobForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(applyjobForm);
+            formData.append('jobTitle', jobTitleSpan.textContent.trim());
+
+            // Debug FormData
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+
+            // Ensure URL is properly constructed
+            const apiUrl = "<%= env.BASE_URL.replace(/\/+$/, '') %><%= env.PORT ? `:${env.PORT}` : '' %>/api/applyjob";
+
+            console.log("API URL:", apiUrl);
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-    
-                const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/applyjob";
 
-// Debugging: log the URL in the browser console
-console.log("API URL:", apiUrl);
+                const result = await response.json();
+                console.log("Success:", result);
 
-try {
-  const response = await fetch(apiUrl, {
-    method: "POST",
-    body: formData, // Ensure formData is valid
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-
-  const result = await response.json();
-  console.log("Success:", result);
-} catch (error) {
-  console.error("Fetch Error:", error.message);
-}
-
-                
-    
+                // Reset the form and close modal
                 applyjobForm.reset();
                 const modal = document.getElementById("applyModal");
                 if (modal) modal.style.display = "none";
-            });
-        }
-    });
-    
-   </script>
+            } catch (error) {
+                console.error("Fetch Error:", error.message);
+            }
+        });
+    }
+});
+</script>
    <script src="/script/analytics.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
