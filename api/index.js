@@ -146,7 +146,7 @@ router.get("/emailjs", (req, res) => {
                 try {
                     const db = await connectToDatabase();
                     await db.collection("applyjob").insertOne(data);
-                    res.status(201).send("Application submitted successfully");
+                    res.status(201).json({ message: "Application submitted successfully" });
                 } catch (dbError) {
                     console.error("Error inserting data into database:", dbError);
                     res.status(500).send("Error saving application data");
