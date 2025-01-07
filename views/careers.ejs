@@ -400,23 +400,27 @@
                     console.log(`${key}: ${value}`);
                 }
     
-                const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api//applyjob";
+                const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api/applyjob";
 
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: "POST",
-                        body: formData,
-                    });
-                
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                
-                    const result = await response.json();
-                    console.log("Success:", result);
-                } catch (error) {
-                    console.error("Error:", error);
-                }
+// Debugging: log the URL in the browser console
+console.log("API URL:", apiUrl);
+
+try {
+  const response = await fetch(apiUrl, {
+    method: "POST",
+    body: formData, // Ensure formData is valid
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const result = await response.json();
+  console.log("Success:", result);
+} catch (error) {
+  console.error("Fetch Error:", error.message);
+}
+
                 
     
                 applyjobForm.reset();

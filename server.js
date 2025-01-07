@@ -366,7 +366,7 @@ app.get("/careers", async (req, res) => {
       jobBoard,
       job,
       env: {
-        BASE_URL: process.env.BASE_URL,
+        BASE_URL: process.env.BASE_URL?.replace(/\/+$/, ""), 
         PORT: process.env.PORT,
       },
     });
