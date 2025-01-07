@@ -400,7 +400,7 @@
                     console.log(`${key}: ${value}`);
                 }
     
-                const apiUrl = `${process.env.BASE_URL}${process.env.PORT ? `:${process.env.PORT}` : ''}/api/applyjob`;
+                const apiUrl = "<%= env.BASE_URL %><%= env.PORT ? `:${env.PORT}` : '' %>/api//applyjob";
 
                 try {
                     const response = await fetch(apiUrl, {
