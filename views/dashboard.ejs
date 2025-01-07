@@ -1033,6 +1033,51 @@
 
 
   </script>
+  <script>
+    // Fetch applicants from the server
+    async function getApplicants() {
+      try {
+        const response = await fetch('/api/applyjob', { method: 'GET' });
+        if (!response.ok) {
+          throw new Error('Failed to fetch applicants');
+        }
+        const applicants = await response.json();
+
+
+        renderApplicants(applicants); // Render the applicants once the data is fetched
+      } catch (error) {
+        console.error('Error fetching applicants:', error);
+      }
+    }
+
+    // Function to render applicants in the table
+    function renderApplicants(applicants) {
+      const tableBody = document.getElementById('applicantTableBody');
+      tableBody.innerHTML = ''; // Clear the table body before rendering new rows
+
+      applicants.forEach(applicant => {
+        const row = document.createElement('tr');
+
+        // Create table data cells for each applicant field
+        row.innerHTML = `
+          <td data-label="fullname :">${applicant.fullname}</td>
+          <td data-label="email :">${applicant.email}</td>
+          <td data-label="phone :">${applicant.phone}</td>
+          <td data-label="resume :"><a href="${applicant.resume}" target="_blank">View Resume</a></td>
+          <td data-label="coverletter :">${applicant.coverletter}</td>
+          <td data-label="jobTitle :">${applicant.jobTitle}</td>
+      `;
+
+        // Append the row to the table body
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Call the function to fetch and render applicants
+    getApplicants();
+
+
+  </script>
  
 <!-- <script>
   document.getElementById("deletejobboardsform").addEventListener("submit", function (e) {
