@@ -247,7 +247,6 @@
 // }
 // Utility function for DOM element selection
 
-
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
