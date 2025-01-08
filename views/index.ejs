@@ -514,24 +514,26 @@
             RESOURCES
           </h2>
           <div class="resources__grid">
-            <!-- Loop through resources data -->
             <% if (resources && resources.length > 0) { %>
               <% resources.forEach(function(resource) { %>
                 <article class="resource-card" data-aos="fade-up" data-aos-offset="250" data-aos-easing="ease-in-sine">
                   <div class="resource-card__image">
-                    <img src="<%= resource.image %>" alt="<%= resource.alt %>">
+                    <img 
+                      src="<%= resource.image.replace('http://', 'https://') %>" 
+                      alt="<%= resource.alt %>" 
+                      onerror="this.src='/path/to/placeholder.png'">
                     <span class="resource-card__tag"><%= resource.tag %></span>
                   </div>
                   <div class="resource-card__content">
                     <h3 class="resource-card__title"><%= resource.title %></h3>
-                    <a href="<%= resource.link %>" class="resource-card__link">KNOW MORE</a>
+                    <a href="<%= resource.link %>" class="resource-card__link" target="_blank" rel="noopener noreferrer">KNOW MORE</a>
                   </div>
                 </article>
               <% }); %>
             <% } else { %>
               <p>No resources available at the moment.</p>
             <% } %>
-          </div>
+          </div>          
           <div class="resources__more" data-aos="fade-up">
             <a href="/blog" class="resources__more-link">
               See More
