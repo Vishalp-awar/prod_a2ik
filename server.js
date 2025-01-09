@@ -390,8 +390,13 @@ app.get("/dashboard", (req, res) => {
   res.render(path.join(__dirname, "dashboard.html"));
 });
 
-app.get("*", (req, res) => {
-  res.status(404).send("404 - Page Not Found");
+// Catch-all 404 handler
+app.use((req, res) => {
+  res.status(404).render("error", {
+    title: "404 - Page Not Found",
+    message: "The page you are looking for does not exist.",
+    status: 404,
+  });
 });
 
 
