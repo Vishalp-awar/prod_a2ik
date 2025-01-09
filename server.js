@@ -15,11 +15,18 @@ const swaggerUi = require("swagger-ui-express");
 const app = express();
 const port = process.env.PORT || 3000;
 // Middleware declarations
+const allowedOrigins = [
+  "https://a2ik-vishalp-awars-projects.vercel.app",
+  "https://a2ik-git-main-vishalp-awars-projects.vercel.app",
+  "https://a2ik-5sy80jf1g-vishalp-awars-projects.vercel.app"
+];
+
 app.use(cors({
-  origin: "*", // Update to your specific domain if needed
-  methods: "POST",
+  origin: allowedOrigins,
+  methods: ["POST"],
   allowedHeaders: ["Content-Type"],
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
