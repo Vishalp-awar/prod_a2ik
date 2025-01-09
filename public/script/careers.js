@@ -171,7 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       
-      const apiUrl = `${BASE_URL}${PORT ? `:${PORT}` : ''}/api/applyjob`;
+      const apiUrl = `${BASE_URL.replace(/\/$/, '')}${PORT ? `:${PORT}` : ''}/api/applyjob`;
+
 
     
       console.log("API URL:", apiUrl);
