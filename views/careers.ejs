@@ -240,9 +240,14 @@
         <p>&copy; 2023 A2IK Global Solutions. All rights reserved.</p>
     </footer>
     <script>
-        const BASE_URL = "<%= env.BASE_URL %>";
-        const PORT = "<%= env.PORT %>";
-      </script>
+      // Set BASE_URL and PORT using EJS
+      const BASE_URL = "<%= env.BASE_URL %>".replace(/\/$/, ''); // Remove trailing slash if any
+      const PORT = "<%= env.PORT %>";
+      
+      console.log("BASE_URL:", BASE_URL); // Check if the URL is correct
+      console.log("PORT:", PORT); // Check if the port is correct
+    </script>
+    
     <script>
         const allJobs = <%- JSON.stringify(job) %>;     
     </script>
