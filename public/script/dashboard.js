@@ -988,13 +988,39 @@ function renderApplicants(applicants) {
       <td data-label="resume :"><a href="${applicant.resume}" target="_blank">View Resume</a></td>
       <td data-label="coverletter :">${applicant.coverletter}</td>
       <td data-label="jobTitle :">${applicant.jobTitle}</td>
+      <td><button class="delete-btn" data-id="${applicant._id}">Delete</button></td>
+    
   `;
+  const deleteBtn = row.querySelector('.delete-btn');
+      deleteBtn.addEventListener('click', () => deleteApplicant(applicant._id, row));
 
     // Append the row to the table body
     tableBody.appendChild(row);
   });
 }
 
+  // Function to handle the delete request
+  async function deleteApplicant(applicantId, row) {
+    const confirmed = confirm('Are you sure you want to delete this applicant?');
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(`/api/applyjob/${applicantId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete applicant');
+      }
+
+      // If deletion is successful, remove the row from the table
+      row.remove();
+      alert('Applicant deleted successfully');
+    } catch (error) {
+      console.error('Error deleting applicant:', error);
+      alert('Failed to delete the applicant. Please try again.');
+    }
+  }
 // Call the function to fetch and render applicants
 getApplicants();
 
