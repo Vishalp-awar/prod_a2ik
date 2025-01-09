@@ -43,7 +43,7 @@ document.getElementById("contact-form").addEventListener("submit", async functio
 
   try {
     // Send the email using EmailJS
-    const response = await emaildatavar.send(
+    const response = await emailjs.send(
         emaildatavar.EMAILJS_SERVICE_ID,
         emaildatavar.EMAILJS_TEMPLATE_ID,
       templateParams
