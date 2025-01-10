@@ -956,74 +956,6 @@ function showForm(formId) {
 
 
 
-// Fetch applicants from the server
-async function getApplicants() {
-  try {
-    const response = await fetch('/api/applyjob', { method: 'GET' });
-    if (!response.ok) {
-      throw new Error('Failed to fetch applicants');
-    }
-    const applicants = await response.json();
-
-
-    renderApplicants(applicants); // Render the applicants once the data is fetched
-  } catch (error) {
-    console.error('Error fetching applicants:', error);
-  }
-}
-
-// Function to render applicants in the table
-function renderApplicants(applicants) {
-  const tableBody = document.getElementById('applicantTableBody');
-  tableBody.innerHTML = ''; // Clear the table body before rendering new rows
-
-  applicants.forEach(applicant => {
-    const row = document.createElement('tr');
-
-    // Create table data cells for each applicant field
-    row.innerHTML = `
-      <td data-label="fullname :">${applicant.fullname}</td>
-      <td data-label="email :">${applicant.email}</td>
-      <td data-label="phone :">${applicant.phone}</td>
-      <td data-label="resume :"><a href="${applicant.resume}" target="_blank">View Resume</a></td>
-      <td data-label="coverletter :">${applicant.coverletter}</td>
-      <td data-label="jobTitle :">${applicant.jobTitle}</td>
-      <td><button class="delete-btn" data-id="${applicant._id}">Delete</button></td>
-    
-  `;
-  const deleteBtn = row.querySelector('.delete-btn');
-      deleteBtn.addEventListener('click', () => deleteApplicant(applicant._id, row));
-
-    // Append the row to the table body
-    tableBody.appendChild(row);
-  });
-}
-
-  // Function to handle the delete request
-  async function deleteApplicant(applicantId, row) {
-    const confirmed = confirm('Are you sure you want to delete this applicant?');
-    if (!confirmed) return;
-
-    try {
-      const response = await fetch(`/api/applyjob/${applicantId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete applicant');
-      }
-
-      // If deletion is successful, remove the row from the table
-      row.remove();
-      alert('Applicant deleted successfully');
-    } catch (error) {
-      console.error('Error deleting applicant:', error);
-      alert('Failed to delete the applicant. Please try again.');
-    }
-  }
-// Call the function to fetch and render applicants
-getApplicants();
-
 
 
 
@@ -1144,12 +1076,44 @@ function renderApplicants(applicants) {
       <td data-label="resume :"><a href="${applicant.resume}" target="_blank">View Resume</a></td>
       <td data-label="coverletter :">${applicant.coverletter}</td>
       <td data-label="jobTitle :">${applicant.jobTitle}</td>
+    <td><button class="delete-btn" data-id="${applicant._id}">Delete</button></td>
   `;
+  const deleteBtn = row.querySelector('.delete-btn');
+  deleteBtn.addEventListener('click', () => deleteApplicant(applicant._id, row));
 
     // Append the row to the table body
     tableBody.appendChild(row);
   });
 }
+// Delete applicant
+async function deleteApplicant(applicantId, row) {
+  const confirmed = confirm('Are you sure you want to delete this applicant?');
+  if (!confirmed) return;
+
+  try {
+    const apiUrl = `${BASE_URL}${PORT ? `:${PORT}` : ''}/api/applyjob`;
+
+    const response = await fetch(apiUrl, {
+      method: 'DELETE',
+      body: JSON.stringify({ _id: applicantId }), // Send _id in the body
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+
+    if (!response.ok) {
+      throw new Error('Failed to delete applicant');
+    }
+
+    row.remove(); // Remove row from UI
+    alert('Applicant deleted successfully');
+  } catch (error) {
+    console.error('Error deleting applicant:', error);
+    alert('Failed to delete the applicant. Please try again.');
+  }
+}
+
 
 // Call the function to fetch and render applicants
 getApplicants();
@@ -1196,6 +1160,8 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Error posting job: " + error.message);
     }
   });
+
+
   async function fetchAndRenderContactSubmissions() {
     try {
       const apiUrl = `${BASE_URL}${PORT ? `:${PORT}` : ''}/api/contactus`;
@@ -1207,8 +1173,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
   
       const responseData = await response.json();
-
-      const submissions = responseData.submissions; // Access the submissions array
+      const submissions = responseData.submissions;
   
       if (!Array.isArray(submissions)) {
         throw new Error('Invalid response format: Expected an array');
@@ -1218,21 +1183,74 @@ document.addEventListener("DOMContentLoaded", function () {
       tableBody.innerHTML = ''; // Clear the table body
   
       submissions.forEach(submission => {
+        console.log(submission._id);  // Check the structure of _id
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${submission.from_name}</td>
-          <td>${submission.from_email}</td>
-          <td>${submission.message}</td>
-        `;
+        <td>${submission.from_name}</td>
+        <td>${submission.from_email}</td>
+        <td>${submission.message}</td>
+        <td>
+          <select class="status-select" dataid="${submission._id}"> <!-- Pass the correct _id here -->
+            <option value="Pending" ${submission.status === 'Pending' ? 'selected' : ''}>Pending</option>
+            <option value="Contacted" ${submission.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+            <option value="Resolved" ${submission.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+            <option value="Not Interested" ${submission.status === 'Not Interested' ? 'selected' : ''}>Not Interested</option>
+          </select>
+        </td>
+        <td>
+          <button class="update-status-btn" dataid="${submission._id}">Update Status</button> <!-- Correct ID here -->
+        </td>
+      `;
+      
         tableBody.appendChild(row);
       });
+      
+  
+      // Attach event listeners to Update Status buttons
+      document.querySelectorAll('.update-status-btn').forEach(button => {
+        button.addEventListener('click', async (event) => {
+          const id = event.target.getAttribute('dataid');  // This should now give you the correct ID
+          console.log('Button clicked for ID:', id);  // Check the logged ID
+          const statusDropdown = event.target.closest('tr').querySelector('.status-select');
+          const newStatus = statusDropdown.value;
+      
+          if (newStatus) {
+            await updateStatus(id, newStatus);
+            fetchAndRenderContactSubmissions(); // Refresh the table after update
+          }
+        });
+      });
+      
+      
     } catch (error) {
       console.error('Error fetching contact submissions:', error);
       alert('Failed to load contact submissions. Please try again later.');
     }
   }
+  async function updateStatus(id, newStatus) {
+    try {
+      const apiUrl = `${BASE_URL}${PORT ? `:${PORT}` : ''}/api/contactus`;  // No ID in URL anymore
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: newStatus })  // Sending 'id' and 'status' in body
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update status');
+      }
+  
+      alert('Status updated successfully');
+    } catch (error) {
+      console.error('Error updating status:', error);
+      alert('Failed to update status. Please try again.');
+    }
+  }
+  
+  
   
   fetchAndRenderContactSubmissions();
+  
   
   
 });

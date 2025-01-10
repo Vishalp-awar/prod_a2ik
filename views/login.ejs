@@ -28,15 +28,19 @@
       </header>
  
       
-      <section id="loginformadmin" >
+      <section id="loginformadmin">
         <h3></h3>
-        <h1>Enter Password to Access </h1>
+        <h1>Enter Password to Access</h1>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #555; padding-top: 0;">
+          This dashboard can be accessed by admins only. Please enter the admin password to continue.
+        </p>
         <form action="/login" method="post">
           <label for="password">Password:</label>
           <input type="password" id="password" name="password" required>
           <button type="submit">Submit</button>
         </form>
       </section>
+      
  
       <script src="/script/script.js"></script>
 </body>
