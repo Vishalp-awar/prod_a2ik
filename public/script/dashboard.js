@@ -1076,7 +1076,15 @@ function renderApplicants(applicants) {
       <td data-label="resume :"><a href="${applicant.resume}" target="_blank">View Resume</a></td>
       <td data-label="coverletter :">${applicant.coverletter}</td>
       <td data-label="jobTitle :">${applicant.jobTitle}</td>
-    <td><button class="delete-btn" data-id="${applicant._id}">Delete</button></td>
+    <td>
+  <button 
+    class="delete-btn" 
+    data-id="${applicant._id}" 
+    style="background-color: #DC3545; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+    Delete
+  </button>
+</td>
+
   `;
   const deleteBtn = row.querySelector('.delete-btn');
   deleteBtn.addEventListener('click', () => deleteApplicant(applicant._id, row));
@@ -1186,19 +1194,29 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(submission._id);  // Check the structure of _id
         const row = document.createElement('tr');
         row.innerHTML = `
-        <td>${submission.from_name}</td>
-        <td>${submission.from_email}</td>
-        <td>${submission.message}</td>
+        <td data-label="name">${submission.from_name}</td>
+        <td data-label="email">${submission.from_email}</td>
+        <td data-label="message">${submission.message}</td>
+<td data-label="status">
+  <select 
+    class="status-select" 
+    dataid="${submission._id}" 
+    style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9; font-size: 14px; cursor: pointer;">
+    <option value="Pending" ${submission.status === 'Pending' ? 'selected' : ''}>Pending</option>
+    <option value="Contacted" ${submission.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+    <option value="Resolved" ${submission.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+    <option value="Not Interested" ${submission.status === 'Not Interested' ? 'selected' : ''}>Not Interested</option>
+  </select>
+</td>
+
         <td>
-          <select class="status-select" dataid="${submission._id}"> <!-- Pass the correct _id here -->
-            <option value="Pending" ${submission.status === 'Pending' ? 'selected' : ''}>Pending</option>
-            <option value="Contacted" ${submission.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
-            <option value="Resolved" ${submission.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
-            <option value="Not Interested" ${submission.status === 'Not Interested' ? 'selected' : ''}>Not Interested</option>
-          </select>
-        </td>
-        <td>
-          <button class="update-status-btn" dataid="${submission._id}">Update Status</button> <!-- Correct ID here -->
+          <button 
+  class="update-status-btn" 
+  dataid="${submission._id}" 
+  style="background-color: #007BFF; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+  Update Status
+</button>
+
         </td>
       `;
       
