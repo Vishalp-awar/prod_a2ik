@@ -7,7 +7,8 @@ const bcrypt = require('bcrypt');
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const apiRoutes = require("./api/index"); // Path to your API index file
 const connectToDatabase = require("./lib/db");
 const swaggerJSDoc = require("swagger-jsdoc");
@@ -21,6 +22,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type"],
 }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,6 +33,8 @@ app.use(
     debug: true,
   })
 );
+// JWT Secret
+const JWT_SECRET = process.env.JWT_SECRET || '67613fe1ca9cf7b5bebabf91'; // Use a strong secret in production
 
 // Swagger setup
 const swaggerOptions = {
@@ -56,15 +60,44 @@ const swaggerDocs = swaggerJSDoc(swaggerOptions);
 // Setup Swagger UI route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use(
-  session({
-    secret: "67613fe1ca9cf7b5bebabf91", // Replace with a strong, unique key
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }, // Use secure: true in production with HTTPS
-  })
-);
+// app.use(
+//   session({
+//     secret: "67613fe1ca9cf7b5bebabf91", // Replace with a strong, unique key
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false }, // Use secure: true in production with HTTPS
+//   })
+// );
 
+// Generate JWT
+function generateToken(user) {
+  return jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
+}
+
+// Verify JWT
+function verifyToken(token) {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    return null;
+  }
+}
+// Middleware to check if user is authenticated
+const ensureAuthenticated = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.redirect('/login');
+  }
+
+  const user = verifyToken(token);
+  if (!user) {
+    res.clearCookie('token');
+    return res.redirect('/login');
+  }
+
+  req.user = user;
+  next();
+};
 
 app.use("/api", apiRoutes);
 
@@ -79,12 +112,12 @@ app.set("views", path.join(__dirname, "views"));
 app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 
-  const ensureAuthenticated = (req, res, next) => {
-    if (req.session && req.session.isAuthenticated) {
-      return next(); // Proceed if authenticated
-    }
-    res.redirect("/login"); // Redirect to login if not authenticated
-  };
+  // const ensureAuthenticated = (req, res, next) => {
+  //   if (req.session && req.session.isAuthenticated) {
+  //     return next(); // Proceed if authenticated
+  //   }
+  //   res.redirect("/login"); // Redirect to login if not authenticated
+  // };
   
   const WebsiteAnalyticAuthenticated = (req, res, next) => {
     console.log(req.session);
@@ -176,6 +209,42 @@ app.get("/login", (req, res) => {
   res.render("login"); 
 });
 
+// app.post("/login", async (req, res) => {
+//   try {
+//     const { password } = req.body;
+
+//     if (!password) {
+//       return res.status(400).send("Password is required.");
+//     }
+
+//     const db = await connectToDatabase();
+//     // Retrieve the correct password from the database
+//     const admin = await db.collection("admin").findOne({ role: "admin" });
+
+//     // If no admin or password mismatch, respond with an error
+//     if (!admin) {
+//       return res.status(401).send("Invalid password.");
+//     }
+
+//     // Use bcrypt.compare to compare the stored hash with the provided password
+//     const isMatch = await bcrypt.compare(password, admin.password);
+
+//     if (!isMatch) {
+//       return res.status(401).send("Invalid password.");
+//     }
+
+//     // Save the authenticated status in the session
+//     req.session.isAuthenticated = true;
+
+//     // Redirect to the dashboard
+//     res.redirect("/dashboard");
+//   } catch (error) {
+//     console.error("Authentication error:", error);
+//     res.status(500).send("Internal server error.");
+//   }
+// });
+
+// Login route
 app.post("/login", async (req, res) => {
   try {
     const { password } = req.body;
@@ -185,25 +254,19 @@ app.post("/login", async (req, res) => {
     }
 
     const db = await connectToDatabase();
-    // Retrieve the correct password from the database
     const admin = await db.collection("admin").findOne({ role: "admin" });
 
-    // If no admin or password mismatch, respond with an error
-    if (!admin) {
+    if (!admin || !(await bcrypt.compare(password, admin.password))) {
       return res.status(401).send("Invalid password.");
     }
 
-    // Use bcrypt.compare to compare the stored hash with the provided password
-    const isMatch = await bcrypt.compare(password, admin.password);
+    const token = generateToken(admin);
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
 
-    if (!isMatch) {
-      return res.status(401).send("Invalid password.");
-    }
-
-    // Save the authenticated status in the session
-    req.session.isAuthenticated = true;
-
-    // Redirect to the dashboard
     res.redirect("/dashboard");
   } catch (error) {
     console.error("Authentication error:", error);
@@ -212,14 +275,10 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error("Error destroying session:", err);
-      return res.status(500).send("Unable to log out");
-    }
-    res.clearCookie("connect.sid"); // Clear the session cookie
+  res.clearCookie('token');
+  
     res.redirect("/login"); // Redirect to login page
-  });
+
 });
 
 app.get("/dashboard", ensureAuthenticated, async (req, res) => {
