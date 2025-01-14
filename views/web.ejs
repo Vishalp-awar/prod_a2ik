@@ -70,9 +70,9 @@
                 <tbody>
                     <% data.topPages.forEach(page => { %>
                         <tr>
-                            <td><%= page._id %></td>
-                            <td><%= page.views.toLocaleString() %></td>
-                            <td><%= page.avgTime %>s</td>
+                            <td data-label="Page :"><%= page._id %></td>
+                            <td data-label="Views :"><%= page.views.toLocaleString() %></td>
+                            <td data-label="Avg. Time on Page :"><%= page.avgTime %>s</td>
                         </tr>
                     <% }); %>
                 </tbody>
@@ -158,8 +158,8 @@
         }
 
         // Initialize charts with server-sent data
-        updateTrafficChart(<%- JSON.stringify(data.trafficOverTime) %>);
-        updateSourcesChart(<%- JSON.stringify(data.trafficSources) %>);
+        updateTrafficChart(<%- JSON.stringify(data.trafficOverTime || []) %>);
+        updateSourcesChart(<%- JSON.stringify(data.trafficSources|| []) %>);
     </script>
     <script src="/script/script.js"></script>
 </body>
